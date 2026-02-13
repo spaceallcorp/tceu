@@ -29,6 +29,7 @@
     "emoji-flags": "^1.3.0",
     "firebase": "^11.6.1",
     "i18n-iso-countries": "^7.13.0",
+    "ngx-cookie-service": "^19.1.2",
     "ngx-countries-dropdown": "^3.0.1",
     "part": "file:",
     "rxjs": "~7.8.0",
