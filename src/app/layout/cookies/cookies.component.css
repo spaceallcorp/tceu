@@ -1,0 +1,89 @@
+/* Banner Inferior */
+.cookie-banner-fixo {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, rgba(129, 148, 170, 0.4), rgba(99, 122, 146, 0.4));
+  background-color: rgba(0, 95, 115, 0.4);
+  backdrop-filter: blur(80px);
+  color: white;
+  padding: 20px;
+  z-index: 1000;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.banner-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+/* Modal Central */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  color: #333;
+}
+
+.pref-item {
+  margin: 15px 0;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+/* Botões */
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 5px;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: rgb(111, 224, 252);
+  color: #1C1C45;
+  font-family: inherit;
+
+
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-link {
+  background: transparent;
+  color: #fff;
+  text-decoration: underline;
+}
+
+.modal-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}

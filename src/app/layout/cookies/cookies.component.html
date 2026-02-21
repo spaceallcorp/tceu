@@ -1,0 +1,48 @@
+@if (mostrarBanner()) {
+  <div class="cookie-banner-fixo">
+    <div class="banner-content">
+      <p style="font-size: 11px" >Respeitamos sua privacidade. Escolha como deseja prosseguir com nossos cookies. Saiba como suas informações podem ser usadas lendo nossa <a style="color:#fff; font-weight: 600; text-decoration: underline; " routerLink="/cookies-policies" >Política de Cookies</a></p>
+      <div class="banner-actions">
+        <button class="btn btn-primary" (click)="aceitarTudo()">Aceitar Todos</button>
+        <button class="btn btn-secondary" (click)="rejeitarTudo()">Rejeitar</button>
+        <button class="btn btn-link" (click)="abrirAjustes()">Configurar</button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (mostrarModalAjustes()) {
+  <div class="modal-overlay">
+    <div class="modal-card">
+      <h2>Ajustes de Privacidade</h2>
+      <p>Gerencie quais cookies você permite que utilizemos.</p>
+      
+      <div class="pref-item">
+        <label>
+          <input type="checkbox" checked disabled> 
+          <strong>Essenciais</strong> (Obrigatórios para o site funcionar)
+        </label>
+      </div>
+
+      <div class="pref-item">
+        <label>
+          <input type="checkbox" [(ngModel)]="prefs.analiticos"> 
+          <strong>Analíticos</strong> (Para entendermos como você usa o site)
+        </label>
+      </div>
+
+      <div class="pref-item">
+        <label>
+          <input type="checkbox" [(ngModel)]="prefs.marketing"> 
+          <strong>Marketing</strong> (Para anúncios personalizados)
+        </label>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="fecharAjustes()">Cancelar</button>
+        <button class="btn btn-primary" (click)="salvarPreferencias()">Salvar Preferências</button>
+      </div>
+    </div>
+  </div>
+}
+
