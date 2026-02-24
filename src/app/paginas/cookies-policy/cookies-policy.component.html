@@ -1,0 +1,87 @@
+<!-- cookies-policy.component.html -->
+<app-menu></app-menu>
+
+<div class="fundo-cabecalho">
+  <div class="gradiente-texto-cabecalho">
+    <div class="conteudo-cabecalho uk-margin-medium-top">
+      <div class="uk-container uk-margin-large-bottom">
+        <h4 style="color:white">{{ 'company.name' | translate }}</h4>
+        <h1 style="color:rgba(39, 200, 227, 1); font-weight: bolder;">
+          {{ 'policies.cookies.title' | translate }}
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="uk-container uk-margin-large-top uk-margin-large-bottom">
+
+    <section class="privacy-section">
+        <h2><span class="section-number">1</span> {{ 'policies.cookies.intro.title' | translate }}</h2>
+        <p>{{ 'policies.cookies.intro.p1' | translate }}</p>
+        <p>{{ 'policies.cookies.intro.p2' | translate }}</p>
+    </section>
+
+    <section class="privacy-section">
+        <h2><span class="section-number">2</span> {{ 'policies.cookies.definitions.title' | translate }}</h2>
+        <p>{{ 'policies.cookies.definitions.p1' | translate }}</p>
+        <ul>
+            <li>{{ 'policies.cookies.definitions.services' | translate }}</li>
+            <li>{{ 'policies.cookies.definitions.platforms' | translate }}</li>
+            <li>{{ 'policies.cookies.definitions.users' | translate }}</li>
+            <li>{{ 'policies.cookies.definitions.cookies' | translate }}</li>
+            <li>{{ 'policies.cookies.definitions.otherTech' | translate }}</li>
+        </ul>
+        <p class="warning">{{ 'policies.cookies.acceptance' | translate }}</p>
+    </section>
+
+    <section class="privacy-section">
+        <h2><span class="section-number">3</span> {{ 'policies.cookies.purpose.title' | translate }}</h2>
+        <p>{{ 'policies.cookies.purpose.p1' | translate }}</p>
+    </section>
+
+    <section class="privacy-section">
+        <h2><span class="section-number">4</span> {{ 'policies.cookies.whatAre.title' | translate }}</h2>
+        <p>{{ 'policies.cookies.whatAre.p1' | translate }}</p>
+        <p>{{ 'policies.cookies.whatAre.p2' | translate }}</p>
+    </section>
+
+    <section class="privacy-section">
+        <h2><span class="section-number">5</span> {{ 'policies.cookies.types.title' | translate }}</h2>
+        <p>{{ 'policies.cookies.types.intro' | translate }}</p>
+        <ul>
+            <li><strong>{{ 'policies.cookies.types.necessary.title' | translate }}</strong> – {{ 'policies.cookies.types.necessary.desc' | translate }}</li>
+            <li><strong>{{ 'policies.cookies.types.performance.title' | translate }}</strong> – {{ 'policies.cookies.types.performance.desc' | translate }}</li>
+            <li><strong>{{ 'policies.cookies.types.advertising.title' | translate }}</strong> – {{ 'policies.cookies.types.advertising.desc' | translate }}</li>
+            <li><strong>{{ 'policies.cookies.types.personalization.title' | translate }}</strong> – {{ 'policies.cookies.types.personalization.desc' | translate }}</li>
+        </ul>
+    </section>
+
+    <section class="privacy-section">
+        <h2><span class="section-number">6</span> {{ 'policies.cookies.management.title' | translate }}</h2>
+        <p>{{ 'policies.cookies.management.p1' | translate }}</p>
+
+        <h3>{{ 'policies.cookies.management.browser.title' | translate }}</h3>
+        <ul>
+            <li>{{ 'policies.cookies.management.browser.view' | translate }}</li>
+            <li>{{ 'policies.cookies.management.browser.block' | translate }}</li>
+            <li>{{ 'policies.cookies.management.browser.delete' | translate }}</li>
+            <li>{{ 'policies.cookies.management.browser.alert' | translate }}</li>
+        </ul>
+        <p>{{ 'policies.cookies.management.note' | translate }}</p>
+
+        <h3>{{ 'policies.cookies.management.mobile.title' | translate }}</h3>
+        <p>{{ 'policies.cookies.management.mobile.p1' | translate }}</p>
+    </section>
+
+    <section class="privacy-section">
+        <h2><span class="section-number">7</span> {{ 'policies.cookies.updates.title' | translate }}</h2>
+        <p>{{ 'policies.cookies.updates.p1' | translate }}</p>
+    </section>
+
+    <footer>
+        <p class="last-updated">{{ 'policies.cookies.lastUpdated' | translate }} {{ cookiesUpdatedDate }}</p>
+    </footer>
+</div>
+
+<app-rodape></app-rodape>

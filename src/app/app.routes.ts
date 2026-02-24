@@ -17,9 +17,7 @@ import { ServiceFormComponent } from './layout/service-form/service-form.compone
 import { PrivacypolicyComponent } from './paginas/privacypolicy/privacypolicy.component';
 import { TermsandconditionsComponent } from './paginas/termsandconditions/termsandconditions.component';
 
-
 export const routes: Routes = [
-
   { path: '', component: InicioComponent },
   { path: 'inicio', component: InicioComponent },
   { path: 'company', component: AcercaComponent },
@@ -34,43 +32,55 @@ export const routes: Routes = [
   { path: 'contact', component: ContactoComponent },
   { path: 'datacenter', component: DatacentersevicesComponent },
 
-  
-  { path: 'service-contact', component: ServiceFormComponent},
-
+  { path: 'service-contact', component: ServiceFormComponent },
 
   { path: 'mkt-proibido', component: DashboardComponent },
 
-  { path: 'privacypolicy', component: PrivacypolicyComponent},
+  { path: 'privacypolicy', component: PrivacypolicyComponent },
   { path: 'termsandconditions', component: TermsandconditionsComponent },
-
-
-
 
   {
     path: 'solution',
-    loadComponent: () => import('./paginas/solutions/solutions.component').then(m => m.SolutionsComponent)
+    loadComponent: () =>
+      import('./paginas/solutions/solutions.component').then(
+        (m) => m.SolutionsComponent,
+      ),
   },
 
-    {
+  {
+    path: 'cookies-policy',
+    loadComponent: () =>
+      import('./paginas/cookies-policy/cookies-policy.component').then(
+        (m) => m.CookiesPolicyComponent,
+      ),
+  },
+
+  {
     path: 'news',
-    loadComponent: () => import('./paginas/noticias/noticias.component').then(m => m.NoticiasComponent)
+    loadComponent: () =>
+      import('./paginas/noticias/noticias.component').then(
+        (m) => m.NoticiasComponent,
+      ),
   },
   {
     path: 'solution/:id',
-    loadComponent: () => import('./layout/artigo/artigo.component').then(m => m.ArtigoComponent)
+    loadComponent: () =>
+      import('./layout/artigo/artigo.component').then((m) => m.ArtigoComponent),
   },
 
   {
     path: 'postar',
-    loadComponent: () => import('./layout/artigo-postar/artigo-postar.component').then(m => m.ArtigoPostarComponent)
+    loadComponent: () =>
+      import('./layout/artigo-postar/artigo-postar.component').then(
+        (m) => m.ArtigoPostarComponent,
+      ),
   },
 
   {
     path: 'postar-vaga',
-    loadComponent: () => import('./layout/vagas-criar/vagas-criar.component').then(m => m.VagasCriarComponent)
+    loadComponent: () =>
+      import('./layout/vagas-criar/vagas-criar.component').then(
+        (m) => m.VagasCriarComponent,
+      ),
   },
-
-
-
-
 ];
