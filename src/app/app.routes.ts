@@ -2,14 +2,12 @@ import { Routes } from '@angular/router';
 import { InicioComponent } from './paginas/inicio/inicio.component';
 import { DatacenterComponent } from './paginas/datacenter/datacenter.component';
 import { AcercaComponent } from './paginas/acerca/acerca.component';
-import { EventosComponent } from './layout/eventos/eventos.component';
 import { EventosAcComponent } from './paginas/eventos-ac/eventos-ac.component';
 import { BlogComponent } from './paginas/blog/blog.component';
 import { ConectividadeComponent } from './paginas/conectividade/conectividade.component';
 import { CloudservicesComponent } from './paginas/cloudservices/cloudservices.component';
 import { DatacentersevicesComponent } from './paginas/datacentersevices/datacentersevices.component';
 import { SegurancaComponent } from './paginas/seguranca/seguranca.component';
-import { NoticiasComponent } from './paginas/noticias/noticias.component';
 import { ContactoComponent } from './paginas/contacto/contacto.component';
 
 import { DashboardComponent } from './paginas/dashboard/dashboard.component';
