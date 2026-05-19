@@ -67,13 +67,38 @@
 
     <!-- Eventos Section -->
     <div *ngIf="isTabActive('eventos')" class="uk-animation-fade">
-      <div class="uk-card uk-card-body">
-        <app-eventos-postar></app-eventos-postar>
-        <h3 class="uk-heading-line uk-text-center uk-margin-medium-top">
-          <span>Eventos Publicados</span>
-        </h3>
-        <app-eventos-listar></app-eventos-listar>
+
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+        <li><a href="#">Eventos Normais </a></li>
+        <li><a href="#">Eventos em Destaque</a></li>
+      </ul>
+
+      <div class="uk-switcher uk-margin">
+        <div>
+          <div class="uk-card uk-card-body">
+            <app-eventos-postar></app-eventos-postar>
+            <h3 class="uk-heading-line uk-text-center uk-margin-medium-top">
+              <span>Eventos Publicados</span>
+            </h3>
+            <app-eventos-listar></app-eventos-listar>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-body">
+            <app-eventos-s-postar></app-eventos-s-postar>
+            <h3 class="uk-heading-line uk-text-center uk-margin-medium-top">
+              <span>Eventos Destaque Publicados</span>
+            </h3>
+            <app-eventos-s-listar></app-eventos-s-listar>
+          </div>
+        </div>
       </div>
+
+
+
+
+
+
     </div>
 
     <!-- Painéis Section -->

@@ -1,0 +1,65 @@
+<div class="uk-container">
+    @if (eventos$ | async; as eventos) {
+    @if (eventos.length > 0) {
+        <p style="font-weight: 800; color: #022561 " class="uk-text-center uk-padding">Featured Event</p>
+
+    <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+
+        <!-- First column: Image -->
+        <div class=" uk-margin-medium-top ">
+            <div class="uk-grid uk-child-width-1-1@m uk-grid-small uk-text-center uk-light" uk-grid>
+                @for (evento of eventos | slice: 0:1; track evento.id) {
+                <div class="uk-transition-toggle" tabindex="0">
+                    <div class="uk-panel uk-text-center">
+                        <img class="border-2" [src]="evento.imageUrl" alt="Imagem do evento"
+                            style="object-fit: cover; width: auto; height: 200px" />
+                        <div class="overlay">
+                            @if (evento.eventoUrl) {
+                            <a [href]="evento.eventoUrl" target="_blank" rel="noopener">
+                                <p class="uk-transition-slide-bottom-small uk-button-default uk-button uk-border-pill">
+                                    Details
+                                </p>
+                            </a>
+                            } @else {
+                            <p class="uk-transition-slide-bottom-small uk-button-default uk-button uk-border-pill">
+                                Details
+                            </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+        <!-- Second column: Title and Content together -->
+        <div class="" >
+            <div class="uk-card uk-text-left uk-card-body ">
+                @for (evento of eventos | slice: 0:1; track evento.id) {
+                <h3 class="uk-card-title">
+                    @if (evento.title) {
+                    {{ evento.title }}
+                    } @else {
+
+                    }
+                </h3>
+                <p class="uk-width-large uk-text-break">
+                    @if (plainContent) {
+                    {{ plainContent }}
+                    } @else {
+                    }
+                </p>
+                }
+            </div>
+        </div>
+    </div>
+    } @else {
+    <!-- NADA É EXIBIDO QUANDO NÃO HÁ EVENTOS -->
+    }
+    } @else {
+    <!-- Loading state - opcional -->
+    <div class="uk-text-center">
+        <div uk-spinner></div>
+    </div>
+    }
+</div>

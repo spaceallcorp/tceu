@@ -1,0 +1,68 @@
+<div class="uk-container uk-margin-large-top">
+
+    <h2 class="uk-text-left">Adicionar evento destaque</h2>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="uk-alert-danger uk-margin" uk-alert>
+        {{ errorMessage }}
+    </div>
+
+    <!-- Title -->
+    <div class="uk-margin-top uk-text-left">
+        <label for="title" class="uk-form-label">Nome do evento</label>
+        <div class="uk-form-controls">
+            <input type="text" id="title" [(ngModel)]="newEvento.title" class="uk-input"
+                placeholder="Digite o nome do evento" required />
+        </div>
+    </div>
+
+    <!-- Featured Image -->
+    <div class="uk-margin-top uk-text-left">
+        <label for="featuredImageUrl" class="uk-form-label">Link do Banner do Evento</label>
+        <div class="uk-form-controls">
+            <input type="url" id="featuredImageUrl" [(ngModel)]="featuredImageUrl" class="uk-input"
+                placeholder="https://exemplo.com/imagem.jpg" />
+        </div>
+
+        <div *ngIf="featuredImageUrl" class="uk-margin-top">
+            <p>Pré-visualização:</p>
+            <img [src]="featuredImageUrl" alt="Banner do evento" style="max-width: 300px;" />
+        </div>
+    </div>
+
+    <div class="uk-margin-top uk-text-left">
+
+        <label for="eventoUrl" class="uk-form-label">Link da Landing Page</label>
+        <div class="uk-form-controls">
+            <input type="url" id="eventoUrl" [(ngModel)]="eventoUrl" class="uk-input"
+                placeholder="https://exemplo.com/landingpage" />
+        </div>
+    </div>
+
+    <div class="uk-margin-top uk-text-left">
+        <label for="featuredImageUrl" class="uk-form-label">Organização:</label>
+        <div class="uk-form-controls">
+            <input type="text" id="author" [(ngModel)]="newEvento.author" class="uk-input"
+                placeholder="Nome da entidade organizador" />
+        </div>
+    </div>
+
+
+   
+  <h3 class="uk-text-left">Descrição</h3>
+
+  <div class="uk-margin-top">
+    <editor [(ngModel)]="editorContent" [init]="editorConfig" apiKey="a8yzw2uhdu7v6niumnokr811bginwp5kfr689ismxj4dtnxu">
+    </editor>
+  </div>
+  
+
+    <!-- Submit Button -->
+    <div class="uk-text-left">
+
+        <button class="uk-margin-large-top botao-azul uk-button uk-button-large uk-border-rounded" (click)="onSubmit()"
+            [disabled]="isSubmitting">
+            {{ isSubmitting ? 'Publicando...' : 'Salvar e publicar' }}
+        </button>
+
+    </div>

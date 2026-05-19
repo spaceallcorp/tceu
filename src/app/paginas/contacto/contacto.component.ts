@@ -29,16 +29,16 @@ export class ContactoComponent {
     this.translate.use(language);
   }
 
-  selectedCountry: string = 'Nigéria';
+  selectedCountry: string = 'Portugal';
 
   
 
   addresses: Record<string, Address[]> = {
   
-    'Nigéria': [
+    'Portugal': [
       {
-        title: 'Lagos Headquarters',
-        address: '5 Jeremiah Ugwu Street, Off Babatunde Anjous<br>Lekki Phase 1,<br>Lagos, Nigeria',
+        title: 'Office',
+        address: 'Rua da Alfândega, nº 64 ,<br>Ilha da Madeira, Portugal',
       }
     ],
   };

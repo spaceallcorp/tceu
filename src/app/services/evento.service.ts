@@ -3,6 +3,7 @@
   import { Injectable, inject, signal } from '@angular/core';
 import { Firestore, collection, collectionData, doc, docData, deleteDoc } from '@angular/fire/firestore';
 import { Evento } from '../models/evento.models';
+import { EventoDestaque } from '../models/evento.models';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 
@@ -11,7 +12,7 @@ import { tap, map } from 'rxjs/operators';
 })
 export class EventoService {
   private firestore = inject(Firestore);
-  private eventosCollection = collection(this.firestore, 'eventosPt');
+  private eventosCollection = collection(this.firestore, 'eventosDestaqueEU');
   
   eventos = signal<Evento[]>([]);
 
@@ -29,7 +30,22 @@ export class EventoService {
       map((eventos: any[]) => eventos.map(evento => evento as Evento)),
       tap(eventos => console.log('Eventos from Firestore:', eventos))
     ) as Observable<Evento[]>;
-  }
+  } 
+
+
+  getEventosDestaque(): Observable<EventoDestaque[]> {
+  console.log('Fetching featured eventos');
+
+  const eventosDestaqueCollection = collection(
+    this.firestore,
+    'eventosDestaqueEU' // Certifique-se de que este nome corresponde ao nome da coleção no Firestore
+  );
+
+  return collectionData(eventosDestaqueCollection, { idField: 'id' }).pipe(
+    map((eventos: any[]) => eventos.map(evento => evento as EventoDestaque)),
+    tap(eventos => console.log('Featured eventos from Firestore:', eventos))
+  ) as Observable<Evento[]>;
+}
 
   getEventoById(id: string): Observable<Evento | undefined> {
     console.log('Fetching evento with ID:', id);

@@ -5,10 +5,11 @@ import { MenuComponent } from '../../layout/menu/menu.component';
 import { AngolacablesComponent } from '../../layout/angolacables/angolacables.component';
 import { RodapeComponent } from '../../layout/rodape/rodape.component';
 import { SliderComponent } from '../../layout/slider/slider.component';
+import { EventosSListarComponent } from '../../layout/eventos-s-listar/eventos-s-listar.component';
 
 @Component({
   selector: 'app-inicio',
-  imports: [MenuComponent, AngolacablesComponent, RodapeComponent, SliderComponent ],
+  imports: [MenuComponent, AngolacablesComponent, EventosSListarComponent, RodapeComponent, SliderComponent ],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css'
 })

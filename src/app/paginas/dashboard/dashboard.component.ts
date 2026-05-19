@@ -13,6 +13,8 @@ import { PaineisPostarComponent } from '../../layout/paineis-postar/paineis-post
 import { PaineisListarComponent } from '../../layout/paineis-listar/paineis-listar.component';
 import { RodapeComponent } from '../../layout/rodape/rodape.component';
 import { CommonModule } from '@angular/common';
+import { EventosSListarComponent } from '../../layout/eventos-s-listar/eventos-s-listar.component';
+import { EventosSPostarComponent } from '../../layout/eventos-s-postar/eventos-s-postar.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +32,9 @@ import { CommonModule } from '@angular/common';
     PaineisPostarComponent,
     PaineisListarComponent,
     RodapeComponent, 
-    CommonModule
+    CommonModule,
+    EventosSListarComponent,
+    EventosSPostarComponent
    ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
