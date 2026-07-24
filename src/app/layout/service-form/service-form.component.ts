@@ -19,7 +19,7 @@ export class ServiceFormComponent {
 
   // List of available services
   servicesList = [
-    { id: 'conectividade', label: 'Interconnection' },
+    { id: 'conectividade', label: 'Connectivity' },
     { id: 'acesso_internet', label: 'Internet Acess' },
     { id: 'data_center', label: 'Data Center' },
     { id: 'cloud', label: 'Cloud' },
@@ -48,8 +48,8 @@ export class ServiceFormComponent {
       clienteAngolaCables: [''],
 
       // ✅ Proper FormArray for services
-      servicoInteresse: this.fb.array([])
-    });
+// ✅ Add Validators.required to the FormArray constructor
+servicoInteresse: this.fb.array([], [Validators.required]),    });
 
     // Keep selectedContactType synchronized
     this.serviceContact.get('contactType')?.valueChanges.subscribe(value => {
