@@ -1,341 +1,941 @@
-<div class="uk-container gradient-bg uk-text-center uk-margin-large-top">
+<div class="uk-container  uk-margin-large-top uk-margin-large-bottom">
+  <div class="uk-grid-large uk-flex-middle" uk-grid>
 
-  <p class="tag1"  >Neutral |
-    Connected | Global</p>
 
-  <h1 class="uk-margin-left uk-margin-right title1 "
-    >
-    From Lisbon, Europe’s front door to the Atlantic, we accelerate your business with unmatched scale and
-    reach.
-  </h1>
-  <p class="tag1" >Submarine |
-    Metro | Cloud </p>
+    <!-- Right Column: Interactive Map -->
+    <!-- Right Column: Interactive Map -->
+    <div class="uk-width-1-2@m">
+      <!-- Instruction Badge Above -->
+      <div class="uk-flex uk-flex-right@m uk-flex-center uk-margin-small-bottom">
+        <span style="background-color: #022561" class="uk-badge uk-padding-small uk-flex uk-flex-middle">
+          <span uk-icon="icon: search; ratio: 0.8" class="uk-margin-small-right"></span>
+          Hover image to zoom
+        </span>
+      </div>
 
-  <div class="uk-padding">
-    <img src="img/mapa-tceuropa.png" alt="Lisbon gateway">
+      <!-- Rounded Image Container -->
+      <div style="border-radius: 20px" class=" uk-overflow-hidden uk-width-1-1">
+        <ng-magnizoom zoomMode="LENS" [maxZoomFactor]="5" [zoomFactor]="4" imageSrc="img/telcables-europe-mapa+bg.png">
+        </ng-magnizoom>
+      </div>
+    </div>
+
+    <!-- Left Column: Content -->
+    <div class="uk-width-1-2@m uk-text-center uk-text-left@m">
+      <p class="tag1">Neutral | Connected | Global</p>
+
+      <h1 class="title1">
+        From Lisbon, Europe’s front door to the Atlantic, we accelerate your business with unmatched scale and reach.
+      </h1>
+
+      <p class="tag1">Submarine | Metro | Cloud</p>
+
+      <a> <button class="uk-button uk-button-secondary uk-button-large uk-border-pill uk-width-1-2 "> <span
+            class="uk-margin-small-right" uk-icon="icon: arrow-right; ratio: 0.8"></span>Learn more </button> </a>
+    </div>
+
+
   </div>
-
 </div>
 
 
-
-<div class="">
-  <div class="">
-    <div class="fundo-switcher uk-margin-large-top">
+<div>
+  <div>
+    <div class="fundo-switcher uk-margin-medium-top uk-border-rounded">
 
       <!-- Switcher Navigation -->
       <div class="uk-container">
 
-        <!-- Search Bar -->
-        <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-medium-bottom uk-margin-medium-top">
-          <h2 class=" section-title">Our Services</h2>
-      
-        </div>
 
+
+        <div>
+          <div>
+            <div class=" uk-margin-medium-top">
+
+              <!-- Switcher Navigation -->
+              <div class="uk-container">
+
+                <!-- Header Section -->
+                <div class="uk-text-center uk-margin-medium-bottom uk-margin-medium-top">
+                  <h3 style="color:#022561">Choose a service to start:</h3>
+
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- Tabs -->
-        <ul class="uk-subnav uk-subnav-pill uk-flex-center uk-margin-medium-bottom"
+        <ul class="uk-subnav uk-subnav-pill uk-flex-left uk-margin-medium-bottom"
           uk-switcher="connect: #service-switcher; animation: uk-animation-fade">
-          <li><a href="#">For Providers – Carrier & Operator</a></li>
-          <li><a href="#">For Enterprises & Governments </a></li>
+          <li class="text-transform"><a href="#">Connectivity</a></li>
+          <li><a href="#">Cloud </a></li>
+          <li><a href="#">Security </a></li>
+          <li><a href="#">Data Center </a></li>
+
+
         </ul>
       </div>
 
 
-      <div class="uk-margin-large-bottom">
+      <div class=" uk-container uk-margin-large-bottom">
         <!-- Tab Content -->
         <ul id="service-switcher" class="uk-switcher">
 
           <!-- Tab 1 -->
           <li>
-            <div class="uk-container ">
-              <div class="uk-child-width-1-2@m uk-grid-match uk-grid-medium uk-margin-large-bottom" uk-grid>
+            <div class="uk-margin-large-bottom">
+              <!-- Services Grid -->
+              <div class="uk-child-width-1-4@m uk-grid-medium uk-grid-match" uk-grid>
 
+                <!-- Card 1: IP Transit -->
                 <div>
-                  <div class="uk-card service-card uk-padding">
-                    <p class="service-title">Wavelengths</p>
-                    <p class="service-text">Robust, high-capacity Wavelength services supported by its extensive global
-                      network and strategic submarine cable systems, SACS, WACS, and MONET. These routes ensure direct,
-                      low-latency connectivity between
-                      Africa, the Americas, Europe, and Asia, delivering superior performance for enterprises, carriers,
-                      and content providers.
-                    </p>
-
-                    <p style="border-radius:10px; padding: 0px 10px;" class=" uk-margin-small-right "><b
-                        style="color:#022561; font-weight: 20px; ">+33.000 Km of our own DWDM sytem <br> > Diverse
-                        Wavelength with built-in network protection </b></p>
-
-
-
-
-                    <p class="service-learnmore uk-margin-large-top"><a routerLink="/connectivity" href="#">Learn
-                        more</a></p>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'ip-transit' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('ip-transit')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">IP Transit</h3>
+                      <p class="card-text uk-margin-remove-bottom">High-capacity global IP reachability and full BGP
+                        routing over subsea cable systems.</p>
+                    </div>
+                    <!-- Added uk-grid-small / gap-small and uk-flex-wrap for a responsive gap -->
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle uk-flex-between uk-flex-wrap gap-2">
+                     <!-- <a routerLink="/product/ip_transit" (click)="$event.stopPropagation()"
+                        class="uk-button uk-button-default uk-button-small uk-text-bold">
+                        Learn More
+                      </a> --> 
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
                   </div>
                 </div>
 
+                <!-- Card 2: DIA -->
                 <div>
-                  <div class="uk-card service-card">
-                    <p class="service-title">Ethernet</p>
-                    <p class="service-text">TelCables Europe offers L2 VPN services designed to give your business a
-                      reliable, private, and high-performance network connection across multiple regions. With our
-                      extensive global infrastructure of submarine cables and interconnected PoPs, you can extend your
-                      enterprise network globally, as if all your locations were connected locally.
-                    </p>
-                    <p>Available ports capacities:</p>
-                    <button style="border-radius:10px;  pointer-events: none; cursor: default; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">1GB</b></button>
-
-                    <button style="border-radius:10px;  pointer-events: none; cursor: default; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">10GB</b></button>
-
-                    <button style="border-radius:10px;  pointer-events: none; cursor: default; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">40GB</b></button>
-
-                    <button style="border-radius:10px;  pointer-events: none; cursor: default; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">100GB</b></button>
-
-                    <button style="border-radius:10px;  pointer-events: none; cursor: default; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">400GB</b></button>
-
-                    <p class="service-learnmore uk-margin-large-top"><a routerLink="/connectivity" href="#">Learn
-                        more</a></p>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'dia' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('dia')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">Direct Internet
+                        Access</h3>
+                      <p class="card-text uk-margin-remove-bottom">Dedicated, symmetric high-bandwidth internet
+                        connectivity for enterprise networks.</p>
+                    </div>
+                    <!-- Added uk-grid-small / gap-small and uk-flex-wrap for a responsive gap -->
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle uk-flex-between uk-flex-wrap gap-2">
+                    <!--   <a routerLink="/product/direct_internet_access_dia" (click)="$event.stopPropagation()"
+                        class="uk-button uk-button-default uk-button-small uk-text-bold">
+                        Learn More
+                      </a> -->
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-
-
+                <!-- Card 3: Remote Peering -->
                 <div>
-                  <div class="uk-card service-card">
-                    <p class="service-title">IP Transit</p>
-                    <p class="service-text">TelCables Europe IP Transit service delivers high-performance connectivity
-                      to the global internet, powered by our autonomous system (AS37468), diverse Tier-1 upstream
-                      providers, and extensive peering with leading IXPs worldwide.
-                    </p>
-
-                    <p style="border-radius:10px; padding: 0px 10px;" class=" uk-margin-small-right "><b
-                        style="color:#022561; font-weight: 20px; ">> 99.99% uptime <br> Connection via fiber-optic
-                        cable, Ethernet and
-                        dedicated communication channels<br> > Connection via fiber-optic cable, Ethernet and
-                        dedicated communication channels <br> > Dual stack of IPV4 and IPV6 protocols
-                        <br> > Direct access to Tier-1 ISPs <br> > Connection via fiber-optic cable, Ethernet and
-                        dedicated communication channels
-                      </b></p>
-                    <p>Available ports capacities:</p>
-                    <button style="border-radius:10px;  pointer-events: none; cursor: default; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">10GB</b></button>
-
-                    <button style="border-radius:10px;  pointer-events: none; cursor: default; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right  uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">40GB</b></button>
-
-                    <button style="border-radius:10px;  pointer-events: none; cursor: default; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right  uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">100GB</b></button>
-
-                    <button style="border-radius:10px;  pointer-events: none; cursor: default; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">400GB</b></button>
-
-                    <p class="service-learnmore uk-margin-large-top"><a routerLink="/connectivity" href="#">Learn
-                        more</a></p>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'peering' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('peering')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">Remote Peering
+                      </h3>
+                      <p class="card-text uk-margin-remove-bottom">Direct traffic exchange with major global IXPs,
+                        CDNs, and tier-1 networks without local POP presence.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle uk-flex-between uk-flex-wrap gap-2">
+                     <!--  <a routerLink="/product/remote_peering" (click)="$event.stopPropagation()"
+                        class="uk-button uk-button-default uk-button-small uk-text-bold">
+                        Learn More
+                      </a> -->
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-
-
-
+                <!-- Card 4: GDI -->
                 <div>
-                  <div class="uk-card service-card">
-                    <p class="service-title">Remote Peering</p>
-                    <p class="service-text">We enable clients to connect to the world’s leading IX platforms with a
-                      single port, offering them optimal conditions and flexibility.
-                    </p>
-<p> Direct interaction with premium Internet Exchange providers (IXPs) around the world.
-  </p>
-                    <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">AMCIX</b></button>
-                    <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">DE-CIX</b></button>
-                    <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">LINX</b></button>
-                    <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">GIGAPIX</b></button>
-                    <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">NT-IX
-                      </b></button>
-                    <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">NOTA-IX</b></button>
-
-                    <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">ASBURN-IX
-                      </b></button>
-                    <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">SG-IX
-
-                      </b></button> <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">NYIIX
-
-                      </b></button> <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">NAP-IX
-                      </b></button>
-                    <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">IX-BR
-                      </b></button> <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">ACCRA-IX
-
-                      </b></button>
-                    <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">ANGONIX
-
-                      </b></button> <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">IXPN
-
-                      </b></button>
-                    <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">ANY2WEST-IXP
-
-
-                      </b></button> <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">MEGAIX
-
-                      </b></button>
-                    <button style="border-radius:10px; padding: 0px 10px;"
-                      class="uk-button uk-button-default uk-margin-small-right uk-margin-small-top uk-button-large"><b
-                        style="color:#022561">FRANCE-IX
-
-
-                      </b></button>
-                    <p class="service-learnmore uk-margin-large-top"><a routerLink="/connectivity" href="#">Learn more</a></p>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'gdi' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('gdi')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">GDI</h3>
+                      <p class="card-text uk-margin-remove-bottom">Global Data Center Interconnection offering
+                        seamless L2 and L3 connectivity between facilities worldwide.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle uk-flex-between uk-flex-wrap gap-2">
+                     <!--  <a routerLink="/product/global_data_center_interconnection_gdi" (click)="$event.stopPropagation()"
+                        class="uk-button uk-button-default uk-button-small uk-text-bold">
+                        Learn More
+                      </a> -->
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
                   </div>
                 </div>
+
+              </div>
+
+              <!-- Dynamic Configuration Box Below Cards -->
+              <div *ngIf="selectedService"
+                class="uk-card uk-border-rounded uk-card-secondary uk-card-body uk-padding-large uk-margin-medium-top uk-animation-fade">
+
+                <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-medium-bottom">
+                  <h4 class="uk-margin-remove">
+                    Quote Configuration:
+                    <span class="uk-text-primary">
+                      {{ selectedService === 'ip-transit' ? 'IP Transit' : '' }}
+                      {{ selectedService === 'dia' ? 'Direct Internet Access' : '' }}
+                      {{ selectedService === 'peering' ? 'Remote Peering' : '' }}
+                      {{ selectedService === 'gdi' ? 'Global Data Center Interconnection' : '' }}
+                    </span>
+                  </h4>
+                  <button type="button" class="uk-close-large" uk-close (click)="selectedService = null"></button>
+                </div>
+
+                <form class="uk-grid-medium" uk-grid>
+
+                  <!-- Locations: Dual inputs for GDI/Interconnect vs Single for others -->
+                  <ng-container *ngIf="selectedService === 'gdi'; else singleLocation">
+                    <div class="uk-width-1-2@s">
+                      <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">Location A
+                        (Origin Data Center / POP)</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input uk-border-pill" type="text" placeholder="e.g. Equinix LS1, Lisbon">
+                      </div>
+                    </div>
+                    <div class="uk-width-1-2@s">
+                      <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">Location B
+                        (Destination Data Center / POP)</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input uk-border-pill" type="text" placeholder="e.g. Interxion FRA1, Frankfurt">
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <ng-template #singleLocation>
+                    <div class="uk-width-1-2@s">
+                      <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">Primary Service
+                        Location / POP</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input uk-border-pill" type="text"
+                          placeholder="e.g. Lisbon Landing Station / Client On-Prem">
+                      </div>
+                    </div>
+                  </ng-template>
+
+                  <!-- Bandwidth / Port Capacity Field -->
+                  <div class="uk-width-1-4@s">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">
+                      {{ selectedService === 'peering' || selectedService === 'gdi' ? 'Port Capacity' : 'Link Capacity'
+                      }}
+                    </label>
+                    <div class="uk-form-controls">
+                      <select class="uk-select uk-border-pill">
+                        <option>1 Gbps</option>
+                        <option>10 Gbps</option>
+                        <option>40 Gbps</option>
+                        <option>100 Gbps</option>
+                        <option>400 Gbps</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Contextual Technology Option Selector -->
+                  <div class="uk-width-1-4@s">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">Technology /
+                      Protocol</label>
+                    <div class="uk-form-controls">
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'ip-transit'">
+                        <option>Full BGP Table (IPv4 + IPv6)</option>
+                        <option>Partial Routing Table + Default</option>
+                        <option>Default Route Only</option>
+                      </select>
+
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'dia'">
+                        <option>Dedicated Fiber (Single Homed)</option>
+                        <option>Protected Dual-Homed Link</option>
+                        <option>SD-WAN Managed Edge</option>
+                      </select>
+
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'peering'">
+                        <option>DE-CIX Frankfurt</option>
+                        <option>LINX London</option>
+                        <option>France IX Paris</option>
+                        <option>AMS-IX Amsterdam</option>
+                      </select>
+
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'gdi'">
+                        <option>Protected DWDM (Optical Wavelength)</option>
+                        <option>Layer 2 EVPN / EoMPLS</option>
+                        <option>Layer 3 IP VPN</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Contact Email & Submit Actions -->
+                  <div class="uk-width-1-2@s uk-margin-small-top">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">Work Email</label>
+                    <input class="uk-input uk-border-pill" type="email" placeholder="name@company.com">
+                  </div>
+
+                  <div class="uk-width-1-2@s uk-margin-small-top uk-flex uk-flex-bottom">
+                    <button type="submit" class="uk-button uk-button-primary uk-border-pill uk-width-1-1">
+                      Get a Quote
+                    </button>
+                  </div>
+
+                </form>
               </div>
             </div>
           </li>
-
           <!-- Tab 2 -->
           <!-- Tab 2 -->
           <li>
-            <div class="uk-container">
-              <div class="uk-child-width-1-2@m uk-grid-match uk-grid-medium uk-margin-large-bottom" uk-grid>
-
-                <!-- Secure Cloud Infrastructure -->
+            <div class="uk-margin-large-bottom">
+              <!-- Services Grid (Cloud Offerings) -->
+              <div class="uk-child-width-1-4@m uk-grid-medium uk-grid-match" uk-grid>
+                <!-- Card 1: Cloud Compute -->
                 <div>
-                  <div class="uk-card service-card uk-padding">
-                    <p class="service-title">Secure Cloud Infrastructure</p>
-                    <p class="service-text">
-                      Flexible, scalable, and secure cloud infrastructure for hosting critical applications and
-                      workloads.
-                      Designed for compliance, performance, and hybrid deployment models.
-                    </p>
-
-                    <p><b style="color:#022561;">> Private and hybrid cloud options <br>
-                        > Data sovereignty within the EU <br>
-                        > High availability and redundancy <br>
-                        > Integration with on-premises systems
-                      </b></p>
-
-
-                    <p class="service-learnmore uk-margin-large-top">
-                      <a href="/cloud">Learn more</a>
-                    </p>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'compute' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('compute')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">Compute</h3>
+                      <p class="card-text uk-margin-remove-bottom">High-performance virtual instances, dedicated vCPUs,
+                        and auto-scaling cloud resources on demand.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle">
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <!-- Data Center & Colocation -->
+                <!-- Card 2: Cloud Storage -->
                 <div>
-                  <div class="uk-card service-card uk-padding">
-                    <p class="service-title">Data Center & Colocation</p>
-                    <p class="service-text">
-                      Secure and interconnected facilities across Europe offering reliable colocation and data center
-                      solutions for mission-critical infrastructure.
-                    </p>
-
-                    <p><b style="color:#022561;">> Redundant power and cooling systems <br>
-                        > Direct access to carriers and IXPs <br>
-                        > 24x7 on-site remote hands <br>
-                        > Scalable rack and cage options
-                      </b></p>
-
-
-
-                    <p class="service-learnmore uk-margin-large-top">
-                      <a href="/data-center">Learn more</a>
-                    </p>
-                  </div>
-                </div>
-                <!-- Network-as-a-Service (NaaS) -->
-                <div>
-                  <div class="uk-card service-card uk-padding">
-                    <p class="service-title">Network-as-a-Service (NaaS)</p>
-                    <p class="service-text">
-                      Delivering flexible and secure network connectivity as a service — enabling enterprises and
-                      governments
-                      to build, scale, and manage networks without complex infrastructure investments.
-                      NaaS simplifies multi-site and multi-cloud connectivity with agility and predictable costs.
-                    </p>
-
-
-
-                    <p><b style="color:#022561;">> Multi-cloud and hybrid connectivity <br>
-                        > SD-WAN and VPN integration <br>
-                        > Centralized orchestration and analytics <br>
-                        > Pay-as-you-grow OPEX model
-                      </b></p>
-
-                    <p class="service-learnmore uk-margin-large-top">
-                      <a href="/contact">Talk to an expert</a>
-                    </p>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'storage' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('storage')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">Storage</h3>
+                      <p class="card-text uk-margin-remove-bottom">Scalable S3-compatible Object Storage, high-IOPS
+                        Block Storage, and distributed File shares.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle">
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-
-                <!-- Cybersecurity Services -->
+                <!-- Card 3: BackupaaS -->
                 <div>
-                  <div class="uk-card service-card uk-padding">
-                    <p class="service-title">Cybersecurity Services</p>
-                    <p class="service-text">
-                      Advanced protection for networks and applications through Anti-DDoS, Firewall-as-a-Service, and
-                      Web Application Firewall — under the Shields2Europe brand.
-                    </p>
-
-                    <p><b style="color:#022561;">> Layer 3–7 threat mitigation <br>
-                        > 24x7 traffic monitoring and response <br>
-                        > Firewall and WAF integration <br>
-                        > IPv4 and IPv6 coverage
-                      </b></p>
-
-
-
-                    <p class="service-learnmore uk-margin-large-top">
-                      <a href="/security">Learn more</a>
-                    </p>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'backup' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('backup')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">BackupaaS</h3>
+                      <p class="card-text uk-margin-remove-bottom">Automated, immutable enterprise backup and rapid
+                        disaster recovery with strict SLA guarantees.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle">
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
                   </div>
                 </div>
 
+                <!-- Card 4: GPUaaS -->
+                <div>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'gpu' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('gpu')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">GPUaaS</h3>
+                      <p class="card-text uk-margin-remove-bottom">High-performance GPU acceleration for AI/ML training,
+                        LLM inference, 3D rendering, and HPC workloads.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle">
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dynamic Configuration Box Below Cards -->
+              <div *ngIf="selectedService"
+                class="uk-card uk-border-rounded uk-card-secondary uk-card-body uk-padding-large uk-margin-medium-top uk-animation-fade">
+
+                <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-medium-bottom">
+                  <h4 class="uk-margin-remove">
+                    Quote Configuration:
+                    <span class="uk-text-primary">
+                      {{ selectedService === 'compute' ? 'Cloud Compute' : '' }}
+                      {{ selectedService === 'storage' ? 'Cloud Storage' : '' }}
+                      {{ selectedService === 'backup' ? 'Backup as a Service (BackupaaS)' : '' }}
+                      {{ selectedService === 'gpu' ? 'GPU as a Service (GPUaaS)' : '' }}
+                    </span>
+                  </h4>
+                  <button type="button" class="uk-close-large" uk-close (click)="selectedService = null"></button>
+                </div>
+
+                <form class="uk-grid-medium" uk-grid>
+
+                  <!-- Cloud Region Selector -->
+                  <div class="uk-width-1-2@s">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">Target Cloud
+                      Region / Availability Zone</label>
+                    <div class="uk-form-controls">
+                      <select class="uk-select uk-border-pill">
+                        <option>Lisbon DC1 (Europe South)</option>
+                        <option>Luanda DC1 (Africa West)</option>
+                        <option>Frankfurt FRA1 (Europe Central)</option>
+                        <option>São Paulo SP1 (Americas)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Capacity Allocation Field (Contextual per Cloud Service) -->
+                  <div class="uk-width-1-4@s">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">
+                      {{ selectedService === 'compute' ? 'Compute Sizing' : '' }}
+                      {{ selectedService === 'storage' ? 'Storage Capacity' : '' }}
+                      {{ selectedService === 'backup' ? 'Backup Quota' : '' }}
+                      {{ selectedService === 'gpu' ? 'GPU Instance Sizing' : '' }}
+                    </label>
+                    <div class="uk-form-controls">
+                      <!-- Compute Sizing -->
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'compute'">
+                        <option>4 vCPU / 16 GB RAM</option>
+                        <option>8 vCPU / 32 GB RAM</option>
+                        <option>16 vCPU / 64 GB RAM</option>
+                        <option>32 vCPU / 128 GB RAM</option>
+                        <option>Custom Enterprise Pool</option>
+                      </select>
+
+                      <!-- Storage Capacity -->
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'storage'">
+                        <option>1 TB Tier</option>
+                        <option>5 TB Tier</option>
+                        <option>20 TB Tier</option>
+                        <option>50 TB Tier</option>
+                        <option>100+ TB Enterprise</option>
+                      </select>
+
+                      <!-- Backup Quota -->
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'backup'">
+                        <option>up to 500 GB</option>
+                        <option>up to 2 TB</option>
+                        <option>up to 10 TB</option>
+                        <option>up to 50 TB</option>
+                      </select>
+
+                      <!-- GPU Instance Sizing -->
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'gpu'">
+                        <option>1x GPU (24 GB VRAM)</option>
+                        <option>2x GPU Cluster (48 GB VRAM)</option>
+                        <option>4x GPU Cluster (96 GB VRAM)</option>
+                        <option>8x HGX Node (640 GB VRAM)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Contextual Cloud Technology Option Selector -->
+                  <div class="uk-width-1-4@s">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">Storage Type /
+                      Architecture</label>
+                    <div class="uk-form-controls">
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'compute'">
+                        <option>General Purpose (SSD)</option>
+                        <option>Compute Optimized</option>
+                        <option>Memory Optimized</option>
+                        <option>Bare Metal Instance</option>
+                      </select>
+
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'storage'">
+                        <option>S3 Object Storage (NVMe/HDD)</option>
+                        <option>Block Storage (High-IOPS NVMe)</option>
+                        <option>NFS / CIFS File Storage</option>
+                      </select>
+
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'backup'">
+                        <option>Veeam Cloud Connect Integration</option>
+                        <option>S3 Object Lock (Immutable)</option>
+                        <option>Agentless VM Snapshots</option>
+                      </select>
+
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'gpu'">
+                        <option>NVIDIA L40S (Inference & Graphics)</option>
+                        <option>NVIDIA A100 (Deep Learning & HPC)</option>
+                        <option>NVIDIA H100 (LLM & GenAI Training)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Contact Email & Submit Actions -->
+                  <div class="uk-width-1-2@s uk-margin-small-top">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">Work Email</label>
+                    <input class="uk-input uk-border-pill" type="email" placeholder="name@company.com">
+                  </div>
+
+                  <div class="uk-width-1-2@s uk-margin-small-top uk-flex uk-flex-bottom">
+                    <button type="submit" class="uk-button uk-button-primary uk-border-pill uk-width-1-1">
+                      Request Quote
+                    </button>
+                  </div>
+
+                </form>
+              </div>
+            </div></li>
+
+
+          <li>
+            <div class="uk-margin-large-bottom">
+              <!-- Services Grid (Security Offerings) -->
+              <div class="uk-child-width-1-4@m uk-grid-medium uk-grid-match" uk-grid>
+                <!-- Card 1: Clean Pipe -->
+                <div>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'clean-pipe' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('clean-pipe')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">Clean Pipe</h3>
+                      <p class="card-text uk-margin-remove-bottom">Volumetric DDoS mitigation scrubbing malicious
+                        traffic before it reaches your IP prefixes or network perimeter.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle">
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 2: Origin Protection -->
+                <div>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'origin-protection' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('origin-protection')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">Origin
+                        Protection</h3>
+                      <p class="card-text uk-margin-remove-bottom">Encrypted GRE/IPsec tunnels and IP masking to shield
+                        core data center servers and cloud origins from targeted attacks.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle uk-flex-between uk-flex-wrap gap-2">
+                    <!--   <a routerLink="/product/origin_protection_-_anti-ddos" (click)="$event.stopPropagation()"
+                        class="uk-button uk-button-default uk-button-small uk-text-bold">
+                        Learn More
+                      </a> -->
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- Card 3: Application Protection -->
+                <div>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'app-protection' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('app-protection')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">Application
+                        Protection</h3>
+                      <p class="card-text uk-margin-remove-bottom">Next-generation Web Application Firewall (WAF), API
+                        security, and rate-limiting to block OWASP Top 10 threats.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle uk-flex-between uk-flex-wrap gap-2">
+                      <!-- <a routerLink="/product/application_protection_service" (click)="$event.stopPropagation()"
+                        class="uk-button uk-button-default uk-button-small uk-text-bold">
+                        Learn More
+                      </a> -->
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 4: DNS Protection -->
+                <div>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'dns-protection' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('dns-protection')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">DNS Protection
+                      </h3>
+                      <p class="card-text uk-margin-remove-bottom">Anycast DNS infrastructure with integrated DNSSEC and
+                        DNS DDoS protection for continuous domain uptime.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle uk-flex-between uk-flex-wrap gap-2">
+                     <!--  <a routerLink="/product/dns_protection_service" (click)="$event.stopPropagation()"
+                        class="uk-button uk-button-default uk-button-small uk-text-bold">
+                        Learn More
+                      </a> -->
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dynamic Configuration Box Below Cards -->
+              <div *ngIf="selectedService"
+                class="uk-card uk-border-rounded uk-card-secondary uk-card-body uk-padding-large uk-margin-medium-top uk-animation-fade">
+
+                <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-medium-bottom">
+                  <h4 class="uk-margin-remove">
+                    Quote Configuration:
+                    <span class="uk-text-primary">
+                      {{ selectedService === 'clean-pipe' ? 'Clean Pipe (IP / ASN DDoS Protection)' : '' }}
+                      {{ selectedService === 'origin-protection' ? 'Origin Protection & Tunnel Shield' : '' }}
+                      {{ selectedService === 'app-protection' ? 'Application & WAF Protection' : '' }}
+                      {{ selectedService === 'dns-protection' ? 'Managed Anycast DNS Protection' : '' }}
+                    </span>
+                  </h4>
+                  <button type="button" class="uk-close-large" uk-close (click)="selectedService = null"></button>
+                </div>
+
+                <form class="uk-grid-medium" uk-grid>
+
+                  <!-- Target Asset / Infrastructure Field -->
+                  <div class="uk-width-1-2@s">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">
+                      {{ selectedService === 'app-protection' || selectedService === 'dns-protection' ? 'Primary Domain
+                      / Hostname' : 'Protected Subnet / ASN / IP Range' }}
+                    </label>
+                    <div class="uk-form-controls">
+                      <input class="uk-input uk-border-pill" type="text"
+                        [placeholder]="selectedService === 'app-protection' || selectedService === 'dns-protection' ? 'e.g. app.yourcompany.com' : 'e.g. 196.223.x.x/24 or AS12345'">
+                    </div>
+                  </div>
+
+                  <!-- Capacity / Traffic Sizing Field -->
+                  <div class="uk-width-1-4@s">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">
+                      {{ selectedService === 'app-protection' ? 'Monthly Request Volume' : '' }}
+                      {{ selectedService === 'dns-protection' ? 'Monthly DNS Queries' : '' }}
+                      {{ selectedService === 'clean-pipe' || selectedService === 'origin-protection' ? 'Clean Traffic
+                      Bandwidth' : '' }}
+                    </label>
+                    <div class="uk-form-controls">
+                      <!-- Bandwidth Options for Clean Pipe & Origin Protection -->
+                      <select class="uk-select uk-border-pill"
+                        *ngIf="selectedService === 'clean-pipe' || selectedService === 'origin-protection'">
+                        <option>Up to 1 Gbps Clean Traffic</option>
+                        <option>Up to 10 Gbps Clean Traffic</option>
+                        <option>Up to 40 Gbps Clean Traffic</option>
+                        <option>100+ Gbps Unlimited Scrubbing</option>
+                      </select>
+
+                      <!-- Request Volume Options for WAF / App Protection -->
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'app-protection'">
+                        <option>Up to 10 Million Requests/mo</option>
+                        <option>Up to 50 Million Requests/mo</option>
+                        <option>Up to 250 Million Requests/mo</option>
+                        <option>1 Billion+ Requests/mo (Enterprise)</option>
+                      </select>
+
+                      <!-- Query Volume Options for DNS Protection -->
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'dns-protection'">
+                        <option>Up to 5 Million Queries/mo</option>
+                        <option>Up to 25 Million Queries/mo</option>
+                        <option>Up to 100 Million Queries/mo</option>
+                        <option>Custom Anycast Volume</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Security Option / Deployment Model Selector -->
+                  <div class="uk-width-1-4@s">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">Mitigation &
+                      Routing Mode</label>
+                    <div class="uk-form-controls">
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'clean-pipe'">
+                        <option>Always-On BGP Announce</option>
+                        <option>On-Demand Flowspec Automation</option>
+                        <option>Inline Hardware Scrubbing</option>
+                      </select>
+
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'origin-protection'">
+                        <option>Encrypted GRE Tunnel Pair</option>
+                        <option>IPsec VPN Tunneling</option>
+                        <option>Private Cross-Connect / Direct Link</option>
+                      </select>
+
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'app-protection'">
+                        <option>Cloud WAF + Bot Management</option>
+                        <option>API Gateway & Rate Limiting</option>
+                        <option>Full Suite (WAF + DDoS + API + CDN)</option>
+                      </select>
+
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'dns-protection'">
+                        <option>Primary Anycast Authoritative DNS</option>
+                        <option>Secondary DNS with DNSSEC</option>
+                        <option>Recursive Resolver Filtering</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Contact Email & Submit Actions -->
+                  <div class="uk-width-1-2@s uk-margin-small-top">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">Work Email</label>
+                    <input class="uk-input uk-border-pill" type="email" placeholder="security@company.com">
+                  </div>
+
+                  <div class="uk-width-1-2@s uk-margin-small-top uk-flex uk-flex-bottom">
+                    <button type="submit" class="uk-button uk-button-primary uk-border-pill uk-width-1-1">
+                      Request Security Quote <span uk-icon="icon: shield; ratio: 0.9"
+                        class="uk-margin-xsmall-left"></span>
+                    </button>
+                  </div>
+
+                </form>
               </div>
             </div>
           </li>
+
+
+          <li>
+            <div class="uk-margin-large-bottom">
+              <!-- Services Grid (Data Center Offerings) -->
+              <div class="uk-child-width-1-4@m uk-grid-medium uk-grid-match" uk-grid>
+                <!-- Card 1: Colocation -->
+                <div>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'colocation' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('colocation')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">Colocation</h3>
+                      <p class="card-text uk-margin-remove-bottom">Secure rack space with redundant power feeds,
+                        precision cooling, and carrier-neutral connectivity.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle">
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 2: Bare Metal Infrastructure -->
+                <div>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'bare-metal' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('bare-metal')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">Bare Metal
+                        Servers</h3>
+                      <p class="card-text uk-margin-remove-bottom">High-performance dedicated single-tenant hardware
+                        with root access and automated provisioning.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle">
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 3: Cloud Connect & IX -->
+                <div>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'cloud-connect' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('cloud-connect')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">Interconnection
+                        & IX</h3>
+                      <p class="card-text uk-margin-remove-bottom">Direct private cross-connects to hyper-scale clouds,
+                        internet exchanges, and telecom carriers.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle">
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 4: Backup & Disaster Recovery -->
+                <div>
+                  <div class="uk-card uk-card-body uk-padding uk-flex uk-flex-column uk-flex-between uk-link-toggle"
+                    [ngClass]="selectedService === 'dr-storage' ? 'uk-card-secondary' : 'uk-card-default'"
+                    (click)="selectService('dr-storage')" style="cursor: pointer;">
+                    <div>
+                      <h3 class="uk-card-title uk-text-bold uk-margin-remove-top uk-margin-small-bottom">DR & Backup
+                        Storage</h3>
+                      <p class="card-text uk-margin-remove-bottom">S3-compatible Object Storage, SAN arrays, and
+                        automated Disaster Recovery replication environments.</p>
+                    </div>
+                    <div class="uk-margin-medium-top uk-flex uk-flex-middle">
+                      <span class="conf-text uk-button uk-button-text uk-flex uk-flex-middle uk-text-bold">
+                        Configure Service <span uk-icon="icon: chevron-down; ratio: 0.9"
+                          class="uk-margin-xsmall-left"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dynamic Configuration Box Below Cards -->
+              <div *ngIf="selectedService"
+                class="uk-card uk-border-rounded uk-card-secondary uk-card-body uk-padding-large uk-margin-medium-top uk-animation-fade">
+
+                <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-medium-bottom">
+                  <h4 class="uk-margin-remove">
+                    Quote Configuration:
+                    <span class="uk-text-primary">
+                      {{ selectedService === 'colocation' ? 'Data Center Colocation & Rack Space' : '' }}
+                      {{ selectedService === 'bare-metal' ? 'Dedicated Bare Metal Compute' : '' }}
+                      {{ selectedService === 'cloud-connect' ? 'Direct Interconnection & Cloud Connect' : '' }}
+                      {{ selectedService === 'dr-storage' ? 'Disaster Recovery & Enterprise Storage' : '' }}
+                    </span>
+                  </h4>
+                  <button type="button" class="uk-close-large" uk-close (click)="selectedService = null"></button>
+                </div>
+
+                <form class="uk-grid-medium" uk-grid>
+
+                  <!-- Target Asset / Location / Server Name -->
+                  <div class="uk-width-1-2@s">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">
+                      {{ selectedService === 'colocation' ? 'Target Facility / Location' : '' }}
+                      {{ selectedService === 'bare-metal' ? 'Preferred Server Hostname / OS' : '' }}
+                      {{ selectedService === 'cloud-connect' ? 'Destination Provider (Cloud/IX/Carrier)' : '' }}
+                      {{ selectedService === 'dr-storage' ? 'Primary Workload / Source System' : '' }}
+                    </label>
+                    <div class="uk-form-controls">
+                      <input class="uk-input uk-border-pill" type="text"
+                        [placeholder]="
+              selectedService === 'colocation' ? 'e.g. Luanda DC1 or Metro Edge' :
+              selectedService === 'bare-metal' ? 'e.g. node-01 (Ubuntu 24.04 LTS / Proxmox)' :
+              selectedService === 'cloud-connect' ? 'e.g. AWS Direct Connect / DE-CIX' : 'e.g. VMware vSphere Cluster / Database Backup'">
+                    </div>
+                  </div>
+
+                  <!-- Capacity / Sizing Field -->
+                  <div class="uk-width-1-4@s">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">
+                      {{ selectedService === 'colocation' ? 'Rack Space & Power Allocated' : '' }}
+                      {{ selectedService === 'bare-metal' ? 'Server Hardware Profile' : '' }}
+                      {{ selectedService === 'cloud-connect' ? 'Port Bandwidth Speed' : '' }}
+                      {{ selectedService === 'dr-storage' ? 'Storage Capacity' : '' }}
+                    </label>
+                    <div class="uk-form-controls">
+                      <!-- Colocation Options -->
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'colocation'">
+                        <option>1U / 2U Shared Rack Unit (0.5 kW)</option>
+                        <option>Half Rack 21U (2.0 kW redundant)</option>
+                        <option>Full Rack 42U (5.0 kW redundant)</option>
+                        <option>High-Density Private Cage (10+ kW)</option>
+                      </select>
+
+                      <!-- Bare Metal Options -->
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'bare-metal'">
+                        <option>Standard: 8-Core CPU / 32GB RAM / 1TB NVMe</option>
+                        <option>Performance: 16-Core CPU / 64GB RAM / 2x2TB NVMe</option>
+                        <option>Enterprise: 32-Core Dual CPU / 128GB RAM / RAID NVMe</option>
+                        <option>GPU Compute / High-Memory Custom Instance</option>
+                      </select>
+
+                      <!-- Interconnection Options -->
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'cloud-connect'">
+                        <option>1 Gbps Dedicated Direct Connect</option>
+                        <option>10 Gbps High-Speed Interconnect</option>
+                        <option>40 Gbps Data Center Fabric Link</option>
+                        <option>100 Gbps Metro Dark Fiber / Cross-Connect</option>
+                      </select>
+
+                      <!-- Storage Options -->
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'dr-storage'">
+                        <option>Up to 10 TB S3 / Object Storage</option>
+                        <option>Up to 50 TB High-Performance NVMe SAN</option>
+                        <option>Up to 200 TB Cold Backup Archive</option>
+                        <option>1 PB+ Enterprise DR Site Replication</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Redundancy & SLA Selector -->
+                  <div class="uk-width-1-4@s">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">Service Tier &
+                      Redundancy</label>
+                    <div class="uk-form-controls">
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'colocation'">
+                        <option>Tier III Dual Feed (A+B Power)</option>
+                        <option>Tier III Dual Feed + Smart PDU Metering</option>
+                        <option>Reserved High-Density Cage Space</option>
+                      </select>
+
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'bare-metal'">
+                        <option>Single Node + Hardware Replacement SLA</option>
+                        <option>High-Availability Dual Node Cluster</option>
+                        <option>Custom Hardware + IPMI / Out-of-Band</option>
+                      </select>
+
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'cloud-connect'">
+                        <option>Single Fiber Port Direct Link</option>
+                        <option>Dual Redundant Paths (LACP / Diverse Route)</option>
+                        <option>Multi-Cloud Mesh Interconnect</option>
+                      </select>
+
+                      <select class="uk-select uk-border-pill" *ngIf="selectedService === 'dr-storage'">
+                        <option>Daily Async Backup Snapshot</option>
+                        <option>Real-Time Synchronous DR Replication</option>
+                        <option>Air-Gapped Immutable Storage</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Contact Email & Submit Actions -->
+                  <div class="uk-width-1-2@s uk-margin-small-top">
+                    <label class="uk-form-label uk-text-bold uk-margin-small-bottom uk-display-block">Work Email</label>
+                    <input class="uk-input uk-border-pill" type="email" placeholder="infrastructure@company.com">
+                  </div>
+
+                  <div class="uk-width-1-2@s uk-margin-small-top uk-flex uk-flex-bottom">
+                    <button type="submit" class="uk-button uk-button-primary uk-border-pill uk-width-1-1">
+                      Request Infrastructure Quote <span uk-icon="icon: server; ratio: 0.9"
+                        class="uk-margin-xsmall-left"></span>
+                    </button>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </li>
+
         </ul>
       </div>
     </div>
@@ -345,8 +945,90 @@
 
   </div>
 
+  <div class="uk-container">
+    <div class="uk-text-center">
+      <h1 class="title1"> Ready to deploy Compute + Storage & Network Solutions for Emerging Demands </h1>
+      <p class="card-text"> Combining owned infrastructure with high-value strategic partnerships, TelCablesEurope
+        powered by AngolaCables delivers a distinct competitive edge that is rare in today’s market</p>
 
-  <app-slideshow></app-slideshow>
+    </div>
+
+    <div class="uk-grid-column-small  uk-child-width-1-2@s uk-text-center" uk-grid>
+
+      <!-- Card 1 -->
+      <div>
+        <a class="uk-card uk-card-secondary uk-card-body uk-inline uk-overflow-hidden uk-width-1-1 uk-link-toggle uk-display-block"
+          href="#">
+          <div class="uk-position-cover"
+            style="background-image: url('img/ai.jpeg'); background-size: cover; background-position: center; filter: brightness(0.3);">
+          </div>
+          <div class="uk-position-relative uk-light uk-flex uk-flex-column uk-flex-center uk-flex-middle"
+            style="z-index: 1;">
+            <p class="title2 uk-margin-small-bottom" style="color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
+             <a routerLink="/product/sovereign_neutral_ai_fabric" > Sovereign AI Neutral Fabric  </a>
+            </p>
+            <span class="uk-icon-button" uk-icon="icon: arrow-right; ratio: 1.1"
+              style="background-color: #ffffffcc; color: #000000; border: none;"></span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Card 2 -->
+      <div>
+        <a class="uk-card uk-card-secondary uk-card-body uk-inline uk-overflow-hidden uk-width-1-1 uk-link-toggle uk-display-block"
+          href="#">
+          <div class="uk-position-cover"
+            style="background-image: url('img/paas-fabric-bg.peg'); background-size: cover; background-position: center; filter: brightness(0.3);">
+          </div>
+          <div class="uk-position-relative uk-light uk-flex uk-flex-column uk-flex-center uk-flex-middle"
+            style="z-index: 1;">
+            <p class="title2 uk-margin-small-bottom" style="color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
+             <a routerLink="/product/sovereign_paas_fabric"> Sovereign PaaS Fabric </a>
+            </p>
+            <span class="uk-icon-button" uk-icon="icon: arrow-right; ratio: 1.1"
+              style="background-color: #ffffffcc; color: #000000; border: none;"></span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Card 3 -->
+      <div>
+        <a class="uk-card uk-card-secondary uk-card-body uk-inline uk-overflow-hidden uk-width-1-1 uk-link-toggle uk-display-block"
+          href="#">
+          <div class="uk-position-cover"
+            style="background-image: url('img/telco.jpeg'); background-size: cover; background-position: center; filter: brightness(0.3);">
+          </div>
+          <div class="uk-position-relative uk-light uk-flex uk-flex-column uk-flex-center uk-flex-middle"
+            style="z-index: 1;">
+            <p class="title2 uk-margin-small-bottom" style="color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
+              Sovereign Telco Fabric
+            </p>
+            <span class="uk-icon-button" uk-icon="icon: arrow-right; ratio: 1.1"
+              style="background-color: #ffffffcc; color: #000000; border: none;"></span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Card 4 -->
+      <div>
+        <a class="uk-card uk-card-secondary uk-card-body uk-inline uk-overflow-hidden uk-width-1-1 uk-link-toggle uk-display-block"
+          href="#">
+          <div class="uk-position-cover"
+            style="background-image: url('img/naas.webp'); background-size: cover; background-position: center; filter: brightness(0.3);">
+          </div>
+          <div class="uk-position-relative uk-light uk-flex uk-flex-column uk-flex-center uk-flex-middle"
+            style="z-index: 1;">
+            <p class="title2 uk-margin-small-bottom" style="color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
+              Sovereign NaaS Fabric
+            </p>
+            <span class="uk-icon-button" uk-icon="icon: arrow-right; ratio: 1.1"
+              style="background-color: #ffffffcc; color: #000000; border: none;"></span>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </div> <app-slideshow></app-slideshow>
 
 
 
@@ -366,13 +1048,9 @@
           <div class="uk-margin-medium-top">
             <ul class="modern-accordion" uk-accordion="multiple: false">
               <li *ngFor="let item of accordionItems; let i = index" [class.uk-open]="i === 0">
-                <a class="uk-accordion-title" href (click)="onSelectImage(item.image, item.imageDesc)">
-                  <span style="margin-right: 10px;" [attr.uk-icon]="'icon: ' + item.icon + '; ratio: 1.5'"></span>
-                  {{ item.title }}
+                <a class="uk-accordion-title" href (click)="onSelectImage(item.image, item.imageDesc)"> {{ item.title }}
                 </a>
-                <div class="uk-accordion-content">
-                  <p>{{ item.content }}</p>
-                </div>
+
               </li>
             </ul>
           </div>
@@ -380,22 +1058,26 @@
         </div>
       </div>
 
-      <!-- Right Column (Dynamic Image + Description) -->
-      <div>
-        <div class="uk-card uk-card-body uk-flex uk-flex-column uk-flex-middle uk-flex-center">
-          <ng-container *ngIf="selectedImage; else placeholder">
-            <img [src]="selectedImage" alt="accordion image" style="max-width:100%; border-radius:8px;">
 
-            <!-- Exibe descrição se existir -->
-            <p *ngIf="selectedImageDesc" class="uk-margin-small-top"
-              style="font-size: 0.9rem; color:#022561; font-weight:500; text-align:left;">
-              {{ selectedImageDesc }}
-            </p>
-          </ng-container>
+      <!-- RIGHT SIDE (VIDEO) -->
+      <div class="uk-width-1-2@m uk-margin-medium-bottom uk-margin-large-top  uk-flex uk-flex-center uk-flex-top">
+        <div class="uk-text-center">
+          <a href="#modal-video" uk-toggle>
+            <img src="img/video-miniatura.png" alt="Video Thumbnail" class="uk-border-rounded">
+          </a>
 
-          <ng-template #placeholder>
-            <p style="color:#999;">Select an item to see an image</p>
-          </ng-template>
+          <!-- MODAL -->
+          <div id="modal-video" uk-modal>
+            <div class="uk-modal-dialog uk-margin-auto-vertical uk-modal-body uk-border-rounded">
+              <button class="uk-modal-close-default" type="button" uk-close></button>
+
+              <video controls loop muted id="promoVideo" class="promo-video uk-border-rounded">
+                <source src="https://marketing.host2africa.com/files/AC-Angolaoutlook-EN-2025%202-new.mp4"
+                  type="video/mp4" />
+                Seu navegador não suporta o vídeo.
+              </video>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -424,7 +1106,7 @@
 
 
 
-        <div  class=" uk-padding  ">
+        <div class=" uk-padding  ">
           <!-- Main Grid Layout -->
           <div class="uk-grid" uk-grid>
             <!-- Left Column (Main Content - Events) -->
@@ -434,7 +1116,7 @@
                 <h2 style="color: #022561;" class="uk-heading">{{'news.and' | translate}} <b> {{'media' |
                     translate}}</b>
                 </h2>
-                
+
               </div>
               <p>Find important stories on how TelCables is impacting the industry</p>
 
@@ -470,6 +1152,7 @@
 
 
 
+</div>
 
 
-  <app-ad2></app-ad2>
+<app-ad2></app-ad2>

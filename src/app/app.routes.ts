@@ -14,6 +14,9 @@ import { DashboardComponent } from './paginas/dashboard/dashboard.component';
 import { ServiceFormComponent } from './layout/service-form/service-form.component';
 import { PrivacypolicyComponent } from './paginas/privacypolicy/privacypolicy.component';
 import { TermsandconditionsComponent } from './paginas/termsandconditions/termsandconditions.component';
+import { ProductDetailComponent } from './layout/produto-detail/produto-detail.component';
+import { productResolver } from './resolvers/product.resolvers';
+
 
 export const routes: Routes = [
   { path: '', component: InicioComponent },
@@ -51,6 +54,20 @@ export const routes: Routes = [
       import('./paginas/cookies-policy/cookies-policy.component').then(
         (m) => m.CookiesPolicyComponent,
       ),
+  },
+// Produtos (rota com parâmetro)
+  {
+    path: 'product/:id',
+    component: ProductDetailComponent,
+
+    resolve: {
+      productName: productResolver
+    },
+
+    title: 'Produtos - TelCables South Africa'
+  
+
+
   },
 
   {
