@@ -1,4 +1,4 @@
-name: 🚀 Secure Angular Deploy with Firebasev.2
+name: 🚀 Secure Angular Deploy with Firebase v2 (Optimized)
 on:
   push:
     branches:
@@ -9,17 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🛠️ Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 📦 Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: "npm"
 
       - name: 🔐 Inject Firebase Secrets
         run: |
-          # Create production environment file
           mkdir -p src/environments
           cat > src/environments/environment.prod.ts <<EOF
           export const environment = {
@@ -35,9 +34,6 @@ jobs:
           };
           EOF
 
-          # Verify file was created (without exposing secrets)
-          grep "production:" src/environments/environment.prod.ts
-
       - name: 📌 Install Dependencies
         run: npm ci
 
@@ -46,104 +42,37 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
 
-      - name: 🐛 Verify Build Output
-        run: |
-          echo "Build directory contents:"
-          ls -la dist/tceu/browser
-          echo "Checking for Firebase config in main.js:"
-          grep -o "apiKey" dist/tceu/browser/main.js || echo "No API key found in build"
-
-      - name: 🧹 Secure Clean & Deploy via WebDAV
+      - name: 🚀 Parallel WebDAV Deploy via lftp
         env:
           WEBDISK_USERNAME: ${{ secrets.WEBDISK_USERNAME }}
           WEBDISK_PASSWORD: ${{ secrets.WEBDISK_PASSWORD }}
         run: |
-          # ===== CONFIGURATION =====
+          # Install lftp (fast multi-threaded sync tool)
+          sudo apt-get install -y lftp
+
           BUILD_DIR="dist/tceu/browser"
-          WEBDISK_URL="https://telcables.pt:2078"
+          WEBDISK_HOST="telcables.pt"
+          WEBDISK_PORT="2078"
 
-          # Protected items (won't be touched)
-          PROTECTED_ITEMS=(
-            "cgi-bin"
-            ".well-known"
-            ".tmb"
-            "partners.angolacables.co.ao"
-            "old_angolacables.co.ao"
-            "angular.angolacables.co.ao"
-            "old2_angolacables.co.ao"
-            "site_update"
-            ".user.ini"
-            ".htaccess_bak"
-            "old_angolacables.co.ao.zip"
-            "routes-table"
-          )
-          # =========================
-
-          # 🔐 Verify WebDAV connection
-          echo "🔐 Testing WebDAV connection..."
-          if ! curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X PROPFIND $WEBDISK_URL/ --fail --silent --show-error >/dev/null; then
-            echo "❌ FATAL: WebDAV authentication failed!"
-            exit 1
-          fi
-
-          # 🗑️ Get remote items using xmlstarlet
-          echo "📡 Fetching remote file list..."
-          sudo apt-get update && sudo apt-get install -y xmlstarlet
-          REMOTE_ITEMS=$(curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X PROPFIND $WEBDISK_URL/ --silent | \
-            xmlstarlet sel -t -v "//a:href" -n | \
-            sed "s|$WEBDISK_URL||" | sed 's|^/||' | grep -v '^$' | sort -ur)
-
-          # 💣 Delete non-protected items
-          echo "🧹 Starting cleanup..."
-          for item in $REMOTE_ITEMS; do
-            [[ -z "$item" ]] && continue
-            
-            protected=false
-            for protected_item in "${PROTECTED_ITEMS[@]}"; do
-              [[ "$item" == "$protected_item"* ]] && protected=true && break
-            done
-
-            if ! $protected; then
-              echo "🗑️ Deleting: $item"
-              curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X DELETE "$WEBDISK_URL/$item" --silent --show-error --fail || \
-              curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X DELETE "$WEBDISK_URL/$item/" --silent --show-error --fail || true
-            else
-              echo "🛡️ Preserving: $item"
-            fi
-          done
-
-          # 🚀 Deploy new build
-          echo "🚀 Uploading build..."
-          find $BUILD_DIR -type f | while read -r file; do
-            remote_path="${file#$BUILD_DIR/}"
-            remote_dir=$(dirname "$remote_path")
-            
-            # cria diretórios recursivamente
-            if [[ "$remote_dir" != "." ]]; then
-              IFS='/' read -ra DIR_PARTS <<< "$remote_dir"
-              path=""
-              for part in "${DIR_PARTS[@]}"; do
-                path="$path/$part"
-                curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X MKCOL "$WEBDISK_URL$path" \
-                  --silent --show-error --fail >/dev/null 2>&1 || true
-              done
-            fi
-
-            for attempt in {1..3}; do
-              # 🔥 apaga antes de enviar, evita conflito 409
-              curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X DELETE "$WEBDISK_URL/$remote_path" --silent --fail || true
-
-              if curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -T "$file" "$WEBDISK_URL/$remote_path" --silent --show-error --fail; then
-                echo "✅ Uploaded: $remote_path"
-                break
-              elif [[ $attempt -eq 3 ]]; then
-                echo "❌ Failed to upload: $remote_path"
-                exit 1
-              else
-                sleep $((attempt * 2))
-              fi
-            done
-          done
-
+          # Upload files concurrently (8 threads) while excluding protected directories
+          lftp -c "
+            set ssl:verify-certificate false;
+            open -u $WEBDISK_USERNAME,$WEBDISK_PASSWORD https://$WEBDISK_HOST:$WEBDISK_PORT;
+            mirror --reverse \
+                   --parallel=8 \
+                   --verbose \
+                   --exclude-glob cgi-bin/ \
+                   --exclude-glob .well-known/ \
+                   --exclude-glob .tmb/ \
+                   --exclude-glob partners.angolacables.co.ao/ \
+                   --exclude-glob old_angolacables.co.ao/ \
+                   --exclude-glob angular.angolacables.co.ao/ \
+                   --exclude-glob old2_angolacables.co.ao/ \
+                   --exclude-glob site_update/ \
+                   --exclude-glob .user.ini \
+                   --exclude-glob .htaccess_bak \
+                   --exclude-glob old_angolacables.co.ao.zip \
+                   --exclude-glob routes-table/ \
+                   $BUILD_DIR /;
+          "
           echo "🎉 Deployment completed successfully!"
-          echo "🌐 Live at: https://telcables.pt"
