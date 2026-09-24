@@ -9,6 +9,9 @@
     gap: 16px; /* Space between accordion cards */
   }
 
+  .uk-card-body{
+    border-radius:40px 40px 40px 40px;
+  }
   /* Card Item */
   .accordion-card {
     background: linear-gradient(135deg, #02b7e4, #00b7ff, #6fe0fc);

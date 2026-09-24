@@ -25,37 +25,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/tinymce/icons/default",
-                "output": "tinymce/icons/default"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/tinymce/themes/silver",
-                "output": "tinymce/themes/silver"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/tinymce/skins/ui/oxide",
-                "output": "tinymce/skins/ui/oxide"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/tinymce/skins/content/default",
-                "output": "tinymce/skins/content/default"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/tinymce/plugins",
-                "output": "tinymce/plugins",
-                "ignore": [
-                  "**/emoticons/**",
-                  "**/accordion/**",
-                  "**/preview/**"
-                ]
               }
+              
             ],
             "styles": [
               "src/styles.css",

@@ -10,7 +10,6 @@ import { DatacentersevicesComponent } from './paginas/datacentersevices/datacent
 import { SegurancaComponent } from './paginas/seguranca/seguranca.component';
 import { ContactoComponent } from './paginas/contacto/contacto.component';
 
-import { DashboardComponent } from './paginas/dashboard/dashboard.component';
 import { ServiceFormComponent } from './layout/service-form/service-form.component';
 import { PrivacypolicyComponent } from './paginas/privacypolicy/privacypolicy.component';
 import { TermsandconditionsComponent } from './paginas/termsandconditions/termsandconditions.component';
@@ -35,7 +34,6 @@ export const routes: Routes = [
 
   { path: 'service-contact', component: ServiceFormComponent },
 
-  { path: 'mkt-proibido', component: DashboardComponent },
 
   { path: 'privacypolicy', component: PrivacypolicyComponent },
   { path: 'termsandconditions', component: TermsandconditionsComponent },
@@ -83,19 +81,6 @@ export const routes: Routes = [
       import('./layout/artigo/artigo.component').then((m) => m.ArtigoComponent),
   },
 
-  {
-    path: 'postar',
-    loadComponent: () =>
-      import('./layout/artigo-postar/artigo-postar.component').then(
-        (m) => m.ArtigoPostarComponent,
-      ),
-  },
 
-  {
-    path: 'postar-vaga',
-    loadComponent: () =>
-      import('./layout/vagas-criar/vagas-criar.component').then(
-        (m) => m.VagasCriarComponent,
-      ),
-  },
+
 ];
