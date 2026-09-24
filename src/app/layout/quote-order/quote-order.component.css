@@ -1,0 +1,171 @@
+
+/* Service Cards */
+.service-card {
+    background: rgb(255, 255, 255);
+    border-radius: 10px;
+    backdrop-filter: blur(12px);
+    padding: 40px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    text-align: left;
+    box-shadow: 0 5px 30px rgba(0, 53, 103, 0.559);
+    position: relative;
+}
+
+.service-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.service-title {
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 15px 0 10px;
+    color: #022561;
+}
+
+.service-text {
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 15px;
+}
+
+.service-learnmore a {
+    font-size: 1rem;
+    color: #022561;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+    background: linear-gradient(135deg, #02b7e4, #00b7ff, #6fe0fc);
+    border-radius: 30px;
+    padding: 10px 20px;
+}
+
+.service-learnmore a:hover {
+    color: #00a0d1;
+
+}
+
+.uk-button-primary {
+    background-color: #00a0d1;
+    color: #fff;
+    border-radius: 30px;
+
+}
+
+/* Tab Navigation */
+
+.uk-subnav {
+    display: flex;
+    justify-content: center;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.uk-subnav>* {
+    flex: none;
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Register border angle property for animated beam rotation */
+@property --border-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.uk-card-secondary {
+    position: relative;
+    /* Retained exact solid background color */
+    background-color: #022561 !important;
+    border-radius: 40px;
+    color: #fff;
+
+    /* Glassmorphic edge highlight and soft depth shadow */
+    box-shadow: 0 8px 24px rgba(2, 37, 97, 0.4),
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+
+    /* Animated light-line border configuration */
+    border: 3px solid transparent;
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    background-image:
+        linear-gradient(#022561, #022561),
+        conic-gradient(from var(--border-angle),
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.1) 60%,
+            #00d4ff 85%,
+            /* Glowing light pulse */
+            #ffffff 95%,
+            /* Core bright tip */
+            rgba(255, 255, 255, 0.1) 100%);
+
+    animation: border-light-rotate 4s linear infinite;
+}
+
+/* Ensure paragraph copy remains crisp over dark background */
+.uk-card-secondary .uk-text-muted,
+.uk-card-secondary p {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+@keyframes border-light-rotate {
+    to {
+        --border-angle: 360deg;
+    }
+}
+
+.uk-card-secondary .card-text {
+
+    color: #fff;
+}
+
+
+.uk-card-title {
+    color: #022561;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.uk-subnav-pill>*>:first-child {
+    font-size: 1.50rem;
+    color: #022561;
+    font-weight: 600;
+    background-color: #1AB8DD;
+    border-radius: 40px;
+
+    transform: lowercase;
+}
+
+.uk-text-primary {
+    color: #022561 !important;
+    font-weight: 700;
+}
+
+.conf-text {
+    color: #022561
+}
+
+.uk-subnav-pill>.uk-active>a {
+    background-color: #022561;
+    color: #fff;
+    padding: 20px 30px;
+    font-weight: 700;
+    font-size: 1.50rem;
+    border-radius: 40px;
+    box-shadow: 0 4px 12px rgba(2, 37, 97, 0.35);
+}
+
+/* Switcher Background */
+.fundo-switcher {
+    background: linear-gradient(135deg, #004c5f0c, #008bae12);
+    border-radius: 20px;
+}
+
+.uk-card-default {
+    border-radius: 40px;
+}
