@@ -16,6 +16,77 @@
     }
 }
 
+/* Accordion Container Styling */
+  .styled-accordion {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Space between accordion cards */
+  }
+
+  /* Card Item */
+  .accordion-card {
+    background: linear-gradient(135deg, #02b7e4, #00b7ff, #6fe0fc);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .accordion-card:hover {
+    border-color: #00a0d1;
+    box-shadow: 0 4px 12px rgba(0, 160, 209, 0.1);
+  }
+
+  /* Active/Open Item Highlight */
+  .accordion-card.uk-open {
+    border-color: #00a0d1;
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Header / Title */
+  .accordion-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 18px 24px !important;
+    font-size: 1.2rem !important;
+    font-weight: 500 !important;
+    color: #022561 !important;
+    text-decoration: none !important;
+  }
+
+  .accordion-header::before {
+    display: none !important; /* Hide default UIkit icon position */
+  }
+
+  .accordion-card.uk-open .accordion-header {
+    color: #00a0d1 !important;
+  }
+
+  /* Rotate icon when open */
+  .accordion-card.uk-open .uk-accordion-icon {
+    transform: rotate(180deg);
+    color: #00a0d1;
+  }
+
+  .uk-accordion-icon {
+    transition: transform 0.3s ease, color 0.3s ease;
+    color: #64748b;
+  }
+
+  /* Body / Content */
+  .accordion-body {
+    padding: 0 24px 20px 24px !important;
+    margin-top: 0 !important;
+    color: #475569;
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
 
 
 /* Service Cards */
@@ -65,10 +136,10 @@
 
 }
 
-.uk-button-primary{
-        background-color: #00a0d1;
-        color: #fff;
-        border-radius: 30px;
+.uk-button-primary {
+    background-color: #00a0d1;
+    color: #fff;
+    border-radius: 30px;
 
 }
 
@@ -92,60 +163,60 @@
 
 /* Register border angle property for animated beam rotation */
 @property --border-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
 }
 
 .uk-card-secondary {
-  position: relative;
-  /* Retained exact solid background color */
-  background-color: #022561 !important;
-  border-radius: 10px;
-  color: #fff;
-  
-  /* Glassmorphic edge highlight and soft depth shadow */
-  box-shadow: 0 8px 24px rgba(2, 37, 97, 0.4),
-              inset 0 1px 1px 0 rgba(255, 255, 255, 0.2); 
-  
-  /* Animated light-line border configuration */
-  border: 3px solid transparent;
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
-  background-image: 
-    linear-gradient(#022561, #022561),
-    conic-gradient(
-      from var(--border-angle),
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0.1) 60%,
-      #00d4ff 85%,  /* Glowing light pulse */
-      #ffffff 95%,  /* Core bright tip */
-      rgba(255, 255, 255, 0.1) 100%
-    );
-  
-  animation: border-light-rotate 4s linear infinite;
+    position: relative;
+    /* Retained exact solid background color */
+    background-color: #022561 !important;
+    border-radius: 40px;
+    color: #fff;
+
+    /* Glassmorphic edge highlight and soft depth shadow */
+    box-shadow: 0 8px 24px rgba(2, 37, 97, 0.4),
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+
+    /* Animated light-line border configuration */
+    border: 3px solid transparent;
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    background-image:
+        linear-gradient(#022561, #022561),
+        conic-gradient(from var(--border-angle),
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.1) 60%,
+            #00d4ff 85%,
+            /* Glowing light pulse */
+            #ffffff 95%,
+            /* Core bright tip */
+            rgba(255, 255, 255, 0.1) 100%);
+
+    animation: border-light-rotate 4s linear infinite;
 }
 
 /* Ensure paragraph copy remains crisp over dark background */
 .uk-card-secondary .uk-text-muted,
 .uk-card-secondary p {
-  color: rgba(255, 255, 255, 0.85) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
 }
 
 @keyframes border-light-rotate {
-  to {
-    --border-angle: 360deg;
-  }
+    to {
+        --border-angle: 360deg;
+    }
 }
 
 .uk-card-secondary .card-text {
- 
+
     color: #fff;
 }
 
 
-.uk-card-title{
-    color:  #022561;
+.uk-card-title {
+    color: #022561;
     font-weight: 700;
     font-size: 1.5rem;
 }
@@ -155,17 +226,20 @@
     color: #022561;
     font-weight: 600;
     background-color: #1AB8DD;
-        border-radius: 40px;
+    border-radius: 40px;
 
     transform: lowercase;
 }
-.uk-text-primary{
+
+.uk-text-primary {
     color: #022561 !important;
     font-weight: 700;
 }
-.conf-text{
-     color: #022561 
+
+.conf-text {
+    color: #022561
 }
+
 .uk-subnav-pill>.uk-active>a {
     background-color: #022561;
     color: #fff;
@@ -175,6 +249,7 @@
     border-radius: 40px;
     box-shadow: 0 4px 12px rgba(2, 37, 97, 0.35);
 }
+
 /* Switcher Background */
 .fundo-switcher {
     background: linear-gradient(135deg, #004c5f0c, #008bae12);
@@ -303,7 +378,7 @@
 
 
 .gap-2 {
-  gap: 12px;
+    gap: 12px;
 }
 
 .tag1 {
@@ -325,8 +400,9 @@
     line-height: 1.2;
     font-size: 1.5rem;
 }
-.uk-button-secondary{
-    background-color:#022561 !important;
+
+.uk-button-secondary {
+    background-color: #022561 !important;
 }
 
 .section-title {
@@ -334,7 +410,28 @@
     color: #022561;
 }
 
+.card-img {
+    border-radius: 40px 40px 0px 0px   ;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
 
+.card-bg{
+    background: linear-gradient(170deg, #1AB8DD, #1488a2);
+    border-radius: 0px 0px 40px 40px;
+}
+.uk-media-top {
+    border-radius: 40px;
+}
+
+.uk-card-default {
+    border-radius: 40px;
+}
+
+.uk-media-top>.img {
+    border-radius: 40px;
+}
 
 /* Responsive */
 @media (max-width: 480px) {

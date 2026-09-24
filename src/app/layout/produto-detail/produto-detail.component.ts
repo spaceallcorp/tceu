@@ -35,11 +35,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   productName = '';
   product: Produto | null = null;
   relatedProducts: Produto[] = [];
-  
+
   tooltipText = '';
   tooltipX = 0;
   tooltipY = 0;
-  
+
   isLoading = false;
   errorMessage = '';
 
@@ -94,7 +94,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         // Carrega produtos relacionados em background
         this.loadRelatedProducts(product);
         this.scrollToContent();
-        
+
         this.cdr.markForCheck(); // Notifica o Angular para atualizar o template imediatamente
       })
     );
@@ -106,7 +106,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         .filter(p =>
           p.id !== currentProduct.id &&
           (p.productCategory === currentProduct.productCategory ||
-           p.productSector === currentProduct.productSector)
+            p.productSector === currentProduct.productSector)
         )
         .slice(0, 4);
 
@@ -167,6 +167,17 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     if (!description) return '';
     return description.length > 180 ? description.substring(0, 180) + '...' : description;
   }
+
+  getShortChallenge(challenge?: string): string {
+    if (!challenge) return '';
+    return challenge.length > 180 ? challenge.substring(0, 180) + '...' : challenge;
+  }
+
+  getShortSolution(solution?: string): string {
+    if (!solution) return '';
+    return solution.length > 180 ? solution.substring(0, 180) + '...' : solution;
+  }
+
 
   scrollToContent(): void {
     const element = document.querySelector('.product-detail-container');

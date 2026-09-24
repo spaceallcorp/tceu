@@ -12,12 +12,17 @@ export interface Produto {
 
   coverUrl: string;
   featuredImageUrl: string;
+  featuredImageUrl2: string;
+
   ctaText: string;
   ctaUrl: string;
   productGuideUrl: string;
 
+  solution: string;
+
   productSector: string;
   productCategory: string;
+  challenges: string;
 
   features: string[];
 }

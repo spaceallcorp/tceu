@@ -2,211 +2,223 @@
 
 <!-- Enhanced Hero Section -->
 @if (product) {
-  @if (product.coverUrl) {
-    <div 
-      class="hero-section" 
-      [style.backgroundImage]="'url(' + product.coverUrl + ')'" 
-      role="banner"
-      [attr.aria-label]="'Imagem de fundo do produto ' + product.name">
+@if (product.coverUrl) {
+<div class="hero-section" [style.backgroundImage]="'url(' + product.coverUrl + ')'" role="banner"
+    [attr.aria-label]="'Imagem de fundo do produto ' + product.name">
 
-      <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
 
-      <div class="hero-content-wrapper">
+    <div class="hero-content-wrapper">
         <div class="uk-container">
-          <div class="hero-text animate-fade-in-up">
-            <div class="product-badge">
-              <span class="badge-category">{{ product.productCategory }}</span>
-              @if (product.productSector) {
-                <span class="badge-category">{{ product.productSector | titlecase }}</span>
-              }
+            <div class="hero-text animate-fade-in-up">
+                <div class="product-badge">
+                    <span class="badge-category">{{ product.productCategory }}</span>
+                    @if (product.productSector) {
+                    <span class="badge-category">{{ product.productSector | titlecase }}</span>
+                    }
+                </div>
+                <h1 id="title" class="hero-title">{{ product.name }}</h1>
             </div>
-            <h1 id="title" class="hero-title">{{ product.name }}</h1>
-          </div>
         </div>
-      </div>
     </div>
-  }
+</div>
+}
 }
 
 <div class="product-detail-container">
-  @if (isLoading) {
+    @if (isLoading) {
     <div class="loading-state" role="status">
-      <div class="loading-spinner-container">
-        <div class="loading-spinner"></div>
-      </div>
-      <p class="loading-text">Loading product details...</p>
-    </div>
-  } @else if (errorMessage) {
-    <div class="error-state" role="alert">
-      <div class="uk-container">
-        <div class="error-card">
-          <div class="error-icon">⚠️</div>
-          <h2>Oops! Something went wrong.</h2>
-          <p>{{ errorMessage }}</p>
-          <button class="btn-primary" (click)="loadProduct()">
-            <span class="btn-icon">🔄</span>
-            Try again.
-          </button>
+        <div class="loading-spinner-container">
+            <div class="loading-spinner"></div>
         </div>
-      </div>
+        <p class="loading-text">Loading product details...</p>
     </div>
-  } @else if (product) {
+    } @else if (errorMessage) {
+    <div class="error-state" role="alert">
+        <div class="uk-container">
+            <div class="error-card">
+                <div class="error-icon">⚠️</div>
+                <h2>Oops! Something went wrong.</h2>
+                <p>{{ errorMessage }}</p>
+                <button class="btn-primary" (click)="loadProduct()">
+                    <span class="btn-icon">🔄</span>
+                    Try again.
+                </button>
+            </div>
+        </div>
+    </div>
+    } @else if (product) {
     <div class="uk-container">
-      <div class="content-grid">
-        <!-- MAIN CONTENT -->
-        <main class="main-content">
-          <article class="product-article">
+        <div class="content-grid">
+            <!-- MAIN CONTENT -->
+            <main class="main-content">
+                <article class="product-article">
 
-            <!-- DESCRIPTION SECTION -->
-            @if (product.description) {
-              <div class="description-section fade-in-up">
-                <div class="section-header">
-                  <h2 class="section-title">Service Description</h2>
-                </div>
-                <div class="description-content">
-                  <p class="description-text">{{ product.description }}</p>
-                </div>
-              </div>
-            }
-
-            @if (product.featuredImageUrl) {
-              <div class="uk-margin-medium-bottom" style=" display: flex; justify-content: center; align-items: center;">
-                <img style="border-radius: 10px;"
-                  [src]="product.featuredImageUrl" 
-                  alt="Featured Product Image" 
-                  role="banner"
-                  [attr.aria-label]="'Featured Product Image ' + product.name">
-              </div>
-            }
-
-            <!-- BIG NUMBERS / METRICS SECTION -->
-            @if (product.metrics && product.metrics.length > 0) {
-              <div class="big-numbers-section uk-margin-medium-top">
-                <div class="section-header">
-                  <h2 class="section-title"></h2>
-                </div>
-                <div class="big-numbers-grid">
-                  @for (metric of product.metrics; track $index) {
-                    <div 
-                      class="big-number-card" 
-                      [attr.data-tooltip]="'Valor de ' + metric.title"
-                      (mouseenter)="showTooltip($event, 'Métrica de ' + metric.title + ': ' + formatBigNumber(metric.value, metric.title))"
-                      (mouseleave)="hideTooltip()">
-                      <div class="big-number-value">
-                        {{ formatBigNumber(metric.value, metric.title) }}
-                      </div>
-                      <div class="big-number-title">
-                        {{ metric.title }}
-                      </div>
+                    @if (product.featuredImageUrl) {
+                    <div class="uk-margin-medium-bottom"
+                        style=" display: flex; justify-content: center; align-items: center;">
+                        <img style="border-radius: 10px; max-height: 300px; width: 100%; object-fit: cover;"
+                            [src]="product.featuredImageUrl" alt="Featured Product Image" role="banner"
+                            [attr.aria-label]="'Featured Product Image ' + product.name">
                     </div>
-                  }
-                </div>
-              </div>
-            }
-
-            <!-- FEATURES SECTION -->
-            @if (product.features && product.features.length > 0) {
-              <div class="features-section fade-in-up">
-                <div class="section-header">
-                  <h2 class="section-title"></h2>
-                </div>
-                <div class="features-grid features-grid-2cols">
-                  @for (feature of product.features; track feature) {
-                    <div class="feature-card">
-                      <div class="feature-icon">✓</div>
-                      <div class="feature-content">
-                        <span class="features-text">{{ feature }}</span>
-                      </div>
-                    </div>
-                  }
-                </div>
-              </div>
-            }
-
-            <!-- CTA SECTION -->
-            @if (product.ctaText && product.ctaUrl) {
-              <div class="cta-section fade-in-up">
-                <div class="cta-card">
-                  <div class="cta-content">
-                    <h3 class="cta-q">Ready to take your business to the next level?</h3>
-                    <p class="cta-q">Get started with {{ product.name }}</p>
-                  </div>
-                  <div class="cta-buttons">
-                    <a class="btn-primary btn-large" routerLink="/contact">
-                      {{ product.ctaText }}
-                      <span class="btn-arrow">→</span>
-                    </a>
-
-                  
-                      
-                    @if (product.productGuideUrl) {
-                      <a 
-                        class="btn-secondary btn-large" 
-                        [href]="product.productGuideUrl" 
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        Download Product Guide
-                      </a>
                     }
-                  </div>
-                </div>
-              </div>
-            }
-          </article>
-        </main>
 
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-          <!-- RELATED PRODUCTS -->
-          @if (relatedProducts.length > 0) {
-            <div class="sidebar-card">
-              <div class="sidebar-card-header">
-                <h3 class="sidebar-title">Related Products</h3>
-              </div>
-              <div class="related-products-list">
-                @for (relatedProduct of relatedProducts; track trackByProductId($index, relatedProduct)) {
-                  <div 
-                    class="related-product-item" 
-                    (click)="navigateToProduct(relatedProduct.id)" 
-                    role="button" 
-                    tabindex="0"
-                    [attr.aria-label]="'Ver detalhes de ' + relatedProduct.name"
-                    (keydown.enter)="navigateToProduct(relatedProduct.id)">
-                    <div class="related-product-details">
-                      <h4 class="related-product-title">{{ relatedProduct.name }}</h4>
-                      <div class="related-product-link">
-                        Learn More
-                        <span class="link-arrow">→</span>
-                      </div>
+
+                    <!-- DESCRIPTION SECTION -->
+                    @if (product.description) {
+                    <div class="description-section fade-in-up">
+                        <div class="section-header">
+                            <h2 class="section-title">Service Description</h2>
+                        </div>
+                        <div class="description-content">
+                            <p class="description-text">{{ product.description }}</p>
+
+                        </div>
+
+
+                        <div class="section-header">
+                            <h2 class="section-title">The Challenges</h2>
+                        </div>
+                        <div class="description-content">
+
+                            <p class="description-text">{{ product.challenges }}</p>
+                        </div>
+                        <div class="section-header">
+                            <h2 class="section-title">The Solution</h2>
+                        </div>
+                        @if (product.featuredImageUrl2) {
+                        <div class="uk-margin-medium-bottom"
+                            style=" display: flex; justify-content: center; align-items: center;">
+                            <img style="border-radius: 10px;  width: 100%; object-fit: contain;"
+                                [src]="product.featuredImageUrl2" alt="Featured Product Image" role="banner"
+                                [attr.aria-label]="'Featured Product Image ' + product.name">
+                        </div>
+                        }
+
+
+                        <div class="description-content">
+
+                            <p class="description-text">{{ product.solution }}</p>
+                        </div>
+
                     </div>
-                  </div>
-                }
-              </div>
-            </div>
-          }
+                    }
 
-          <!-- CONTACT CARD -->
-          <div class="sidebar-card contact-card">
-            <div class="contact-icon"></div>
-            <h4 class="contact-title"><b>Do you need Help?</b></h4>
-            <p class="contact-text uk-margin-small-top">
-              Talk to our Business Solution Architects. And find out how we can help you and your business.
-            </p>
-            <div class="contact-options uk-margin-small-top">
-              <a class="btn-primary" href="tel:+270100055865">Call Us</a>
-              <a class="btn-primary" href="mailto:sales.sa@telcables.co.za">Mail Us</a>
-            </div>
-          </div>
-        </aside>
-      </div>
+
+                    <!-- BIG NUMBERS / METRICS SECTION -->
+                    @if (product.metrics && product.metrics.length > 0) {
+                    <div class="big-numbers-section uk-margin-medium-top">
+                        <div class="section-header">
+                            <h2 class="section-title"></h2>
+                        </div>
+                        <div class="big-numbers-grid">
+                            @for (metric of product.metrics; track $index) {
+                            <div class="big-number-card" [attr.data-tooltip]="'Valor de ' + metric.title"
+                                (mouseenter)="showTooltip($event, 'Métrica de ' + metric.title + ': ' + formatBigNumber(metric.value, metric.title))"
+                                (mouseleave)="hideTooltip()">
+                                <div class="big-number-value">
+                                    {{ formatBigNumber(metric.value, metric.title) }}
+                                </div>
+                                <div class="big-number-title">
+                                    {{ metric.title }}
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    }
+
+                    <!-- FEATURES SECTION -->
+                    @if (product.features && product.features.length > 0) {
+                    <div class="features-section fade-in-up">
+                        <div class="section-header">
+                            <h2 class="section-title"></h2>
+                        </div>
+                        <div class="features-grid features-grid-2cols">
+                            @for (feature of product.features; track feature) {
+                            <div class="feature-card">
+                                <div class="feature-icon">✓</div>
+                                <div class="feature-content">
+                                    <span class="features-text">{{ feature }}</span>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    }
+
+                    <!-- CTA SECTION -->
+                    @if (product.ctaText && product.ctaUrl) {
+                    <div class="cta-section fade-in-up">
+                        <div class="cta-card">
+                            <div class="cta-content">
+                                <h3 class="cta-q">Ready to take your business to the next level?</h3>
+                                <p class="cta-q">Get started with <span style="font-weight:700"> {{ product.name }}</span></p>
+                            </div>
+                            <div class="cta-buttons">
+                                <a class="btn-primary btn-large" routerLink="/contact">
+                                    {{ product.ctaText }}
+                                    <span class="btn-arrow">→</span>
+                                </a>
+
+
+
+                            
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </article>
+            </main>
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <!-- RELATED PRODUCTS -->
+                @if (relatedProducts.length > 0) {
+                <div class="sidebar-card">
+                    <div class="sidebar-card-header">
+                        <h3 class="sidebar-title">Related Products</h3>
+                    </div>
+                    <div class="related-products-list">
+                        @for (relatedProduct of relatedProducts; track trackByProductId($index, relatedProduct)) {
+                        <div class="related-product-item" (click)="navigateToProduct(relatedProduct.id)" role="button"
+                            tabindex="0" [attr.aria-label]="'Ver detalhes de ' + relatedProduct.name"
+                            (keydown.enter)="navigateToProduct(relatedProduct.id)">
+                            <div class="related-product-details">
+                                <h4 class="related-product-title">{{ relatedProduct.name }}</h4>
+                                <div class="related-product-link">
+                                    Learn More
+                                    <span class="link-arrow">→</span>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+
+                <!-- CONTACT CARD -->
+                <div class="sidebar-card contact-card">
+                    <div class="contact-icon"></div>
+                    <h4 class="contact-title"><b>Do you need Help?</b></h4>
+                    <p class="contact-text uk-margin-small-top">
+                        Talk to our Business Solution Architects. And find out how we can help you and your business.
+                    </p>
+                    <div class="contact-options uk-margin-small-top">
+                        <a class="btn-primary" href="tel:+270100055865">Call Us</a>
+                        <a class="btn-primary" href="mailto:sales.sa@telcables.co.za">Mail Us</a>
+                    </div>
+                </div>
+            </aside>
+        </div>
     </div>
-  }
+    }
 </div>
 
 <app-rodape></app-rodape>
 
 @if (tooltipText) {
-  <div class="floating-tooltip" [style.top]="tooltipY + 'px'" [style.left]="tooltipX + 'px'">
+<div class="floating-tooltip" [style.top]="tooltipY + 'px'" [style.left]="tooltipX + 'px'">
     {{ tooltipText }}
-  </div>
+</div>
 }

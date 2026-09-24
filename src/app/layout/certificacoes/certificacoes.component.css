@@ -1,23 +1,39 @@
-.fundo-selos .uk-grid > * {
-    padding-left: 0 !important; /* Remove left padding */
-    padding-right: 0 !important; /* Remove right padding */
+.fundo-selos .uk-grid>* {
+    padding-left: 0 !important;
+    /* Remove left padding */
+    padding-right: 0 !important;
+    /* Remove right padding */
 }
 
 .fundo-selos img {
-    margin: 0 !important; /* Remove any default margin on images */
+    margin: 0 !important;
+    /* Remove any default margin on images */
     background-color: #fff;
     border-radius: 20px;
 }
 
 
-    .tagline-certificacao {
-        font-size: 1rem;
-        color: #022561; font-size: 2rem;
-    }
+.tagline-certificacao {
+    font-size: 1.5rem;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1 ;
+}
 
-@media (max-width: 480px)  {
+@media (max-width: 480px) {
     .tagline-certificacao {
         font-size: 2rem;
-        color: #022561; font-size: 1rem;
+        color: #fff;
+        font-size: 1rem;
     }
+}
+
+
+.uk-card.uk-card-default.uk-card-body {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 30px;
+    background-image: url('https://marketing.host2africa.com/drive/tceu/caida-tceu-acsa.png');
 }
