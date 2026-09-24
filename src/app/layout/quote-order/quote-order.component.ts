@@ -1,12 +1,11 @@
-import { AfterViewInit, Component, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Required for form binding
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import emailjs from '@emailjs/browser';
+
 declare const UIkit: any; // Access UIkit globally
-
-
 
 export type ServiceType = 
   | 'ip-transit' 
@@ -38,17 +37,17 @@ export interface ServiceDetail {
 
 @Component({
   selector: 'app-quote-order',
+  standalone: true,
   imports: [
-
-  CommonModule,
-    FormsModule, // Added FormsModule here
+    CommonModule,
+    FormsModule,
     TranslatePipe
   ],
   templateUrl: './quote-order.component.html',
   styleUrl: './quote-order.component.css'
 })
-
-export class QuoteOrderComponent  implements OnInit, AfterViewInit{ selectedImage: string | null = null;
+export class QuoteOrderComponent implements OnInit, AfterViewInit {
+  selectedImage: string | null = null;
   selectedImageDesc: string | null = null;
 
   // Selected service state
@@ -69,7 +68,7 @@ export class QuoteOrderComponent  implements OnInit, AfterViewInit{ selectedImag
   submitSuccess: boolean = false;
   submitError: string | null = null;
 
-  // EmailJS Configuration Keys (Replace with your actual keys)
+  // EmailJS Configuration Keys
   private readonly EMAILJS_SERVICE_ID = 'service_yhmv9kn';
   private readonly EMAILJS_TEMPLATE_ID = 'template_p1696fw';
   private readonly EMAILJS_PUBLIC_KEY = 's3ApW9433DP5gZtVb';
@@ -177,18 +176,29 @@ export class QuoteOrderComponent  implements OnInit, AfterViewInit{ selectedImag
     }
   };
 
-  constructor(private translate: TranslateService) {}
-
-  ngOnInit(): void {
-  
+  constructor(private translate: TranslateService) {
+    console.log('[QuoteOrderComponent] Instance created.');
   }
 
-  selectService(service: ServiceType) {
+  ngOnInit(): void {
+    console.log('[QuoteOrderComponent] Initialized.');
+  }
+
+  selectService(service: ServiceType): void {
+    const previousService = this.selectedService;
     this.selectedService = this.selectedService === service ? null : service;
+    
+    console.log('[QuoteOrderComponent] Service selection changed:', {
+      previous: previousService,
+      current: this.selectedService,
+      serviceDetails: this.selectedService ? this.serviceDetailsMap[this.selectedService] : null
+    });
   }
 
   learnMore(service: ServiceType, event: Event): void {
     event.stopPropagation();
+    console.log(`[QuoteOrderComponent] 'Learn More' triggered for service:`, service);
+
     this.selectedServiceDetail = this.serviceDetailsMap[service] || {
       title: service,
       description: 'Detailed information for this service will be available shortly.',
@@ -196,16 +206,21 @@ export class QuoteOrderComponent  implements OnInit, AfterViewInit{ selectedImag
     };
 
     if (typeof UIkit !== 'undefined') {
+      console.log('[QuoteOrderComponent] Displaying UIkit modal #modal-learn-more.');
       UIkit.modal('#modal-learn-more').show();
+    } else {
+      console.warn('[QuoteOrderComponent] UIkit is undefined. Unable to open modal #modal-learn-more.');
     }
   }
 
-  onSelectImage(image: string, desc?: string) {
+  onSelectImage(image: string, desc?: string): void {
+    console.log('[QuoteOrderComponent] Image selected:', { image, desc });
     this.selectedImage = image;
     this.selectedImageDesc = desc || null;
   }
 
   useLanguage(language: string): void {
+    console.log(`[QuoteOrderComponent] Changing language to: ${language}`);
     this.translate.use(language);
   }
 
@@ -213,8 +228,11 @@ export class QuoteOrderComponent  implements OnInit, AfterViewInit{ selectedImag
    * Sends configuration and user form details using EmailJS
    */
   async sendConfiguration(): Promise<void> {
+    console.log('[QuoteOrderComponent] Form submission initiated.', { formData: { ...this.formData } });
+
     if (!this.formData.user_name || !this.formData.user_email) {
       this.submitError = 'Please provide both your name and email address.';
+      console.warn('[QuoteOrderComponent] Form validation failed: Missing user_name or user_email.', this.formData);
       return;
     }
 
@@ -236,25 +254,38 @@ export class QuoteOrderComponent  implements OnInit, AfterViewInit{ selectedImag
       message: this.formData.message || 'No additional message provided.',
     };
 
+    console.log('[QuoteOrderComponent] Dispatching payload to EmailJS:', {
+      serviceId: this.EMAILJS_SERVICE_ID,
+      templateId: this.EMAILJS_TEMPLATE_ID,
+      publicKey: this.EMAILJS_PUBLIC_KEY,
+      templateParams
+    });
+
     try {
-      await emailjs.send(
+      const response = await emailjs.send(
         this.EMAILJS_SERVICE_ID,
         this.EMAILJS_TEMPLATE_ID,
         templateParams,
         this.EMAILJS_PUBLIC_KEY
       );
 
+      console.log('[QuoteOrderComponent] EmailJS response received successfully:', response);
       this.submitSuccess = true;
       this.resetForm();
     } catch (error: any) {
-      console.error('EmailJS Error:', error);
+      console.error('[QuoteOrderComponent] EmailJS execution error:', error);
       this.submitError = 'Failed to send message. Please try again later.';
     } finally {
       this.isSubmitting = false;
+      console.log('[QuoteOrderComponent] Form submission process finalized.', {
+        success: this.submitSuccess,
+        error: this.submitError
+      });
     }
   }
 
   private resetForm(): void {
+    console.log('[QuoteOrderComponent] Resetting form data.');
     this.formData = {
       user_name: '',
       user_email: '',
@@ -265,11 +296,27 @@ export class QuoteOrderComponent  implements OnInit, AfterViewInit{ selectedImag
   }
 
   ngAfterViewInit(): void {
-    const modal = UIkit.modal('#modal-video');
+    console.log('[QuoteOrderComponent] ngAfterViewInit lifecycle executed.');
+
+    if (typeof UIkit === 'undefined') {
+      console.warn('[QuoteOrderComponent] UIkit is undefined during ngAfterViewInit.');
+      return;
+    }
+
+    const modalElement = document.getElementById('modal-video');
     const video: HTMLVideoElement | null = document.getElementById('promoVideo') as HTMLVideoElement;
 
-    if (modal && video) {
-      document.getElementById('modal-video')?.addEventListener('hidden', () => {
+    if (!modalElement) {
+      console.warn('[QuoteOrderComponent] Modal element `#modal-video` not found in DOM.');
+    }
+    if (!video) {
+      console.warn('[QuoteOrderComponent] Video element `#promoVideo` not found in DOM.');
+    }
+
+    if (modalElement && video) {
+      console.log('[QuoteOrderComponent] Attaching UIkit hidden listener to `#modal-video`.');
+      modalElement.addEventListener('hidden', () => {
+        console.log('[QuoteOrderComponent] Modal hidden event triggered. Pausing and resetting video.');
         video.pause();
         video.currentTime = 0;
       });

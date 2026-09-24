@@ -1,4 +1,5 @@
 name: 🚀 Secure Angular Deploy with Firebase v2 (Optimized)
+
 on:
   push:
     branches:
@@ -7,6 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: 🛠️ Checkout Repository
         uses: actions/checkout@v4
@@ -34,6 +36,9 @@ jobs:
           };
           EOF
 
+          # Verify file structure without exposing secret values
+          grep "production:" src/environments/environment.prod.ts
+
       - name: 📌 Install Dependencies
         run: npm ci
 
@@ -42,25 +47,37 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
 
-      - name: 🚀 Parallel WebDAV Deploy via lftp
+      - name: 🐛 Verify Build Output
+        run: |
+          echo "Build directory contents:"
+          ls -la dist/tceu/browser
+          echo "Checking for Firebase config in main bundle:"
+          grep -o "apiKey" dist/tceu/browser/main*.js || echo "No API key found in build"
+
+      - name: 🚀 Parallel Delta Deploy via WebDAV (lftp)
         env:
           WEBDISK_USERNAME: ${{ secrets.WEBDISK_USERNAME }}
           WEBDISK_PASSWORD: ${{ secrets.WEBDISK_PASSWORD }}
         run: |
-          # Install lftp (fast multi-threaded sync tool)
-          sudo apt-get install -y lftp
+          # Install lftp for multi-threaded differential deployment
+          sudo apt-get update && sudo apt-get install -y lftp
 
           BUILD_DIR="dist/tceu/browser"
           WEBDISK_HOST="telcables.pt"
           WEBDISK_PORT="2078"
 
-          # Upload files concurrently (8 threads) while excluding protected directories
           lftp -c "
             set ssl:verify-certificate false;
+            set ftp:use-chmod false;
+
             open -u $WEBDISK_USERNAME,$WEBDISK_PASSWORD https://$WEBDISK_HOST:$WEBDISK_PORT;
+
             mirror --reverse \
                    --parallel=8 \
                    --verbose \
+                   --only-newer \
+                   --no-perms \
+                   --no-umask \
                    --exclude-glob cgi-bin/ \
                    --exclude-glob .well-known/ \
                    --exclude-glob .tmb/ \
@@ -75,4 +92,6 @@ jobs:
                    --exclude-glob routes-table/ \
                    $BUILD_DIR /;
           "
+
           echo "🎉 Deployment completed successfully!"
+          echo "🌐 Live at: https://telcables.pt"
