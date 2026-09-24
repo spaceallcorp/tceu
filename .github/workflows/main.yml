@@ -1,4 +1,4 @@
-name: 🚀 Secure Angular Deploy with Firebase
+name: 🚀 Secure Angular Deploy with Firebasev.2
 on:
   push:
     branches:
