@@ -68,7 +68,6 @@ jobs:
 
           lftp -c "
             set ssl:verify-certificate false;
-            set ftp:use-chmod false;
 
             open -u $WEBDISK_USERNAME,$WEBDISK_PASSWORD https://$WEBDISK_HOST:$WEBDISK_PORT;
 
