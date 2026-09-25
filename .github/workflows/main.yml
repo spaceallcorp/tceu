@@ -66,44 +66,41 @@ jobs:
           fi
           echo "✅ Build output looks valid."
 
-      - name: 🚀 Parallel Delta Deploy via WebDAV (lftp)
+      - name: 🚀 Deploy via rclone (WebDAV)
         env:
           WEBDISK_USERNAME: ${{ secrets.WEBDISK_USERNAME }}
           WEBDISK_PASSWORD: ${{ secrets.WEBDISK_PASSWORD }}
         run: |
-          # Install lftp for multi-threaded differential deployment
-          sudo apt-get update && sudo apt-get install -y lftp
+          # Install rclone
+          sudo apt-get update && sudo apt-get install -y rclone
 
-          BUILD_DIR="dist/tceu/browser"
-          WEBDISK_HOST="telcables.pt"
-          WEBDISK_PORT="2078"
+          # Configure rclone for WebDAV
+          rclone config create mywebdav webdav \
+            url "https://telcables.pt:2078" \
+            vendor other \
+            user "$WEBDISK_USERNAME" \
+            pass "$(rclone obscure "$WEBDISK_PASSWORD")" \
+            --non-interactive
 
-          lftp -c "
-            set ssl:verify-certificate false;
-            set mirror:parallel-transfer-count 8;
-
-            open -u $WEBDISK_USERNAME,$WEBDISK_PASSWORD https://$WEBDISK_HOST:$WEBDISK_PORT;
-
-            mirror --reverse \
-                   --delete \
-                   --parallel=8 \
-                   --verbose \
-                   --no-perms \
-                   --no-umask \
-                   --exclude-glob cgi-bin/ \
-                   --exclude-glob .well-known/ \
-                   --exclude-glob .tmb/ \
-                   --exclude-glob partners.angolacables.co.ao/ \
-                   --exclude-glob old_angolacables.co.ao/ \
-                   --exclude-glob angular.angolacables.co.ao/ \
-                   --exclude-glob old2_angolacables.co.ao/ \
-                   --exclude-glob site_update/ \
-                   --exclude-glob .user.ini \
-                   --exclude-glob .htaccess_bak \
-                   --exclude-glob old_angolacables.co.ao.zip \
-                   --exclude-glob routes-table/ \
-                   $BUILD_DIR /;
-          "
+          # Sync the build directory to the remote
+          # Excludes protect server-side files from deletion
+          rclone sync dist/tceu/browser mywebdav:/ \
+            --verbose \
+            --exclude "cgi-bin/**" \
+            --exclude ".well-known/**" \
+            --exclude ".tmb/**" \
+            --exclude "partners.angolacables.co.ao/**" \
+            --exclude "old_angolacables.co.ao/**" \
+            --exclude "angular.angolacables.co.ao/**" \
+            --exclude "old2_angolacables.co.ao/**" \
+            --exclude "site_update/**" \
+            --exclude ".user.ini" \
+            --exclude ".htaccess_bak" \
+            --exclude "old_angolacables.co.ao.zip" \
+            --exclude "routes-table/**" \
+            --exclude "php.ini" \
+            --exclude "tinymce/**" \
+            --exclude "wp-check-j01038.php"
 
           echo "🎉 Deployment completed successfully!"
           echo "🌐 Live at: https://telcables.pt"
