@@ -42,6 +42,9 @@ jobs:
       - name: 📌 Install Dependencies
         run: npm ci
 
+      - name: 🧹 Clean Previous Build
+        run: rm -rf dist/
+
       - name: 🏗️ Build Angular App
         run: npm run build -- --configuration production
         env:
@@ -53,6 +56,15 @@ jobs:
           ls -la dist/tceu/browser
           echo "Checking for Firebase config in main bundle:"
           grep -o "apiKey" dist/tceu/browser/main*.js || echo "No API key found in build"
+
+      - name: 🛡️ Sanity-check Build Output
+        run: |
+          BUILD_DIR="dist/tceu/browser"
+          if [ ! -f "$BUILD_DIR/index.html" ]; then
+            echo "❌ index.html missing — aborting deploy to avoid wiping server."
+            exit 1
+          fi
+          echo "✅ Build output looks valid."
 
       - name: 🚀 Parallel Delta Deploy via WebDAV (lftp)
         env:
@@ -68,13 +80,14 @@ jobs:
 
           lftp -c "
             set ssl:verify-certificate false;
+            set mirror:parallel-transfer-count 8;
 
             open -u $WEBDISK_USERNAME,$WEBDISK_PASSWORD https://$WEBDISK_HOST:$WEBDISK_PORT;
 
             mirror --reverse \
+                   --delete \
                    --parallel=8 \
                    --verbose \
-                   --only-newer \
                    --no-perms \
                    --no-umask \
                    --exclude-glob cgi-bin/ \
