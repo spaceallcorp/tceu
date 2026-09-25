@@ -170,7 +170,9 @@
     border-radius: 40px;
 }
 
-
+.js-config-panel {
+  scroll-margin-top: 100px; /* adjust to your header height */
+}
 
 
 /* ==== Success Modal ==== */

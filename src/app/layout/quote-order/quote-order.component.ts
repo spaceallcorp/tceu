@@ -106,11 +106,15 @@ export class QuoteOrderComponent implements OnInit, AfterViewInit {
     'professional-services': { title: 'Professional Services', description: 'Consulting, architectural design, and migration management for network and cloud.', features: ['Network design', 'Cloud migration support', 'Performance auditing', 'Dedicated project managers'] }
   };
 
-  constructor(private translate: TranslateService) {}
+  constructor(private translate: TranslateService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   selectService(service: ServiceType): void {
+
+    const wasAlreadySelected = this.selectedService === service;
+
+
     this.selectedService = this.selectedService === service ? null : service;
     this.submitSuccess = false;
     this.submitError = null;
@@ -133,6 +137,12 @@ export class QuoteOrderComponent implements OnInit, AfterViewInit {
       case 'bare-metal': this.configData.dcRedundancy = 'Single Node + Hardware Replacement SLA'; break;
       case 'cloud-connect': this.configData.dcRedundancy = 'Single Fiber Port Direct Link'; break;
       case 'dr-storage': this.configData.dcRedundancy = 'Daily Async Backup Snapshot'; break;
+    }
+
+    // Auto-scroll the config panel into view on selection
+    if (!wasAlreadySelected) {
+      this.scrollConfigPanelIntoView();
+
     }
   }
 
@@ -184,6 +194,17 @@ export class QuoteOrderComponent implements OnInit, AfterViewInit {
     return 'N/A';
   }
 
+  private scrollConfigPanelIntoView(): void {
+  // Wait one tick for *ngIf to render the panel, then scroll.
+  // requestAnimationFrame fires after Angular's render + browser paint,
+  // so the element is guaranteed to exist and have a layout box.
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const panel = document.querySelector('.js-config-panel');
+      panel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+  }
   /**
    * Pick the correct capacity/sizing value for the selected service.
    */
