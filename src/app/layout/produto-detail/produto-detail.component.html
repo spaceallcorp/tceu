@@ -76,24 +76,6 @@
                         </div>
 
 
-                        <div class="section-header">
-                            <h2 class="section-title">The Challenges</h2>
-                        </div>
-                        <div class="description-content">
-
-                            <p class="description-text">{{ product.challenges }}</p>
-                        </div>
-                        <div class="section-header">
-                            <h2 class="section-title">The Solution</h2>
-                        </div>
-                        @if (product.featuredImageUrl2) {
-                        <div class="uk-margin-medium-bottom"
-                            style=" display: flex; justify-content: center; align-items: center;">
-                            <img style="border-radius: 10px;  width: 100%; object-fit: contain;"
-                                [src]="product.featuredImageUrl2" alt="Featured Product Image" role="banner"
-                                [attr.aria-label]="'Featured Product Image ' + product.name">
-                        </div>
-                        }
 
 
                         <div class="description-content">
@@ -153,7 +135,8 @@
                         <div class="cta-card">
                             <div class="cta-content">
                                 <h3 class="cta-q">Ready to take your business to the next level?</h3>
-                                <p class="cta-q">Get started with <span style="font-weight:700"> {{ product.name }}</span></p>
+                                <p class="cta-q">Get started with <span style="font-weight:700"> {{ product.name
+                                        }}</span></p>
                             </div>
                             <div class="cta-buttons">
                                 <a class="btn-primary btn-large" routerLink="/contact">
@@ -163,7 +146,7 @@
 
 
 
-                            
+
                             </div>
                         </div>
                     </div>
