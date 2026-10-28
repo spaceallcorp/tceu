@@ -13,11 +13,14 @@ export class RodapeComponent {
 
   year: number = new Date().getFullYear();
 
-      useLanguage(language: string): void {
-          this.translate.use(language);
-      }
-      
-      constructor(private translate: TranslateService) {}
-      
+  useLanguage(language: string): void {
+    this.translate.use(language);
+  }
+
+  constructor(private translate: TranslateService) {}
+
+  openCookieSettings(): void {
+    window.dispatchEvent(new CustomEvent('open-cookie-settings'));
+  }
 
 }

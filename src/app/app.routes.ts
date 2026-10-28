@@ -35,8 +35,26 @@ export const routes: Routes = [
   { path: 'service-contact', component: ServiceFormComponent },
 
 
-  { path: 'privacypolicy', component: PrivacypolicyComponent },
-  { path: 'termsandconditions', component: TermsandconditionsComponent },
+  {
+    path: 'privacypolicy',
+    component: PrivacypolicyComponent,
+    title: 'Privacy Policy | TelCables Europe'
+  },
+  {
+    path: 'privacy-policy',
+    component: PrivacypolicyComponent,
+    title: 'Privacy Policy | TelCables Europe'
+  },
+  {
+    path: 'privacy-policies',
+    component: PrivacypolicyComponent,
+    title: 'Privacy Policy | TelCables Europe'
+  },
+  {
+    path: 'termsandconditions',
+    component: TermsandconditionsComponent,
+    title: 'Terms and Conditions | TelCables Europe'
+  },
 
   {
     path: 'solution',
@@ -52,6 +70,7 @@ export const routes: Routes = [
       import('./paginas/cookies-policy/cookies-policy.component').then(
         (m) => m.CookiesPolicyComponent,
       ),
+    title: 'Cookie Policy | TelCables Europe'
   },
 // Produtos (rota com parâmetro)
   {

@@ -63,9 +63,10 @@
 
                 <ul class="footer-links">
                     <li class="uk-margin-small-top"><b>Terms and Conditions</b></li>
-                    <li><a>> Privacy Policy</a> </li>
+                    <li><a routerLink="/privacypolicy">> Privacy Policy</a> </li>
                     <li><a routerLink="/cookies-policy">> Cookies Policy</a> </li>
-                    <li><a>> Terms and Conditions</a> </li>
+                    <li><a (click)="openCookieSettings()" style="cursor: pointer;">> Cookie Preferences</a> </li>
+                    <li><a routerLink="/termsandconditions">> Terms and Conditions</a> </li>
 
 
 

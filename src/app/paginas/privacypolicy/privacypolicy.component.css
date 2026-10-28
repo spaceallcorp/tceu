@@ -1,59 +1,578 @@
+/* =========================================================
+   HERO HEADER
+========================================================= */
 .fundo-cabecalho {
-    background-image: url('/img/privacy-public-hero.png');
-    position: relative;
-    min-height: 400px;
-    /* Adjust based on design */
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-color: #000;
-    position: relative;
-    min-height: 400px;
-    /* Adjust based on design */
-    margin-top: 67px;
-
-}
-
-
-h1, h2 {
-      color: #004080;
-    }
-    h1 {
-      border-bottom: 2px solid #004080;
-      padding-bottom: 10px;
-    }
-    h2 {
-      margin-top: 30px;
-    }
-    p, li {
-      margin-bottom: 10px;
-    }
-    ul {
-      margin-left: 20px;
-    }
-    a {
-      color: #004080;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .section {
-      margin-bottom: 30px;
-    }
-
-
-    .logo-cabecalho-pagina {
-    height: 40px;
-    width: auto;
+  background-image: url('/img/privacy-public-hero.png'), url('/img/produtos/seguranca-banner.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: #03121f;
+  position: relative;
+  min-height: 380px;
+  margin-top: 67px;
+  overflow: hidden;
 }
 
 .conteudo-cabecalho {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 78, 0.918), rgba(0, 0, 78, 0.918), rgba(0, 0, 255, 0));
-    /* Blue to transparent */
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  background: linear-gradient(to top, rgba(3, 18, 31, 0.96) 0%, rgba(0, 37, 97, 0.85) 55%, rgba(0, 0, 78, 0) 100%);
+  padding-top: 60px;
+}
+
+.hero-badges {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(40, 193, 253, 0.16);
+  color: #28C1FD;
+  border: 1px solid rgba(40, 193, 253, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.hero-company {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+}
+
+.hero-title {
+  color: #27c8e3;
+  font-weight: 800;
+  font-size: clamp(2.1rem, 4.5vw, 3.2rem);
+  margin: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+  line-height: 1.15;
+}
+
+/* =========================================================
+   PAGE LAYOUT & STICKY SIDEBAR
+========================================================= */
+.privacy-page-wrapper {
+  background: linear-gradient(180deg, #f6f9fc 0%, #ffffff 100%);
+  padding: 20px 0 40px;
+}
+
+.privacy-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 36px;
+  align-items: start;
+}
+
+.privacy-sidebar {
+  position: sticky;
+  top: 96px;
+}
+
+.toc-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 37, 97, 0.1);
+  border-radius: 20px;
+  padding: 22px 20px;
+  box-shadow: 0 12px 36px rgba(3, 18, 31, 0.06);
+}
+
+.toc-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 14px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.toc-icon {
+  font-size: 1.2rem;
+}
+
+.toc-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #002561;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toc-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  text-decoration: none !important;
+  color: #3b4b61;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.toc-link:hover {
+  background: #f0f7ff;
+  color: #002561;
+}
+
+.toc-link.active {
+  background: rgba(40, 193, 253, 0.14);
+  color: #002561;
+  font-weight: 700;
+}
+
+.toc-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #eef4fb;
+  color: #0056b3;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.toc-link.active .toc-num {
+  background: #0056b3;
+  color: #ffffff;
+}
+
+.toc-text {
+  line-height: 1.3;
+}
+
+.toc-dpo-box {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #eef2f7;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toc-dpo-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #637388;
+}
+
+.toc-dpo-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0056b3 !important;
+  text-decoration: none !important;
+  padding: 8px 12px;
+  background: #f0f8ff;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 86, 179, 0.15);
+  transition: all 0.2s ease;
+}
+
+.toc-dpo-email:hover {
+  background: #e1f1ff;
+}
+
+.toc-cookie-btn {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 37, 97, 0.15);
+  background: #03121f;
+  color: #28C1FD;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toc-cookie-btn:hover {
+  background: #07223b;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   POLICY SECTIONS & TYPOGRAPHY
+========================================================= */
+.privacy-main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.privacy-section {
+  background: #ffffff;
+  border: 1px solid rgba(0, 37, 97, 0.08);
+  border-radius: 20px;
+  padding: 30px 34px;
+  box-shadow: 0 8px 28px rgba(3, 18, 31, 0.04);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.privacy-section:hover {
+  border-color: rgba(0, 86, 179, 0.22);
+  box-shadow: 0 12px 34px rgba(3, 18, 31, 0.07);
+}
+
+.privacy-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 1.25rem 0;
+  padding-bottom: 0.85rem;
+  border-bottom: 2px solid #eef4fb;
+  font-size: 1.38rem;
+  font-weight: 700;
+  color: #002561;
+}
+
+.section-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0056b3 0%, #002561 100%);
+  color: #ffffff;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.92rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 86, 179, 0.25);
+}
+
+.privacy-section h3 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #003b80;
+}
+
+.privacy-section p {
+  margin-bottom: 1.1rem;
+  line-height: 1.75;
+  color: #2c3e50;
+  font-size: 0.96rem;
+}
+
+.privacy-section p:last-child {
+  margin-bottom: 0;
+}
+
+.privacy-section ul {
+  margin: 0 0 1.1rem 0;
+  padding-left: 1.4rem;
+}
+
+.privacy-section ul li {
+  margin-bottom: 0.6rem;
+  line-height: 1.65;
+  color: #2c3e50;
+  font-size: 0.95rem;
+}
+
+/* Scope Subcards Grid */
+.scope-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.scope-subcard {
+  background: #f8fbff;
+  border: 1px solid #e4eef9;
+  border-radius: 14px;
+  padding: 20px 22px;
+}
+
+.lifecycle-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin-top: 10px !important;
+}
+
+.lifecycle-list li {
+  background: #ffffff;
+  border: 1px solid rgba(0, 86, 179, 0.2);
+  color: #003b80 !important;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem !important;
+  font-weight: 600;
+  margin-bottom: 0 !important;
+}
+
+/* =========================================================
+   CALLOUT BOXES (.note, .highlight, .contact-info)
+========================================================= */
+.note {
+  background-color: #fffbf0;
+  border-left: 4px solid #f59e0b;
+  padding: 1.15rem 1.35rem;
+  margin: 1.25rem 0 0;
+  border-radius: 0 12px 12px 0;
+}
+
+.highlight {
+  background-color: #f0f8ff;
+  border-left: 4px solid #0056b3;
+  padding: 1.15rem 1.35rem;
+  margin: 1.25rem 0 0;
+  border-radius: 0 12px 12px 0;
+}
+
+.contact-info {
+  background: linear-gradient(135deg, #f0fdf4 0%, #e8f5e9 100%);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  padding: 1.5rem;
+  margin: 1rem 0 0;
+  border-radius: 14px;
+}
+
+.note p,
+.highlight p,
+.contact-info p {
+  margin-bottom: 0;
+}
+
+.dpo-card-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.dpo-icon-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.1);
+}
+
+.dpo-text-block {
+  flex: 1;
+}
+
+.dpo-actions {
+  margin-top: 14px;
+}
+
+.dpo-mail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 10px;
+  background: #002561;
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+}
+
+.dpo-mail-btn:hover {
+  background: #004080;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   INTEGRATED COOKIE PREFERENCES BOX (SECTION 10)
+========================================================= */
+.cookie-preferences-box {
+  margin-top: 18px;
+  padding: 20px 24px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #07192f 0%, #041020 100%);
+  border: 1px solid rgba(40, 193, 253, 0.28);
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cookie-preferences-info strong {
+  display: block;
+  font-size: 1rem;
+  color: #28C1FD;
+  margin-bottom: 6px;
+}
+
+.cookie-status-text {
+  margin: 0 !important;
+  font-size: 0.85rem !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.status-pill {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.status-pill.active {
+  background: rgba(40, 193, 253, 0.16);
+  color: #28C1FD;
+  border-color: rgba(40, 193, 253, 0.35);
+}
+
+.cookie-preferences-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-cookie-settings {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #28C1FD 0%, #1AB8DD 100%);
+  color: #03121f;
+  font-weight: 700;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cookie-settings:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(40, 193, 253, 0.35);
+}
+
+.btn-cookie-policy-link {
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(40, 193, 253, 0.4);
+  color: #28C1FD !important;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+}
+
+.btn-cookie-policy-link:hover {
+  background: rgba(40, 193, 253, 0.12);
+  border-color: #28C1FD;
+}
+
+/* =========================================================
+   DOCUMENT SIGNATURE FOOTER
+========================================================= */
+.policy-doc-footer {
+  background: #ffffff;
+  border: 1px solid rgba(0, 37, 97, 0.08);
+  border-radius: 20px;
+  padding: 24px 32px;
+  text-align: center;
+  box-shadow: 0 8px 28px rgba(3, 18, 31, 0.04);
+}
+
+.last-updated {
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #002561;
+  margin: 0 0 6px 0;
+}
+
+.disclaimer-subtext {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #637388;
+}
+
+/* =========================================================
+   RESPONSIVE BREAKPOINTS
+========================================================= */
+@media (max-width: 1024px) {
+  .privacy-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .privacy-sidebar {
+    position: static;
+  }
+
+  .toc-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .scope-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .toc-list {
+    grid-template-columns: 1fr;
+  }
+
+  .privacy-section {
+    padding: 22px 20px;
+  }
+
+  .privacy-section h2 {
+    font-size: 1.2rem;
+  }
+
+  .dpo-card-content {
+    flex-direction: column;
+  }
 }

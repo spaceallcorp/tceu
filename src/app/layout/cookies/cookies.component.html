@@ -1,51 +1,183 @@
 @if (mostrarBanner()) {
-  <div class="cookie-banner-fixo">
+  <aside class="cookie-banner-fixo" role="region" aria-label="Cookie consent banner">
     <div class="banner-content">
-      <p style="font-size: 11px">
-        We respect your privacy. Choose how you would like to proceed with our cookies. Learn how your information may be used by reading our 
-        <a style="color:#fff; font-weight: 600; text-decoration: underline;" routerLink="/cookies-policy">
-          Cookie Policy
-        </a>
-      </p>
+      <div class="banner-info">
+        <div class="banner-icon-wrapper" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
+            <path d="M8.5 8.5v.01" />
+            <path d="M16 15.5v.01" />
+            <path d="M12 12v.01" />
+            <path d="M11 17v.01" />
+            <path d="M7 14v.01" />
+          </svg>
+        </div>
+        <div class="banner-text-group">
+          <h3 class="banner-title">We value your privacy</h3>
+          <p class="banner-description">
+            We use cookies to ensure the proper functioning of our website, analyze traffic, personalize content, and improve your browsing experience. Read our
+            <a class="policy-link" routerLink="/cookies-policy">Cookie Policy</a>
+            and
+            <a class="policy-link" routerLink="/privacypolicy">Privacy Policy</a>.
+          </p>
+        </div>
+      </div>
+
       <div class="banner-actions">
-        <button class="btn btn-primary" (click)="aceitarTudo()">Accept All</button>
-        <button class="btn btn-secondary" (click)="rejeitarTudo()">Reject</button>
-        <button class="btn btn-link" (click)="abrirAjustes()">Settings</button>
+        <button type="button" class="btn btn-ghost" (click)="abrirAjustes()">
+          Customize
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="rejeitarTudo()">
+          Reject Non-Essential
+        </button>
+        <button type="button" class="btn btn-primary" (click)="aceitarTudo()">
+          Accept All
+        </button>
       </div>
     </div>
-  </div>
+  </aside>
+}
+
+@if (!mostrarBanner() && consentimentoSalvo() && !mostrarModalAjustes()) {
+  <button
+    type="button"
+    class="cookie-reopen-trigger"
+    (click)="abrirAjustes()"
+    aria-label="Manage cookie preferences"
+    title="Cookie Preferences">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
+      <path d="M8.5 8.5v.01" />
+      <path d="M16 15.5v.01" />
+      <path d="M12 12v.01" />
+      <path d="M11 17v.01" />
+      <path d="M7 14v.01" />
+    </svg>
+    <span class="reopen-label">Cookies</span>
+  </button>
 }
 
 @if (mostrarModalAjustes()) {
-  <div class="modal-overlay">
-    <div class="modal-card">
-      <h2>Privacy Settings</h2>
-      <p>Manage which cookies you allow us to use.</p>
-      
-      <div class="pref-item">
-        <label>
-          <input type="checkbox" checked disabled> 
-          <strong>Essential</strong> (Required for the website to function)
-        </label>
+  <div class="modal-overlay" (click)="fecharAjustes()" role="presentation">
+    <div
+      class="modal-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cookie-modal-title"
+      aria-describedby="cookie-modal-desc"
+      (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-badge-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 id="cookie-modal-title" class="modal-title">Cookie Preferences</h2>
+            <p id="cookie-modal-desc" class="modal-subtitle">
+              Control how TelCables Europe uses cookies on your device. Read our
+              <a class="policy-link" routerLink="/privacypolicy" (click)="fecharAjustes()">Privacy Policy</a>
+              and
+              <a class="policy-link" routerLink="/cookies-policy" (click)="fecharAjustes()">Cookie Policy</a>.
+            </p>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" (click)="fecharAjustes()" aria-label="Close settings">
+          ✕
+        </button>
       </div>
 
-      <div class="pref-item">
-        <label>
-          <input type="checkbox" [(ngModel)]="prefs.analiticos"> 
-          <strong>Analytics</strong> (To help us understand how you use the website)
-        </label>
-      </div>
+      <div class="modal-body">
+        <!-- Strictly Necessary -->
+        <div class="pref-item pref-item-locked">
+          <div class="pref-header">
+            <div class="pref-info">
+              <div class="pref-title-row">
+                <span class="pref-name">Strictly Necessary</span>
+                <span class="badge-always-active">Always Active</span>
+              </div>
+              <p class="pref-desc">
+                Essential for the core functionality, security, and accessibility of the website. These cannot be disabled.
+              </p>
+            </div>
+            <label class="toggle-switch disabled" aria-label="Strictly Necessary Cookies Always Active">
+              <input type="checkbox" [checked]="true" disabled>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
 
-      <div class="pref-item">
-        <label>
-          <input type="checkbox" [(ngModel)]="prefs.marketing"> 
-          <strong>Marketing</strong> (For personalized ads)
-        </label>
+        <!-- Analytics & Performance -->
+        <div class="pref-item" [class.pref-item-active]="prefs.analiticos">
+          <div class="pref-header">
+            <div class="pref-info">
+              <div class="pref-title-row">
+                <span class="pref-name">Analytics &amp; Performance</span>
+              </div>
+              <p class="pref-desc">
+                Help us understand how visitors interact with our website through anonymous statistics so we can continuously improve performance.
+              </p>
+            </div>
+            <label class="toggle-switch" aria-label="Toggle Analytics and Performance Cookies">
+              <input type="checkbox" [(ngModel)]="prefs.analiticos">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Functional & Personalization -->
+        <div class="pref-item" [class.pref-item-active]="prefs.personalizacao">
+          <div class="pref-header">
+            <div class="pref-info">
+              <div class="pref-title-row">
+                <span class="pref-name">Functional &amp; Personalization</span>
+              </div>
+              <p class="pref-desc">
+                Allow the website to remember your choices (such as language or region) to provide enhanced, personalized features.
+              </p>
+            </div>
+            <label class="toggle-switch" aria-label="Toggle Functional and Personalization Cookies">
+              <input type="checkbox" [(ngModel)]="prefs.personalizacao">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Marketing & Advertising -->
+        <div class="pref-item" [class.pref-item-active]="prefs.marketing">
+          <div class="pref-header">
+            <div class="pref-info">
+              <div class="pref-title-row">
+                <span class="pref-name">Marketing &amp; Advertising</span>
+              </div>
+              <p class="pref-desc">
+                Used to deliver relevant communications and measure the effectiveness of our campaigns across platforms.
+              </p>
+            </div>
+            <label class="toggle-switch" aria-label="Toggle Marketing and Advertising Cookies">
+              <input type="checkbox" [(ngModel)]="prefs.marketing">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="fecharAjustes()">Cancel</button>
-        <button class="btn btn-primary" (click)="salvarPreferencias()">Save Preferences</button>
+        <div class="footer-left">
+          <button type="button" class="btn btn-secondary btn-sm" (click)="rejeitarTudo()">
+            Reject All
+          </button>
+          <button type="button" class="btn btn-ghost btn-sm" (click)="aceitarTudo()">
+            Accept All
+          </button>
+        </div>
+        <div class="footer-right">
+          <button type="button" class="btn btn-primary" (click)="salvarPreferencias()">
+            Save Preferences
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -1,162 +1,281 @@
+<!-- privacypolicy.component.html -->
 <app-menu></app-menu>
+
 <div class="fundo-cabecalho">
-    <div class="gradiente-texto-cabecalho">
-        <div class="conteudo-cabecalho uk-margin-medium-top">
-            <div class="uk-container uk-margin-large-bottom">
-                  <h4 style="color:white; font-size: 1.1rem;">TelCables Europe</h4> 
-                <h1 style="color:rgba(39, 200, 227, 1); margin-top: 20px; font-weight: 800;">{{'privacy.policy' |
-                    translate}}</h1>
-            </div>
+  <div class="gradiente-texto-cabecalho">
+    <div class="conteudo-cabecalho uk-margin-medium-top">
+      <div class="uk-container uk-margin-large-bottom">
+        <div class="hero-badges">
+          <span class="hero-badge">ISO 27001</span>
+          <span class="hero-badge">ISO 27701</span>
+          <span class="hero-badge">GDPR / Data Protection</span>
         </div>
+        <h4 class="hero-company">{{ 'company.name' | translate }}</h4>
+        <h1 class="hero-title">{{ 'privacy.policies.title' | translate }}</h1>
+      </div>
     </div>
+  </div>
 </div>
 
-<div class="uk-container uk-margin-large-top">
+<div class="privacy-page-wrapper">
+  <div class="uk-container uk-margin-large-top uk-margin-large-bottom">
+    <div class="privacy-layout">
 
+      <!-- Sticky Table of Contents Sidebar -->
+      <aside class="privacy-sidebar" aria-label="Table of Contents">
+        <div class="toc-card">
+          <div class="toc-header">
+            <h3 class="toc-title">{{ 'privacy.policies.title' | translate }}</h3>
+          </div>
+          <nav class="toc-nav">
+            <ol class="toc-list">
+              @for (sec of sections; track sec.num) {
+                <li>
+                  <a
+                    [href]="'#privacy-sec-' + sec.num"
+                    class="toc-link"
+                    [class.active]="activeSection() === sec.num"
+                    (click)="scrollToSection(sec.num, $event)">
+                    <span class="toc-num">{{ sec.num }}</span>
+                    <span class="toc-text">{{ sec.key | translate }}</span>
+                  </a>
+                </li>
+              }
+            </ol>
+          </nav>
 
-    <div class="section">
-        <h2>1. Introduction</h2>
-        <p>
-            This Privacy Policy (“Policy”) and any other document referred to sets out the basis on which any Personal
-            Data
-            Telcables Europe Limited (“Telcables”, “we”, “us”, “our”) collect from “You” (“Customer” or “User” of this
-            website),
-            or that you provide to us, will be processed by us. It applies to our website and all database,
-            applications,
-            services, tools and physical contact with us, regardless of how you access or use them.
-        </p>
-        <p>
-            Please read the following carefully to understand our views and practices regarding your Personal Data and
-            how we
-            will treat it. By clicking on the “accept” button, you are accepting and consenting to the practices
-            described in this
-            Policy. If you have any comments on this Policy, please email them to:
-            <a href="mailto:geral.ng@telcables.pt">geral.ng&#64;telcables.pt</a>
-        </p>
+          <div class="toc-dpo-box">
+            <div class="toc-dpo-label">{{ 'privacy.policies.dpo.title' | translate }}</div>
+            <a href="mailto:dpo@angolacables.com" class="toc-dpo-email">
+             dpo&#64;angolacables.com
+            </a>
+            <button type="button" class="toc-cookie-btn" (click)="openCookieSettings()">
+              Cookie Preferences
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Legal Document Content (Exact Text from Legal Office / GJU) -->
+      <main class="privacy-main-content">
+
+        <!-- 1. Purpose -->
+        <section id="privacy-sec-1" class="privacy-section">
+          <h2><span class="section-number">1</span> {{ 'privacy.policies.purpose.title' | translate }}</h2>
+          <p>{{ 'privacy.policies.purpose.paragraph1' | translate }}</p>
+          <p>{{ 'privacy.policies.purpose.paragraph2' | translate }}</p>
+        </section>
+
+        <!-- 2. Purview / Scope -->
+        <section id="privacy-sec-2" class="privacy-section">
+          <h2><span class="section-number">2</span> {{ 'privacy.policies.scope.title' | translate }}</h2>
+          <p>{{ 'privacy.policies.scope.intro' | translate }}</p>
+
+          <div class="scope-grid">
+            <div class="scope-subcard">
+              <h3>{{ 'privacy.policies.scope.individuals.title' | translate }}</h3>
+              <ul>
+                <li>{{ 'privacy.policies.scope.individuals.item1' | translate }}</li>
+                <li>{{ 'privacy.policies.scope.individuals.item2' | translate }}</li>
+                <li>{{ 'privacy.policies.scope.individuals.item3' | translate }}</li>
+              </ul>
+            </div>
+
+            <div class="scope-subcard">
+              <h3>{{ 'privacy.policies.scope.dataTypes.title' | translate }}</h3>
+              <ul>
+                <li>{{ 'privacy.policies.scope.dataTypes.item1' | translate }}</li>
+                <li>{{ 'privacy.policies.scope.dataTypes.item2' | translate }}</li>
+                <li>{{ 'privacy.policies.scope.dataTypes.item3' | translate }}</li>
+              </ul>
+            </div>
+
+            <div class="scope-subcard">
+              <h3>{{ 'privacy.policies.scope.activities.title' | translate }}</h3>
+              <p>{{ 'privacy.policies.scope.activities.intro' | translate }}</p>
+              <ul class="lifecycle-list">
+                <li>{{ 'privacy.policies.scope.activities.item1' | translate }}</li>
+                <li>{{ 'privacy.policies.scope.activities.item2' | translate }}</li>
+                <li>{{ 'privacy.policies.scope.activities.item3' | translate }}</li>
+                <li>{{ 'privacy.policies.scope.activities.item4' | translate }}</li>
+                <li>{{ 'privacy.policies.scope.activities.item5' | translate }}</li>
+                <li>{{ 'privacy.policies.scope.activities.item6' | translate }}</li>
+                <li>{{ 'privacy.policies.scope.activities.item7' | translate }}</li>
+              </ul>
+            </div>
+
+            <div class="scope-subcard">
+              <h3>{{ 'privacy.policies.scope.areas.title' | translate }}</h3>
+              <ul>
+                <li>{{ 'privacy.policies.scope.areas.item1' | translate }}</li>
+                <li>{{ 'privacy.policies.scope.areas.item2' | translate }}</li>
+              </ul>
+
+              <h3 class="uk-margin-top">{{ 'privacy.policies.scope.legislation.title' | translate }}</h3>
+              <p>{{ 'privacy.policies.scope.legislation.content' | translate }}</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. Personal Data -->
+        <section id="privacy-sec-3" class="privacy-section">
+          <h2><span class="section-number">3</span> {{ 'privacy.policies.personalData.title' | translate }}</h2>
+          <p>{{ 'privacy.policies.personalData.definition' | translate }}</p>
+          <p>{{ 'privacy.policies.personalData.commitment' | translate }}</p>
+          <p>{{ 'privacy.policies.personalData.collection' | translate }}</p>
+          <div class="note">
+            <p>{{ 'privacy.policies.personalData.jobApplicants' | translate }}</p>
+          </div>
+        </section>
+
+        <!-- 4. Other User Information -->
+        <section id="privacy-sec-4" class="privacy-section">
+          <h2><span class="section-number">4</span> {{ 'privacy.policies.otherInfo.title' | translate }}</h2>
+          <p>{{ 'privacy.policies.otherInfo.content' | translate }}</p>
+        </section>
+
+        <!-- 5. Use of Data -->
+        <section id="privacy-sec-5" class="privacy-section">
+          <h2><span class="section-number">5</span> {{ 'privacy.policies.dataUse.title' | translate }}</h2>
+          <p>{{ 'privacy.policies.dataUse.commitment' | translate }}</p>
+          <p>{{ 'privacy.policies.dataUse.rulesIntro' | translate }}</p>
+
+          <ul>
+            <li><strong></strong> {{ 'privacy.policies.dataUse.rule1' | translate }}</li>
+            <li><strong></strong> {{ 'privacy.policies.dataUse.rule2' | translate }}</li>
+            <li><strong></strong> {{ 'privacy.policies.dataUse.rule3' | translate }}</li>
+            <li><strong></strong> {{ 'privacy.policies.dataUse.rule4' | translate }}</li>
+          </ul>
+        </section>
+
+        <!-- 6. Google Analytics -->
+        <section id="privacy-sec-6" class="privacy-section">
+          <h2><span class="section-number">6</span> {{ 'privacy.policies.analytics.title' | translate }}</h2>
+          <p>{{ 'privacy.policies.analytics.intro' | translate }}</p>
+          <ul>
+            <li>{{ 'privacy.policies.analytics.purpose1' | translate }}</li>
+            <li>{{ 'privacy.policies.analytics.purpose2' | translate }}</li>
+            <li>{{ 'privacy.policies.analytics.purpose3' | translate }}</li>
+          </ul>
+          <p [innerHTML]="'privacy.policies.analytics.moreInfo' | translate"></p>
+        </section>
+
+        <!-- 7. Consent -->
+        <section id="privacy-sec-7" class="privacy-section">
+          <h2><span class="section-number">7</span> {{ 'privacy.policies.consent.title' | translate }}</h2>
+          <p>{{ 'privacy.policies.consent.definition' | translate }}</p>
+          <p>{{ 'privacy.policies.consent.agreement' | translate }}</p>
+          <div class="highlight">
+            <p>{{ 'privacy.policies.consent.withdrawal' | translate }}</p>
+          </div>
+        </section>
+
+        <!-- 8. Data Retention Period -->
+        <section id="privacy-sec-8" class="privacy-section">
+          <h2><span class="section-number">8</span> {{ 'privacy.policies.retention.title' | translate }}</h2>
+          <p>{{ 'privacy.policies.retention.content' | translate }}</p>
+        </section>
+
+        <!-- 9. Data Sharing -->
+        <section id="privacy-sec-9" class="privacy-section">
+          <h2><span class="section-number">9</span> {{ 'privacy.policies.sharing.title' | translate }}</h2>
+          <p>{{ 'privacy.policies.sharing.links' | translate }}</p>
+          <p>{{ 'privacy.policies.sharing.recipients' | translate }}</p>
+          <p>{{ 'privacy.policies.sharing.otherSituations' | translate }}</p>
+          <ul>
+            <li>{{ 'privacy.policies.sharing.situation1' | translate }}</li>
+            <li>{{ 'privacy.policies.sharing.situation2' | translate }}</li>
+            <li>{{ 'privacy.policies.sharing.situation3' | translate }}</li>
+          </ul>
+        </section>
+
+        <!-- 10. Browsing Data (Cookies) -->
+        <section id="privacy-sec-10" class="privacy-section">
+          <h2><span class="section-number">10</span> {{ 'privacy.policies.cookies.title' | translate }}</h2>
+          <p>{{ 'privacy.policies.cookies.definition' | translate }}</p>
+          <p>{{ 'privacy.policies.cookies.acceptance' | translate }}</p>
+          <div class="note">
+            <p>{{ 'privacy.policies.cookies.control' | translate }}</p>
+          </div>
+
+          <!-- Integrated Cookie Management Control Bar -->
+          <div class="cookie-preferences-box">
+            <div class="cookie-preferences-info">
+              <strong>{{ 'policies.cookies.management.title' | translate }}</strong>
+              @if (consentStatus(); as status) {
+                <p class="cookie-status-text">
+                  <span class="status-pill active">Essential: Active</span>
+                  <span class="status-pill" [class.active]="status.analiticos">
+                    Analytics: {{ status.analiticos ? 'Allowed' : 'Blocked' }}
+                  </span>
+                  <span class="status-pill" [class.active]="status.personalizacao">
+                    Personalization: {{ status.personalizacao ? 'Allowed' : 'Blocked' }}
+                  </span>
+                  <span class="status-pill" [class.active]="status.marketing">
+                    Marketing: {{ status.marketing ? 'Allowed' : 'Blocked' }}
+                  </span>
+                </p>
+              } @else {
+                <p class="cookie-status-text">
+                  {{ 'policies.cookies.management.p1' | translate }}
+                </p>
+              }
+            </div>
+            <div class="cookie-preferences-actions">
+              <button type="button" class="btn-cookie-settings" (click)="openCookieSettings()">
+                Manage Cookie Preferences
+              </button>
+              <a routerLink="/cookies-policy" class="btn-cookie-policy-link">
+                {{ 'policies.cookies.title' | translate }}
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- 11. Changes to the Privacy Policy -->
+        <section id="privacy-sec-11" class="privacy-section">
+          <h2><span class="section-number">11</span> {{ 'privacy.policies.changes.title' | translate }}</h2>
+          <p>{{ 'privacy.policies.changes.right' | translate }}</p>
+          <p>{{ 'privacy.policies.changes.consent' | translate }}</p>
+        </section>
+
+        <!-- 12. Disclaimer -->
+        <section id="privacy-sec-12" class="privacy-section">
+          <h2><span class="section-number">12</span> {{ 'privacy.policies.disclaimer.title' | translate }}</h2>
+          <p>{{ 'privacy.policies.disclaimer.intro' | translate }}</p>
+          <ul>
+            <li>{{ 'privacy.policies.disclaimer.responsibility1' | translate }}</li>
+            <li>{{ 'privacy.policies.disclaimer.responsibility2' | translate }}</li>
+          </ul>
+        </section>
+
+        <!-- 13. Data Protection Officer (DPO) -->
+        <section id="privacy-sec-13" class="privacy-section">
+          <h2><span class="section-number">13</span> {{ 'privacy.policies.dpo.title' | translate }}</h2>
+          <div class="contact-info">
+            <div class="dpo-card-content">
+              <div class="dpo-icon-badge" aria-hidden="true">🛡️</div>
+              <div class="dpo-text-block">
+                <p [innerHTML]="'privacy.policies.dpo.content' | translate"></p>
+                <div class="dpo-actions">
+                  <a href="mailto:dpo@angolacables.com" class="dpo-mail-btn">
+                    dpo&#64;angolacables.com
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Document Signature Footer -->
+        <footer class="policy-doc-footer">
+          <p class="last-updated">{{ 'privacy.policies.signature' | translate }}</p>
+          <p class="disclaimer-subtext">{{ 'privacy.policies.disclaimerText' | translate }}</p>
+        </footer>
+
+      </main>
     </div>
-
-    <div class="section">
-        <h2>2. Who We Are</h2>
-        <p>Please visit our corporate website address here: <a href="http://www.telcables.pt">www.telcables.pt</a></p>
-    </div>
-
-    <div class="section">
-        <h2>3. Collection of Your Personal Data</h2>
-        <p>We will collect and process the following Personal Data about you:</p>
-        <ul>
-            <li><strong>3.1 Personal Data and content you provide:</strong> includes name, address, email, phone number,
-                description, photo.</li>
-            <li><strong>3.2 Personal Data we collect about you:</strong>
-                <ul>
-                    <li>Technical info: IP, login, browser, OS, platform.</li>
-                    <li>Usage info: transactions, interactions, correspondence.</li>
-                    <li>Visit info: URLs, products viewed, response times, errors, clicks, browsing.</li>
-                </ul>
-            </li>
-            <li><strong>3.3</strong> Data from CV/job applications.</li>
-            <li><strong>3.4</strong> Data from third parties with notification and consent.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>4. How We Use Your Personal Data</h2>
-        <ul>
-            <li>Personalize products and services.</li>
-            <li>Contract obligations and services requested.</li>
-            <li>Provide related information and notify changes.</li>
-            <li>Improve content delivery and administer operations.</li>
-            <li>Allow interaction features and analyze advertising effectiveness.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>5. Marketing</h2>
-        <p>
-            We may use your Personal Data for marketing purposes, contacting you electronically about similar goods or
-            services,
-            or by third parties with your consent. You may unsubscribe anytime via provided links.
-        </p>
-    </div>
-
-    <div class="section">
-        <h2>6. Security</h2>
-        <p>
-            We adopt robust technologies and policies to protect your data against unauthorized access, loss, or
-            destruction.
-            Keep your password confidential and notify us if compromised:
-            <a href="mailto:geral.ng@telcables.pt">geral.pt&#64;telcables.pt</a>.
-        </p>
-    </div>
-
-    <div class="section">
-        <h2>7. Disclosure and Sharing</h2>
-        <p>We may share data with group members, employees, partners, analytics providers, or under legal obligations.
-        </p>
-    </div>
-
-    <div class="section">
-        <h2>8. Links to Other Websites</h2>
-        <p>
-            We are not responsible for the privacy practices of external sites linked to ours. Please review their
-            privacy
-            policies before sharing personal data.
-        </p>
-    </div>
-
-    <div class="section">
-        <h2>9. Where We Store Your Data</h2>
-        <p>
-            Data may be transferred and stored outside Nigeria, in compliance with the NDPA. Data is stored on secure
-            servers,
-            with confidentiality maintained through secure passwords.
-        </p>
-    </div>
-
-    <div class="section">
-        <h2>10. Retention of Information</h2>
-        <p>Data is retained for as long as necessary, typically 3 years after last active use, unless required for legal
-            purposes.</p>
-    </div>
-
-    <div class="section">
-        <h2>11. Your Rights</h2>
-        <p>You have rights including consent, objection, rectification, deletion, portability, and complaint to NDPC.
-        </p>
-        <p>Contact our Data Protection and Compliance Officer: 3rd Floor, DUKKA, 42 Saka Tinubu Street, Victoria Island,
-            Lagos, Nigeria.</p>
-    </div>
-
-    <div class="section">
-        <h2>12. Cookies</h2>
-        <p>
-            We use cookies for analytics, website administration, and demographics. See our Cookie Policy at
-            <a href="http://www.telcables.pt">www.telcables.pt</a>.
-        </p>
-    </div>
-
-    <div class="section">
-        <h2>13. Breach/Privacy Violation</h2>
-        <p>
-            Breaches are reported within 72 hours to NDPC. If detrimental to rights, we notify affected users within 7
-            days.
-        </p>
-    </div>
-
-    <div class="section">
-        <h2>14. Changes to this Policy</h2>
-        <p>
-            We may amend this Policy from time to time. Updated versions will be published on our website.
-        </p>
-    </div>
-
-    <div class="section">
-        <h2>15. Contact – Data Protection Officer</h2>
-        <p>
-            Our DPO oversees compliance with NDPA. Contact:
-            <a href="mailto:git@angolacables.co.ao">git&#64;angolacables.co.ao</a>.
-        </p>
-    </div>
-
-
+  </div>
 </div>
+
 <app-rodape></app-rodape>
