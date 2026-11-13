@@ -1,39 +1,43 @@
-<div class="uk-container uk-margin-top">
-  @if (eventos$ | async; as eventos) {
+<div class="eventos-wrapper-bg">
+
+  <div class="uk-container uk-margin-top">
+    @if (eventos$ | async; as eventos) {
     @if (eventos.length > 0) {
-      <div class="uk-grid uk-child-width-1-1@m uk-grid-medium uk-text-center uk-light" uk-grid>
-        @for (evento of eventos | slice: 0:1; track evento.id) {
-          <div class="uk-transition-toggle" tabindex="0">
-            <div class="uk-panel uk-text-center">
-              <img class="border-2" [src]="evento.imageUrl" alt="Imagem do evento" style="object-fit: cover;" />
-              <div class="overlay">
-                @if (evento.eventoUrl) {
-                  <a [href]="evento.eventoUrl" target="_blank" rel="noopener">
-                    <p class="uk-transition-slide-bottom-small uk-button-default uk-button uk-border-pill">
-                      Details
-                    </p>
-                  </a>
-                } @else {
-                  <p class="uk-transition-slide-bottom-small uk-button-default uk-button uk-border-pill">
-                    Details
-                  </p>
-                }
-              </div>
-            </div>
+    <div class="uk-grid uk-child-width-1-1@m uk-grid-large uk-flex-center uk-text-center uk-light" uk-grid>
+      @for (evento of eventos | slice: 0:1; track evento.id) {
+      <div class="uk-width-1-1 event-image-col uk-transition-toggle" tabindex="0">
+        <div class="uk-panel uk-text-center event-panel">
+          <img class="border-2 event-featured-img" [src]="evento.imageUrl" alt="Imagem do evento" />
+          <div class="overlay">
+            @if (evento.eventoUrl) {
+            <a [href]="evento.eventoUrl" target="_blank" rel="noopener" class="details-link">
+              <p class="uk-transition-slide-bottom-small uk-button-default uk-button uk-border-pill details-btn">
+                Details
+              </p>
+            </a>
+            } @else {
+            <p class="uk-transition-slide-bottom-small uk-button-default uk-button uk-border-pill details-btn">
+              Details
+            </p>
+            }
           </div>
-        }
+        </div>
       </div>
+      }
+    </div>
     } @else {
-      <div class="uk-text-center uk-margin-large-top uk-margin-large-bottom">
-        <p style="color:#979797 !important" class="uk-text-large uk-margin-large-top uk-margin-large-bottom">
-          There are no scheduled events! We will update as soon as we have news.
-        </p>
-      </div>
+    <div class="uk-text-center uk-margin-large-top uk-margin-large-bottom">
+      <p style="color:#979797 !important" class="uk-text-large uk-margin-large-top uk-margin-large-bottom">
+        There are no scheduled events! We will update as soon as we have news.
+      </p>
+    </div>
     }
-  } @else {
+    } @else {
     <!-- Optional loading state if needed -->
     <div class="uk-text-center">
       <div uk-spinner></div>
     </div>
-  }
+    }
+  </div>
+
 </div>

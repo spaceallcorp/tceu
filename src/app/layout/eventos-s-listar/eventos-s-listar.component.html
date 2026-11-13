@@ -1,27 +1,26 @@
-<div class="uk-container">
+<div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
     @if (eventos$ | async; as eventos) {
     @if (eventos.length > 0) {
-        <p style="font-weight: 800; color: #022561 " class="uk-text-center uk-padding">Featured Event</p>
+    <div class="featured-event-wrapper">
+        <p class="featured-heading uk-text-center">Featured Event</p>
 
-    <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+        <div class="uk-grid-large uk-flex-middle" uk-grid>
 
-        <!-- First column: Image -->
-        <div class=" uk-margin-medium-top ">
-            <div class="uk-grid uk-child-width-1-1@m uk-grid-small uk-text-center uk-light" uk-grid>
+            <!-- First column: Bigger Image Column -->
+            <div class="uk-width-1-1 uk-width-3-5@m">
                 @for (evento of eventos | slice: 0:1; track evento.id) {
-                <div class="uk-transition-toggle" tabindex="0">
-                    <div class="uk-panel uk-text-center">
-                        <img class="border-2" [src]="evento.imageUrl" alt="Imagem do evento"
-                            style="object-fit: cover; width: auto; height: 200px" />
+                <div class="uk-transition-toggle event-img-container" tabindex="0">
+                    <div class="uk-panel uk-text-center event-panel">
+                        <img class="border-2 event-banner-img" [src]="evento.imageUrl" alt="Imagem do evento" />
                         <div class="overlay">
                             @if (evento.eventoUrl) {
-                            <a [href]="evento.eventoUrl" target="_blank" rel="noopener">
-                                <p class="uk-transition-slide-bottom-small uk-button-default uk-button uk-border-pill">
+                            <a [href]="evento.eventoUrl" target="_blank" rel="noopener" class="details-link">
+                                <p class="uk-transition-slide-bottom-small uk-button-default uk-button uk-border-pill details-btn">
                                     Details
                                 </p>
                             </a>
                             } @else {
-                            <p class="uk-transition-slide-bottom-small uk-button-default uk-button uk-border-pill">
+                            <p class="uk-transition-slide-bottom-small uk-button-default uk-button uk-border-pill details-btn">
                                 Details
                             </p>
                             }
@@ -30,26 +29,28 @@
                 </div>
                 }
             </div>
-        </div>
 
-        <!-- Second column: Title and Content together -->
-        <div class="" >
-            <div class="uk-card uk-text-left uk-card-body ">
-                @for (evento of eventos | slice: 0:1; track evento.id) {
-                <h3 class="uk-card-title">
+            <!-- Second column: Title and Smaller Details Content -->
+            <div class="uk-width-1-1 uk-width-2-5@m">
+                <div class="uk-card uk-text-left event-details-card">
+                    @for (evento of eventos | slice: 0:1; track evento.id) {
                     @if (evento.title) {
-                    {{ evento.title }}
-                    } @else {
-
+                    <h3 class="uk-card-title event-title">
+                        {{ evento.title }}
+                    </h3>
                     }
-                </h3>
-                <p class="uk-width-large uk-text-break">
                     @if (plainContent) {
-                    {{ plainContent }}
-                    } @else {
+                    <p class="uk-text-break event-description">
+                        {{ plainContent }}
+                    </p>
                     }
-                </p>
-                }
+                    @if (evento.eventoUrl) {
+                    <a [href]="evento.eventoUrl" target="_blank" rel="noopener" class="details-inline-btn">
+                        Details →
+                    </a>
+                    }
+                    }
+                </div>
             </div>
         </div>
     </div>
