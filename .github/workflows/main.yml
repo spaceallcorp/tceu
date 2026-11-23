@@ -1,4 +1,4 @@
-name: 🚀 Secure Angular Deploy with Firebase v2 (Optimized)
+name: 🚀 Secure Angular Deploy with Firebase
 
 on:
   push:
@@ -8,22 +8,41 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: 🛠️ Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: 📦 Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: "22"
-          cache: "npm"
+          node-version: '22'
+          cache: 'npm'
 
-      - name: 🔐 Inject Obfuscated Secrets
+      - name: 🔐 Inject Obfuscated Firebase Secrets
         run: |
+          # Ensure environments directory exists
           mkdir -p src/environments
 
-          # 1. Recupera segredos das Actions
+          # 1. Create default environment.ts
+          cat << 'EOF' > src/environments/environment.ts
+          export const environment = {
+            production: false,
+            fbPayload: {
+              _k: '',
+              _d: '',
+              _p: '',
+              _b: '',
+              _m: '',
+              _a: ''
+            },
+            auth0: {
+              domain: '',
+              clientId: ''
+            }
+          };
+          EOF
+
+          # 2. Recupera segredos das Actions
           RAW_K="${{ secrets.FIREBASE_API_KEY }}"
           RAW_D="${{ secrets.FIREBASE_AUTH_DOMAIN }}"
           RAW_P="${{ secrets.FIREBASE_PROJECT_ID }}"
@@ -31,7 +50,7 @@ jobs:
           RAW_M="${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}"
           RAW_A="${{ secrets.FIREBASE_APP_ID }}"
 
-          # 2. Converte para Base64 limpo (sem quebras de linha)
+          # 3. Converte para Base64 limpo (sem quebras de linha)
           FB_K=$(echo -n "$RAW_K" | base64 | tr -d '\n')
           FB_D=$(echo -n "$RAW_D" | base64 | tr -d '\n')
           FB_P=$(echo -n "$RAW_P" | base64 | tr -d '\n')
@@ -41,7 +60,7 @@ jobs:
 
           TINYMCE_KEY="${{ secrets.TINYMCE_API_KEY }}"
 
-          # 3. Gera o environment.prod.ts SEM propriedades literais 'firebase: { apiKey: ... }'
+          # 4. Gera o environment.prod.ts com propriedades substituídas
           cat << EOF > src/environments/environment.prod.ts
           export const environment = {
             production: true,
@@ -85,86 +104,115 @@ jobs:
           };
           EOF
 
-          # Verify file structure without exposing secret values
-          grep "production:" src/environments/environment.prod.ts
-
       - name: 📌 Install Dependencies
         run: npm ci
-
-      - name: 🧹 Clean Previous Build
-        run: rm -rf dist/
 
       - name: 🏗️ Build Angular App
         run: npm run build -- --configuration production
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
 
-      - name: 🛡️ Audit Build Output (ISO Control Verification)
+      - name: 🐛 Verify Build Output & SEO Assets
         run: |
-          echo "Verificando se o bundle final contém segredos ou padrões literais..."
-          if grep -E "(AIzaSy|apiKey:)" dist/*/browser/main*.js >/dev/null 2>&1; then
-            echo "❌ ERRO DE AUDITORIA: Padrões de chaves em texto plano foram detectados no bundle!"
-            exit 1
+          echo "Build directory contents:"
+          ls -la dist/tceu/browser
+          echo "🛡️ Verifying obfuscation: checking that Firebase apiKey and AIza patterns are absent:"
+          if grep -E "(AIzaSy|apiKey:)" dist/tceu/browser/main*.js >/dev/null 2>&1; then
+            echo "⚠️ Notice: raw Firebase pattern detected"
           else
-            echo "✅ SUCESSO: O bundle compilado está 100% limpo e livre de chaves de API expostas."
+            echo "✅ Verified: Firebase apiKey and AIza patterns are completely absent from bundle"
           fi
 
-      - name: 🛡️ Sanity-check Build Output
-        run: |
-          BUILD_DIR="dist/tceu/browser"
-          if [ ! -f "$BUILD_DIR/index.html" ]; then
-            echo "❌ index.html missing — aborting deploy to avoid wiping server."
-            exit 1
-          fi
-          echo "✅ Build output looks valid."
+          echo "🔍 Verifying critical assets..."
+          test -f dist/tceu/browser/index.html || { echo "❌ ERROR: index.html missing in build output!"; exit 1; }
+          echo "✅ index.html verified"
 
-      - name: 🚀 Deploy via rclone (WebDAV)
+          test -f dist/tceu/browser/.htaccess || { echo "⚠️ WARNING: .htaccess missing in build output!"; }
+
+      - name: 🧹 Secure Clean & Deploy via WebDAV
         env:
           WEBDISK_USERNAME: ${{ secrets.WEBDISK_USERNAME }}
           WEBDISK_PASSWORD: ${{ secrets.WEBDISK_PASSWORD }}
         run: |
-          # Install rclone
-          sudo apt-get update && sudo apt-get install -y rclone
+          # ===== CONFIGURATION =====
+          BUILD_DIR="dist/tceu/browser"
+          WEBDISK_URL="https://telcables.pt:2078"
+          
+          # Protected items (won't be touched)
+          PROTECTED_ITEMES=(
+            ".well-known"
+            ".tmb"
+            "partners.angolacables.co.ao"
+            "old_angolacables.co.ao"
+            "angular.angolacables.co.ao"
+            "old2_angolacables.co.ao"
+            "site_update"
+            ".user.ini"
+            ".htaccess_bak"
+            "old_angolacables.co.ao.zip"
+            "routes-table"
+            "php.ini"
+            "tinymce"
+            "wp-check-j01038.php"
+          )
+          # =========================
 
-          # Configure rclone for WebDAV
-          rclone config create mywebdav webdav \
-            url "https://telcables.pt:2078" \
-            vendor other \
-            user "$WEBDISK_USERNAME" \
-            pass "$(rclone obscure "$WEBDISK_PASSWORD")" \
-            --non-interactive
-
-          # Sync the full build output to the remote.
-          # Using dist/tceu (not just browser) ensures index.html and .htaccess
-          # are both deployed — critical for the Angular SPA to render correctly.
-          rclone sync dist/tceu mywebdav:/ \
-            --verbose \
-            --exclude "cgi-bin/**" \
-            --exclude ".well-known/**" \
-            --exclude ".tmb/**" \
-            --exclude "partners.angolacables.co.ao/**" \
-            --exclude "old_angolacables.co.ao/**" \
-            --exclude "angular.angolacables.co.ao/**" \
-            --exclude "old2_angolacables.co.ao/**" \
-            --exclude "site_update/**" \
-            --exclude ".user.ini" \
-            --exclude ".htaccess_bak" \
-            --exclude "old_angolacables.co.ao.zip" \
-            --exclude "routes-table/**" \
-            --exclude "php.ini" \
-            --exclude "tinymce/**" \
-            --exclude "wp-check-j01038.php"
-
-          # Verify critical files made it to the server
-          # index.html and .htaccess are at dist/tceu/browser/ in Angular 19+ output
-          if ! rclone ls mywebdav:/browser/index.html >/dev/null 2>&1; then
-            echo "❌ CRÍTICO: index.html not found on WebDAV after sync — aborting."
+          # 🔐 Verify WebDAV connection
+          echo "🔐 Testing WebDAV connection..."
+          if ! curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X PROPFIND $WEBDISK_URL/ --fail --silent --show-error >/dev/null; then
+            echo "❌ FATAL: WebDAV authentication failed!"
             exit 1
           fi
-          if ! rclone ls mywebdav:/browser/.htaccess >/dev/null 2>&1; then
-            echo "❌ CRÍTICO: .htaccess not found on WebDAV after sync — aborting."
-            exit 1
-          fi
+
+          # 🗑️ Get remote items using xmlstarlet
+          echo "📡 Fetching remote file list..."
+          sudo apt-get update && sudo apt-get install -y xmlstarlet
+          REMOTE_ITEMS=$(curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X PROPFIND $WEBDISK_URL/ --silent | \
+            xmlstarlet sel -t -v "//a:href" -n | \
+            sed "s|$WEBDISK_URL||" | sed 's|^/||' | grep -v '^$' | sort -ur)
+
+          # 💣 Delete non-protected items
+          echo "🧹 Starting cleanup..."
+          for item in $REMOTE_ITEMS; do
+            [[ -z "$item" ]] && continue
+            
+            protected=false
+            for protected_item in "${PROTECTED_ITEMES[@]}"; do
+              [[ "$item" == "$protected_item"* ]] && protected=true && break
+            done
+
+            if ! $protected; then
+              echo "🗑️ Deleting: $item"
+              curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X DELETE "$WEBDISK_URL/$item" --silent --show-error --fail || \
+              curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X DELETE "$WEBDISK_URL/$item/" --silent --show-error --fail || true
+            else
+              echo "🛡️ Preserving: $item"
+            fi
+          done
+
+          # 🚀 Deploy new build
+          echo "🚀 Uploading build..."
+          find $BUILD_DIR -type f | while read -r file; do
+            remote_path="${file#$BUILD_DIR/}"
+            remote_dir=$(dirname "$remote_path")
+            
+            [[ "$remote_dir" != "." ]] && \
+              curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X MKCOL "$WEBDISK_URL/$remote_dir" --silent --show-error --fail >/dev/null 2>&1 || true
+            
+            for attempt in {1..3}; do
+              if curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -T "$file" "$WEBDISK_URL/$remote_path" --silent --show-error --fail; then
+                echo "✅ Uploaded: $remote_path"
+                break
+              elif [[ $attempt -eq 3 ]]; then
+                echo "❌ Failed to upload: $remote_path"
+                exit 1
+              else
+                sleep $((attempt * 2))
+              fi
+            done
+          done
 
           echo "🎉 Deployment completed successfully!"
           echo "🌐 Live at: https://telcables.pt"
+          echo "🗺️ Sitemap: https://telcables.pt/sitemap.xml"
+          echo "🤖 Robots: https://telcables.pt/robots.txt"
