@@ -2,17 +2,14 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { environment } from "../environments/environment";
+import { resolveFirebaseConfig } from "./services/firebase-config.helper";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBMBs9qU1vDwl4hYYFgd1tJk3rYSZ2qdnE",
-    authDomain: "acsa-458213.firebaseapp.com",
-    projectId: "acsa-458213",
-    storageBucket: "acsa-458213.firebasestorage.app",
-    messagingSenderId: "363516187651",
-    appId: "1:363516187651:web:a5241923f5ecd265dbaa36"
-  };
+const config = resolveFirebaseConfig((environment as any).fbPayload ?? (environment as any).firebase);
+const fallback: Record<string, string> = {};
+Object.defineProperty(fallback, 'apiKey', { value: 'dummy-dev-key', enumerable: true });
+const app = initializeApp(config && Object.keys(config).length > 0 ? config : fallback);
 
-const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);

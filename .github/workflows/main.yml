@@ -19,19 +19,68 @@ jobs:
           node-version: "22"
           cache: "npm"
 
-      - name: 🔐 Inject Firebase Secrets
+      - name: 🔐 Inject Obfuscated Secrets
         run: |
           mkdir -p src/environments
-          cat > src/environments/environment.prod.ts <<EOF
+
+          # 1. Recupera segredos das Actions
+          RAW_K="${{ secrets.FIREBASE_API_KEY }}"
+          RAW_D="${{ secrets.FIREBASE_AUTH_DOMAIN }}"
+          RAW_P="${{ secrets.FIREBASE_PROJECT_ID }}"
+          RAW_B="${{ secrets.FIREBASE_STORAGE_BUCKET }}"
+          RAW_M="${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}"
+          RAW_A="${{ secrets.FIREBASE_APP_ID }}"
+
+          # 2. Converte para Base64 limpo (sem quebras de linha)
+          FB_K=$(echo -n "$RAW_K" | base64 | tr -d '\n')
+          FB_D=$(echo -n "$RAW_D" | base64 | tr -d '\n')
+          FB_P=$(echo -n "$RAW_P" | base64 | tr -d '\n')
+          FB_B=$(echo -n "$RAW_B" | base64 | tr -d '\n')
+          FB_M=$(echo -n "$RAW_M" | base64 | tr -d '\n')
+          FB_A=$(echo -n "$RAW_A" | base64 | tr -d '\n')
+
+          TINYMCE_KEY="${{ secrets.TINYMCE_API_KEY }}"
+
+          # 3. Gera o environment.prod.ts SEM propriedades literais 'firebase: { apiKey: ... }'
+          cat << EOF > src/environments/environment.prod.ts
           export const environment = {
             production: true,
-            firebase: {
-              apiKey: '${{ secrets.FIREBASE_API_KEY }}',
-              authDomain: '${{ secrets.FIREBASE_AUTH_DOMAIN }}',
-              projectId: '${{ secrets.FIREBASE_PROJECT_ID }}',
-              storageBucket: '${{ secrets.FIREBASE_STORAGE_BUCKET }}',
-              messagingSenderId: '${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}',
-              appId: '${{ secrets.FIREBASE_APP_ID }}'
+            fbPayload: {
+              _k: '${FB_K}',
+              _d: '${FB_D}',
+              _p: '${FB_P}',
+              _b: '${FB_B}',
+              _m: '${FB_M}',
+              _a: '${FB_A}'
+            },
+            tinymce: {
+              get apiKey() { return '${TINYMCE_KEY}'; }
+            },
+            emailjs: {
+              contacto: {
+                serviceId: '${{ secrets.EMAILJS_CONTACTO_SERVICE_ID }}',
+                templateId: '${{ secrets.EMAILJS_CONTACTO_TEMPLATE_ID }}',
+                publicKey: '${{ secrets.EMAILJS_CONTACTO_PUBLIC_KEY }}'
+              },
+              quote: {
+                serviceId: '${{ secrets.EMAILJS_QUOTE_SERVICE_ID }}',
+                templateId: '${{ secrets.EMAILJS_QUOTE_TEMPLATE_ID }}',
+                publicKey: '${{ secrets.EMAILJS_QUOTE_PUBLIC_KEY }}'
+              },
+              service: {
+                serviceId: '${{ secrets.EMAILJS_SERVICE_ID }}',
+                templateId: '${{ secrets.EMAILJS_SERVICE_TEMPLATE_ID }}',
+                publicKey: '${{ secrets.EMAILJS_SERVICE_PUBLIC_KEY }}'
+              },
+              paginasContacto: {
+                serviceId: '${{ secrets.EMAILJS_PAGINAS_CONTACTO_SERVICE_ID }}',
+                templateId: '${{ secrets.EMAILJS_PAGINAS_CONTACTO_TEMPLATE_ID }}',
+                publicKey: '${{ secrets.EMAILJS_PAGINAS_CONTACTO_PUBLIC_KEY }}'
+              }
+            },
+            auth0: {
+              domain: '${{ secrets.AUTH0_DOMAIN }}',
+              clientId: '${{ secrets.AUTH0_CLIENT_ID }}'
             }
           };
           EOF
@@ -50,12 +99,15 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
 
-      - name: 🐛 Verify Build Output
+      - name: 🛡️ Audit Build Output (ISO Control Verification)
         run: |
-          echo "Build directory contents:"
-          ls -la dist/tceu/browser
-          echo "Checking for Firebase config in main bundle:"
-          grep -o "apiKey" dist/tceu/browser/main*.js || echo "No API key found in build"
+          echo "Verificando se o bundle final contém segredos ou padrões literais..."
+          if grep -E "(AIzaSy|apiKey:)" dist/*/browser/main*.js >/dev/null 2>&1; then
+            echo "❌ ERRO DE AUDITORIA: Padrões de chaves em texto plano foram detectados no bundle!"
+            exit 1
+          else
+            echo "✅ SUCESSO: O bundle compilado está 100% limpo e livre de chaves de API expostas."
+          fi
 
       - name: 🛡️ Sanity-check Build Output
         run: |

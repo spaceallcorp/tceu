@@ -16,7 +16,6 @@ import { SlideshowComponent } from '../slideshow/slideshow.component';
 import { NoticiasListarComponent } from '../noticias-listar/noticias-listar.component';
 import { CertificacoesComponent } from '../certificacoes/certificacoes.component';
 import { NgMagnizoomModule } from 'ng-magnizoom';
-import emailjs from '@emailjs/browser';
 import { QuoteOrderComponent } from '../quote-order/quote-order.component';
 
 declare const UIkit: any; // Access UIkit globally

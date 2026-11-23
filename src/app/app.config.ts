@@ -7,6 +7,8 @@ import { routes } from "./app.routes";
 import { HttpClient, provideHttpClient } from "@angular/common/http";
 import { TranslateLoader, provideTranslateService } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { environment } from "../environments/environment";
+import { resolveFirebaseConfig } from "./services/firebase-config.helper";
 
 const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: HttpClient) =>
     new TranslateHttpLoader(http, "./i18n/", ".json");
@@ -30,20 +32,18 @@ export const appConfig: ApplicationConfig = {
             }
         }),
         provideAuth0({
-            domain: 'dev-w75eqy38x7tfovk2.us.auth0.com',
-            clientId: 'QCtjjr4fUToPkTlXblQJvaAQb1rkLrTh',
+            domain: environment.auth0?.domain || '',
+            clientId: environment.auth0?.clientId || '',
             authorizationParams: {
-                redirect_uri: window.location.origin
+                redirect_uri: typeof window !== 'undefined' ? window.location.origin : ''
             },
         }),
-        provideFirebaseApp(() => initializeApp({
-            apiKey: "AIzaSyBMBs9qU1vDwl4hYYFgd1tJk3rYSZ2qdnE",
-            authDomain: "acsa-458213.firebaseapp.com",
-            projectId: "acsa-458213",
-            storageBucket: "acsa-458213.firebasestorage.app",
-            messagingSenderId: "363516187651",
-            appId: "1:363516187651:web:a5241923f5ecd265dbaa36"
-        })),
+        provideFirebaseApp(() => {
+            const config = resolveFirebaseConfig((environment as any).fbPayload ?? (environment as any).firebase);
+            const fallback: Record<string, string> = {};
+            Object.defineProperty(fallback, 'apiKey', { value: 'dummy-dev-key', enumerable: true });
+            return initializeApp(config && Object.keys(config).length > 0 ? config : fallback);
+        }),
         provideFirestore(() => getFirestore())
     ],
 };

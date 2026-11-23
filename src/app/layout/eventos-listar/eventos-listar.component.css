@@ -136,15 +136,9 @@ button {
 
 .event-featured-img {
   width: 100%;
-  min-height: 360px;
-  max-height: 520px;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   display: block;
-  transition: transform 0.45s ease;
-}
-
-.uk-transition-toggle:hover .event-featured-img {
-  transform: scale(1.02);
 }
 
 .border-2 {

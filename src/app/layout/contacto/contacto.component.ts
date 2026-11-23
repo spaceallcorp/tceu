@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-contacto',
@@ -46,10 +47,14 @@ export class ContactoComponent {
     }
 
     const formData = this.contactForm.value;
+    const emailConfig = environment.emailjs?.contacto;
 
-    emailjs.send('service_hxge11t', 'template_k8beyqd', formData, {
-      publicKey: '8zvRzqg96H44z9txo'
-    })
+    emailjs.send(
+      emailConfig?.serviceId || '',
+      emailConfig?.templateId || '',
+      formData,
+      { publicKey: emailConfig?.publicKey || '' }
+    )
       .then(() => {
         console.log('SUCESSO');
         window.alert('Mensagem enviada com sucesso! 🎉');

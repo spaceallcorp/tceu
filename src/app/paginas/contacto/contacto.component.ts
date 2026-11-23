@@ -6,6 +6,7 @@ import { RodapeComponent } from '../../layout/rodape/rodape.component';
 import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 declare var UIkit: any;
 
 interface Address {
@@ -139,9 +140,14 @@ sanitizePhoneInput() {
 
     const formData = this.contactForm.value;
 
-    emailjs.send('service_9il6xco', 'template_xzxuf3r', formData, {
-      publicKey: 'F-p5Ny3ufMaRfCSgR'
-    })
+    const emailConfig = environment.emailjs?.paginasContacto;
+
+    emailjs.send(
+      emailConfig?.serviceId || '',
+      emailConfig?.templateId || '',
+      formData,
+      { publicKey: emailConfig?.publicKey || '' }
+    )
       .then(() => {
         console.log('SUCESSO');
         UIkit.modal('#loading-modal').hide();

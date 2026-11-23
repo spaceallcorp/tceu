@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import emailjs from '@emailjs/browser';
+import { environment } from '../../../environments/environment';
 
 declare const UIkit: any;
 
@@ -70,9 +71,9 @@ export class QuoteOrderComponent implements OnInit, AfterViewInit {
   submitSuccess = false;
   submitError: string | null = null;
 
-  private readonly EMAILJS_SERVICE_ID = 'service_yhmv9kn';
-  private readonly EMAILJS_TEMPLATE_ID = 'template_p1696fw';
-  private readonly EMAILJS_PUBLIC_KEY = 's3ApW9433DP5gZtVb';
+  private readonly EMAILJS_SERVICE_ID = environment.emailjs?.quote?.serviceId || '';
+  private readonly EMAILJS_TEMPLATE_ID = environment.emailjs?.quote?.templateId || '';
+  private readonly EMAILJS_PUBLIC_KEY = environment.emailjs?.quote?.publicKey || '';
 
   // Map each service to its parent tab index
   private readonly serviceTabMap: Record<ServiceType, number> = {

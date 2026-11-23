@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-eventos-s-postar',
@@ -18,7 +19,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
   styleUrl: './eventos-s-postar.component.css'
 })
 export class EventosSPostarComponent {
-
+  tinymceApiKey: string = environment.tinymce?.apiKey || '';
   
   // Data models
   editorContent: string = '';

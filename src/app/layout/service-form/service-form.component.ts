@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RodapeComponent } from '../../layout/rodape/rodape.component';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser';
+import { environment } from '../../../environments/environment';
 declare var UIkit: any;
 
 @Component({
@@ -96,9 +97,14 @@ servicoInteresse: this.fb.array([], [Validators.required]),    });
 };
     console.log('Submitting form data:', formData);
 
-    emailjs.send('service_skoexzr', 'template_32deeft', formData, {
-      publicKey: 'YXh3SEpHsrETbUcfB'
-    })
+    const emailConfig = environment.emailjs?.service;
+
+    emailjs.send(
+      emailConfig?.serviceId || '',
+      emailConfig?.templateId || '',
+      formData,
+      { publicKey: emailConfig?.publicKey || '' }
+    )
       .then(() => {
         console.log('SUCCESS');
         UIkit.modal('#loading-modal').hide();

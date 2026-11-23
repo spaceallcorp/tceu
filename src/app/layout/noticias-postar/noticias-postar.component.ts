@@ -4,6 +4,7 @@ import { Firestore, addDoc, collection, serverTimestamp } from '@angular/fire/fi
 import { Router } from '@angular/router';
 import { CommonModule, DatePipe, AsyncPipe, NgIf, NgFor, DecimalPipe,  } from '@angular/common';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-noticias-postar',
@@ -12,6 +13,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
   styleUrl: './noticias-postar.component.css'
 })
 export class NoticiasPostarComponent {
+  tinymceApiKey: string = environment.tinymce?.apiKey || '';
 
   // Data models
   editorContent: string = '';

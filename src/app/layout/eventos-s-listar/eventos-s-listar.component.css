@@ -49,20 +49,23 @@
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 12px 30px rgba(2, 37, 97, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.event-img-container:hover .event-panel {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(2, 37, 97, 0.18);
 }
 
 .event-banner-img {
   width: 100%;
-  min-height: 290px;
-  max-height: 380px;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   border-radius: 24px;
   display: block;
-  transition: transform 0.45s ease;
-}
-
-.event-img-container:hover .event-banner-img {
-  transform: scale(1.03);
 }
 
 .overlay {
@@ -156,9 +159,5 @@
 @media (max-width: 768px) {
   .featured-event-wrapper {
     padding: 24px 18px;
-  }
-
-  .event-banner-img {
-    min-height: 220px;
   }
 }
