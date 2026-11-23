@@ -155,9 +155,14 @@ jobs:
             --exclude "tinymce/**" \
             --exclude "wp-check-j01038.php"
 
-          # Verify index.html made it to the server
-          if ! rclone ls mywebdav:/index.html >/dev/null 2>&1; then
+          # Verify critical files made it to the server
+          # index.html and .htaccess are at dist/tceu/browser/ in Angular 19+ output
+          if ! rclone ls mywebdav:/browser/index.html >/dev/null 2>&1; then
             echo "❌ CRÍTICO: index.html not found on WebDAV after sync — aborting."
+            exit 1
+          fi
+          if ! rclone ls mywebdav:/browser/.htaccess >/dev/null 2>&1; then
+            echo "❌ CRÍTICO: .htaccess not found on WebDAV after sync — aborting."
             exit 1
           fi
 
