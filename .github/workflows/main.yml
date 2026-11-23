@@ -134,9 +134,10 @@ jobs:
             pass "$(rclone obscure "$WEBDISK_PASSWORD")" \
             --non-interactive
 
-          # Sync the build directory to the remote
-          # Excludes protect server-side files from deletion
-          rclone sync dist/tceu/browser mywebdav:/ \
+          # Sync the full build output to the remote.
+          # Using dist/tceu (not just browser) ensures index.html and .htaccess
+          # are both deployed — critical for the Angular SPA to render correctly.
+          rclone sync dist/tceu mywebdav:/ \
             --verbose \
             --exclude "cgi-bin/**" \
             --exclude ".well-known/**" \
@@ -153,6 +154,12 @@ jobs:
             --exclude "php.ini" \
             --exclude "tinymce/**" \
             --exclude "wp-check-j01038.php"
+
+          # Verify index.html made it to the server
+          if ! rclone ls mywebdav:/index.html >/dev/null 2>&1; then
+            echo "❌ CRÍTICO: index.html not found on WebDAV after sync — aborting."
+            exit 1
+          fi
 
           echo "🎉 Deployment completed successfully!"
           echo "🌐 Live at: https://telcables.pt"
