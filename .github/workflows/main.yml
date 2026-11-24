@@ -8,6 +8,12 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    environment:
+      name: production
+      url: https://telcables.pt
     steps:
       - name: 🛠️ Checkout Repository
         uses: actions/checkout@v4
@@ -222,3 +228,49 @@ jobs:
 
           echo "🎉 Deployment verified live: $LOCAL_MAIN"
           echo "🌐 Live at: $SITE_URL"
+
+      - name: 🧾 Record deploy evidence on linked issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Collect commit messages for this push (and PR body when applicable)
+            const messages = [];
+            if (context.payload.head_commit?.message) messages.push(context.payload.head_commit.message);
+            for (const c of context.payload.commits ?? []) {
+              if (c?.message) messages.push(c.message);
+            }
+            if (context.payload.pull_request?.body) messages.push(context.payload.pull_request.body);
+
+            const refs = new Set();
+            const re = /(?:close[sd]?|fix(?:e[sd])?|refs?|resolve[sd]?)\s*:?\s*#(\d+)/gi;
+            for (const m of messages) {
+              for (const match of m.matchAll(re)) refs.add(Number(match[1]));
+            }
+
+            if (refs.size === 0) {
+              core.info('No linked issue (Closes/Fixes/Refs #n) found; skipping evidence comment.');
+              return;
+            }
+
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              '### 🚀 Deployment evidence',
+              '',
+              `- **Commit:** \`${context.sha}\``,
+              `- **Workflow run:** ${runUrl}`,
+              `- **Environment:** production`,
+              `- **Result:** ✅ build, zero-downtime deploy and smoke test passed`,
+              `- **Timestamp:** ${new Date().toISOString()}`,
+              '',
+              '_Automated record for ISO/IEC 27001:2022 A.8.32 / ISO 9001:2015 8.5.6._'
+            ].join('\n');
+
+            for (const issue_number of refs) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number,
+                body
+              });
+              core.info(`Posted deploy evidence on #${issue_number}`);
+            }
