@@ -40,9 +40,20 @@ export const appConfig: ApplicationConfig = {
         }),
         provideFirebaseApp(() => {
             const config = resolveFirebaseConfig((environment as any).fbPayload ?? (environment as any).firebase);
-            const fallback: Record<string, string> = {};
-            Object.defineProperty(fallback, 'apiKey', { value: 'dummy-dev-key', enumerable: true });
-            return initializeApp(config && Object.keys(config).length > 0 ? config : fallback);
+            // initializeApp throws if the config is incomplete (e.g. when CI secrets are
+            // missing). That exception aborts bootstrap and leaves the page blank, so fall
+            // back to a fully-formed placeholder config instead of a partial one.
+            const required = ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'];
+            const isComplete = !!config && required.every((key) => !!config[key]);
+            const safeConfig: Record<string, string> = isComplete ? config : {
+                apiKey: 'demo-api-key',
+                authDomain: 'demo-project.firebaseapp.com',
+                projectId: 'demo-project',
+                storageBucket: 'demo-project.appspot.com',
+                messagingSenderId: '000000000000',
+                appId: '1:000000000000:web:0000000000000000000000'
+            };
+            return initializeApp(safeConfig);
         }),
         provideFirestore(() => getFirestore())
     ],

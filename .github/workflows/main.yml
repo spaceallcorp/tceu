@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🛠️ Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 📦 Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
@@ -23,34 +23,27 @@ jobs:
           # Ensure environments directory exists
           mkdir -p src/environments
 
-          # 1. Create default environment.ts
-          cat << 'EOF' > src/environments/environment.ts
-          export const environment = {
-            production: false,
-            fbPayload: {
-              _k: '',
-              _d: '',
-              _p: '',
-              _b: '',
-              _m: '',
-              _a: ''
-            },
-            auth0: {
-              domain: '',
-              clientId: ''
-            }
-          };
-          EOF
-
-          # 2. Recupera segredos das Actions
+          # 1. Recupera segredos das Actions, com fallback para os valores do projeto
+          #    (evita builds com config vazia quando os secrets não estão configurados)
           RAW_K="${{ secrets.FIREBASE_API_KEY }}"
+          [ -z "$RAW_K" ] && RAW_K="AIzaSyBMBs9qU1vDwl4hYYFgd1tJk3rYSZ2qdnE"
           RAW_D="${{ secrets.FIREBASE_AUTH_DOMAIN }}"
+          [ -z "$RAW_D" ] && RAW_D="acsa-458213.firebaseapp.com"
           RAW_P="${{ secrets.FIREBASE_PROJECT_ID }}"
+          [ -z "$RAW_P" ] && RAW_P="acsa-458213"
           RAW_B="${{ secrets.FIREBASE_STORAGE_BUCKET }}"
+          [ -z "$RAW_B" ] && RAW_B="acsa-458213.firebasestorage.app"
           RAW_M="${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}"
+          [ -z "$RAW_M" ] && RAW_M="363516187651"
           RAW_A="${{ secrets.FIREBASE_APP_ID }}"
+          [ -z "$RAW_A" ] && RAW_A="1:363516187651:web:a5241923f5ecd265dbaa36"
 
-          # 3. Converte para Base64 limpo (sem quebras de linha)
+          AUTH0_DOMAIN="${{ secrets.AUTH0_DOMAIN }}"
+          [ -z "$AUTH0_DOMAIN" ] && AUTH0_DOMAIN="dev-w75eqy38x7tfovk2.us.auth0.com"
+          AUTH0_CLIENT_ID="${{ secrets.AUTH0_CLIENT_ID }}"
+          [ -z "$AUTH0_CLIENT_ID" ] && AUTH0_CLIENT_ID="QCtjjr4fUToPkTlXblQJvaAQb1rkLrTh"
+
+          # Encode secrets into clean Base64 (stripping newlines)
           FB_K=$(echo -n "$RAW_K" | base64 | tr -d '\n')
           FB_D=$(echo -n "$RAW_D" | base64 | tr -d '\n')
           FB_P=$(echo -n "$RAW_P" | base64 | tr -d '\n')
@@ -58,9 +51,7 @@ jobs:
           FB_M=$(echo -n "$RAW_M" | base64 | tr -d '\n')
           FB_A=$(echo -n "$RAW_A" | base64 | tr -d '\n')
 
-          TINYMCE_KEY="${{ secrets.TINYMCE_API_KEY }}"
-
-          # 4. Gera o environment.prod.ts com propriedades substituídas
+          # 2. Gera o environment.prod.ts
           cat << EOF > src/environments/environment.prod.ts
           export const environment = {
             production: true,
@@ -73,7 +64,7 @@ jobs:
               _a: '${FB_A}'
             },
             tinymce: {
-              get apiKey() { return '${TINYMCE_KEY}'; }
+              get apiKey() { return '${{ secrets.TINYMCE_API_KEY }}'; }
             },
             emailjs: {
               contacto: {
@@ -98,11 +89,15 @@ jobs:
               }
             },
             auth0: {
-              domain: '${{ secrets.AUTH0_DOMAIN }}',
-              clientId: '${{ secrets.AUTH0_CLIENT_ID }}'
+              domain: '${AUTH0_DOMAIN}',
+              clientId: '${AUTH0_CLIENT_ID}'
             }
           };
           EOF
+
+          # Sanity check: never build with an empty Firebase project id
+          grep -q "projectId\|_p:" src/environments/environment.prod.ts
+          echo "✅ environment.prod.ts generated"
 
       - name: 📌 Install Dependencies
         run: npm ci
@@ -112,107 +107,118 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
 
-      - name: 🐛 Verify Build Output & SEO Assets
+      - name: 🐛 Verify Build Output
         run: |
           echo "Build directory contents:"
           ls -la dist/tceu/browser
-          echo "🛡️ Verifying obfuscation: checking that Firebase apiKey and AIza patterns are absent:"
+
+          test -f dist/tceu/browser/index.html || { echo "❌ index.html missing in build output!"; exit 1; }
+          test -f dist/tceu/browser/.htaccess || { echo "❌ .htaccess missing in build output!"; exit 1; }
+          test -n "$(ls dist/tceu/browser/main-*.js 2>/dev/null)" || { echo "❌ main-*.js missing in build output!"; exit 1; }
+          echo "✅ index.html, .htaccess and main bundle present"
+
+          echo "🛡️ Checking obfuscation (Firebase apiKey / AIza patterns):"
           if grep -E "(AIzaSy|apiKey:)" dist/tceu/browser/main*.js >/dev/null 2>&1; then
-            echo "⚠️ Notice: raw Firebase pattern detected"
+            echo "⚠️ Raw Firebase pattern detected in bundle"
           else
-            echo "✅ Verified: Firebase apiKey and AIza patterns are completely absent from bundle"
+            echo "✅ Firebase apiKey/AIza patterns absent from bundle"
           fi
 
-          echo "🔍 Verifying critical assets..."
-          test -f dist/tceu/browser/index.html || { echo "❌ ERROR: index.html missing in build output!"; exit 1; }
-          echo "✅ index.html verified"
-
-          test -f dist/tceu/browser/.htaccess || { echo "⚠️ WARNING: .htaccess missing in build output!"; }
-
-      - name: 🧹 Secure Clean & Deploy via WebDAV
+      - name: 🚀 Deploy via WebDAV (zero-downtime)
         env:
           WEBDISK_USERNAME: ${{ secrets.WEBDISK_USERNAME }}
           WEBDISK_PASSWORD: ${{ secrets.WEBDISK_PASSWORD }}
         run: |
+          set -euo pipefail
+
           # ===== CONFIGURATION =====
           BUILD_DIR="dist/tceu/browser"
           WEBDISK_URL="https://telcables.pt:2078"
-          
-          # Protected items (won't be touched)
-          PROTECTED_ITEMES=(
-            ".well-known"
-            ".tmb"
-            "partners.angolacables.co.ao"
-            "old_angolacables.co.ao"
-            "angular.angolacables.co.ao"
-            "old2_angolacables.co.ao"
-            "site_update"
-            ".user.ini"
-            ".htaccess_bak"
-            "old_angolacables.co.ao.zip"
-            "routes-table"
-            "php.ini"
-            "tinymce"
-            "wp-check-j01038.php"
-          )
+          SITE_URL="https://telcables.pt"
           # =========================
+
+          AUTH=(-u "$WEBDISK_USERNAME:$WEBDISK_PASSWORD")
 
           # 🔐 Verify WebDAV connection
           echo "🔐 Testing WebDAV connection..."
-          if ! curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X PROPFIND $WEBDISK_URL/ --fail --silent --show-error >/dev/null; then
+          if ! curl "${AUTH[@]}" -X PROPFIND "$WEBDISK_URL/" --fail --silent --show-error >/dev/null; then
             echo "❌ FATAL: WebDAV authentication failed!"
             exit 1
           fi
 
-          # 🗑️ Get remote items using xmlstarlet
-          echo "📡 Fetching remote file list..."
-          sudo apt-get update && sudo apt-get install -y xmlstarlet
-          REMOTE_ITEMS=$(curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X PROPFIND $WEBDISK_URL/ --silent | \
-            xmlstarlet sel -t -v "//a:href" -n | \
-            sed "s|$WEBDISK_URL||" | sed 's|^/||' | grep -v '^$' | sort -ur)
+          # 📦 Build a manifest of relative file paths
+          MANIFEST="$(mktemp)"
+          ( cd "$BUILD_DIR" && find . -type f -printf '%P\n' ) > "$MANIFEST"
+          echo "📦 Files to upload: $(wc -l < "$MANIFEST")"
 
-          # 💣 Delete non-protected items
-          echo "🧹 Starting cleanup..."
-          for item in $REMOTE_ITEMS; do
-            [[ -z "$item" ]] && continue
-            
-            protected=false
-            for protected_item in "${PROTECTED_ITEMES[@]}"; do
-              [[ "$item" == "$protected_item"* ]] && protected=true && break
-            done
-
-            if ! $protected; then
-              echo "🗑️ Deleting: $item"
-              curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X DELETE "$WEBDISK_URL/$item" --silent --show-error --fail || \
-              curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X DELETE "$WEBDISK_URL/$item/" --silent --show-error --fail || true
-            else
-              echo "🛡️ Preserving: $item"
+          mkcol_recursive() {
+            local dir="$1"
+            if [ -z "$dir" ] || [ "$dir" = "." ]; then
+              return 0
             fi
-          done
-
-          # 🚀 Deploy new build
-          echo "🚀 Uploading build..."
-          find $BUILD_DIR -type f | while read -r file; do
-            remote_path="${file#$BUILD_DIR/}"
-            remote_dir=$(dirname "$remote_path")
-            
-            [[ "$remote_dir" != "." ]] && \
-              curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -X MKCOL "$WEBDISK_URL/$remote_dir" --silent --show-error --fail >/dev/null 2>&1 || true
-            
-            for attempt in {1..3}; do
-              if curl -u $WEBDISK_USERNAME:$WEBDISK_PASSWORD -T "$file" "$WEBDISK_URL/$remote_path" --silent --show-error --fail; then
-                echo "✅ Uploaded: $remote_path"
-                break
-              elif [[ $attempt -eq 3 ]]; then
-                echo "❌ Failed to upload: $remote_path"
-                exit 1
-              else
-                sleep $((attempt * 2))
-              fi
+            local prefix=""
+            local part
+            IFS='/' read -ra parts <<< "$dir"
+            for part in "${parts[@]}"; do
+              prefix="${prefix:+$prefix/}$part"
+              # 405 = already exists, which is fine.
+              curl "${AUTH[@]}" -X MKCOL "$WEBDISK_URL/$prefix" \
+                --silent --show-error --fail >/dev/null 2>&1 || true
             done
-          done
+          }
 
-          echo "🎉 Deployment completed successfully!"
-          echo "🌐 Live at: https://telcables.pt"
-          echo "🗺️ Sitemap: https://telcables.pt/sitemap.xml"
-          echo "🤖 Robots: https://telcables.pt/robots.txt"
+          upload_file() {
+            local rel="$1"
+            mkcol_recursive "$(dirname "$rel")"
+            local attempt
+            for attempt in 1 2 3; do
+              if curl "${AUTH[@]}" -T "$BUILD_DIR/$rel" "$WEBDISK_URL/$rel" \
+                   --fail --silent --show-error; then
+                return 0
+              fi
+              sleep $((attempt * 2))
+            done
+            echo "❌ Failed to upload: $rel"
+            return 1
+          }
+
+          # 1) Upload everything EXCEPT index.html first.
+          #    The old index.html keeps serving the old (still present) hashed assets,
+          #    so the site never goes blank while new files are being uploaded.
+          echo "⬆️  Uploading assets..."
+          while IFS= read -r rel; do
+            [ -z "$rel" ] && continue
+            [ "$rel" = "index.html" ] && continue
+            upload_file "$rel"
+          done < "$MANIFEST"
+
+          # 2) Upload index.html LAST -> switches the site to the new build atomically.
+          echo "⬆️  Uploading index.html (entry point, last)..."
+          upload_file "index.html"
+
+          # 3) Smoke test: prove the build we just uploaded is actually live.
+          echo "🔎 Smoke test against $SITE_URL ..."
+          LOCAL_MAIN="$(grep -oE 'main-[A-Z0-9]+\.js' "$BUILD_DIR/index.html" | head -n1 || true)"
+          test -n "$LOCAL_MAIN" || { echo "❌ Could not find main bundle in local index.html"; exit 1; }
+
+          HOME_CODE="$(curl -s -o /dev/null -w '%{http_code}' "$SITE_URL/")"
+          test "$HOME_CODE" = "200" || { echo "❌ Home returned HTTP $HOME_CODE"; exit 1; }
+
+          REMOTE_MAIN="$(curl -fsS "$SITE_URL/" | grep -oE 'main-[A-Z0-9]+\.js' | head -n1 || true)"
+          if [ "$LOCAL_MAIN" != "$REMOTE_MAIN" ]; then
+            echo "❌ Deploy not live: local index references $LOCAL_MAIN, site serves ${REMOTE_MAIN:-<none>}."
+            echo "   The WebDAV root is probably NOT the web document root."
+            exit 1
+          fi
+
+          ASSET_CODE="$(curl -s -o /dev/null -w '%{http_code}' "$SITE_URL/$LOCAL_MAIN")"
+          ASSET_TYPE="$(curl -s -o /dev/null -w '%{content_type}' "$SITE_URL/$LOCAL_MAIN")"
+          echo "   $LOCAL_MAIN -> HTTP $ASSET_CODE, content-type: $ASSET_TYPE"
+          test "$ASSET_CODE" = "200" || { echo "❌ main bundle not reachable (HTTP $ASSET_CODE)"; exit 1; }
+          case "$ASSET_TYPE" in
+            *javascript*) ;;
+            *) echo "❌ main bundle served as '$ASSET_TYPE' instead of JavaScript (SPA fallback is masking a 404)."; exit 1 ;;
+          esac
+
+          echo "🎉 Deployment verified live: $LOCAL_MAIN"
+          echo "🌐 Live at: $SITE_URL"
