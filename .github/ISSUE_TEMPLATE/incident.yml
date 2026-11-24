@@ -1,0 +1,72 @@
+name: "Incident / Nonconformity"
+description: "Record a production incident or nonconformity — ISO 9001 8.7 / 10.2, ISO 27001 A.8.16"
+title: "INC: "
+labels: ["incident", "iso-27001", "iso-9001"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Record the facts of the incident. **Never paste secrets or credentials.**
+        Link the corrective-action change request before closing.
+
+  - type: input
+    id: occurred
+    attributes:
+      label: When did it occur (UTC)?
+      placeholder: "2026-11-23 10:40"
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: What was unavailable or wrong, for whom, and for how long.
+    validations:
+      required: true
+
+  - type: textarea
+    id: detection
+    attributes:
+      label: Detection
+      description: How was it noticed (monitoring, user report, CI)?
+    validations:
+      required: true
+
+  - type: textarea
+    id: rootcause
+    attributes:
+      label: Root cause
+      description: Technical and process causes.
+    validations:
+      required: true
+
+  - type: textarea
+    id: corrective
+    attributes:
+      label: Corrective action
+      description: Link the change request / PR / commit that fixes it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification of effectiveness
+      description: Evidence that the fix works and the issue cannot recur silently.
+
+  - type: textarea
+    id: followup
+    attributes:
+      label: Preventive / follow-up actions
+      description: Process or control improvements (e.g. required approvals, smoke tests).
+
+  - type: checkboxes
+    id: controls
+    attributes:
+      label: ISO controls addressed
+      options:
+        - label: "ISO 9001 8.7 — Control of nonconforming outputs"
+        - label: "ISO 9001 10.2 — Nonconformity and corrective action"
+        - label: "ISO/IEC 27001 A.8.16 — Monitoring activities"
+        - label: "ISO/IEC 27001 A.8.32 — Change management"

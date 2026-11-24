@@ -1,43 +1,36 @@
 // src/environments/environment.ts
+//
+// Development defaults. This file is committed to a PUBLIC repository, so it must
+// never contain real credentials.
+//
+// - Production values are generated at build time from GitHub Actions secrets
+//   (see .github/workflows/main.yml → "Inject Obfuscated Firebase Secrets").
+// - For local development, copy `environment.example.ts`, fill in your own
+//   values, and keep the result out of version control (or use a private
+//   environment file that is not committed).
 export const environment = {
   production: false,
   fbPayload: {
-    _k: 'QUl6YVN5Qk1CczlxVTF2RHdsNGhZWUZnZDF0SmszcllTWjJxZG5F',
-    _d: 'YWNzYS00NTgyMTMuZmlyZWJhc2VhcHAuY29t',
-    _p: 'YWNzYS00NTgyMTM=',
-    _b: 'YWNzYS00NTgyMTMuZmlyZWJhc2VzdG9yYWdlLmFwcA==',
-    _m: 'MzYzNTE2MTg3NjUx',
-    _a: 'MTozNjM1MTYxODc2NTE6d2ViOmE1MjQxOTIzZjVlY2QyNjVkYmFhMzY='
+    _k: '',
+    _d: '',
+    _p: '',
+    _b: '',
+    _m: '',
+    _a: ''
   },
   tinymce: {
     get apiKey() {
-      return 'a8yzw2uhdu7v6niumnokr811bginwp5kfr689ismxj4dtnxu';
+      return '';
     }
   },
   emailjs: {
-    contacto: {
-      serviceId: 'service_hxge11t',
-      templateId: 'template_k8beyqd',
-      publicKey: '8zvRzqg96H44z9txo'
-    },
-    quote: {
-      serviceId: 'service_yhmv9kn',
-      templateId: 'template_p1696fw',
-      publicKey: 's3ApW9433DP5gZtVb'
-    },
-    service: {
-      serviceId: 'service_skoexzr',
-      templateId: 'template_32deeft',
-      publicKey: 'YXh3SEpHsrETbUcfB'
-    },
-    paginasContacto: {
-      serviceId: 'service_9il6xco',
-      templateId: 'template_xzxuf3r',
-      publicKey: 'F-p5Ny3ufMaRfCSgR'
-    }
+    contacto: { serviceId: '', templateId: '', publicKey: '' },
+    quote: { serviceId: '', templateId: '', publicKey: '' },
+    service: { serviceId: '', templateId: '', publicKey: '' },
+    paginasContacto: { serviceId: '', templateId: '', publicKey: '' }
   },
   auth0: {
-    domain: 'dev-w75eqy38x7tfovk2.us.auth0.com',
-    clientId: 'QCtjjr4fUToPkTlXblQJvaAQb1rkLrTh'
+    domain: '',
+    clientId: ''
   }
 };

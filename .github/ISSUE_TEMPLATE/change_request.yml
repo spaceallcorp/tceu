@@ -1,0 +1,95 @@
+name: "Change Request (ISO 27001 / 9001)"
+description: "Record a controlled production change — ISO/IEC 27001:2022 A.8.32, ISO 9001:2015 8.5.6"
+title: "CHG: "
+labels: ["change", "iso-27001", "iso-9001"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for every change that reaches production.
+        Keep every field factual; the issue is the auditable change record.
+        **Never paste secrets, tokens or credentials here** — this repository is public.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Change summary
+      description: One sentence describing the change.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason / justification
+      description: Why is this change needed? Link incidents, requirements or risks.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk / impact level
+      options:
+        - Low (internal, no user impact)
+        - Medium (partial feature impact, reversible)
+        - High (public site / data / security impact)
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected
+    attributes:
+      label: Affected systems and components
+      description: Repositories, services, environments, user-facing areas.
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation plan
+      description: What will be changed and by whom.
+    validations:
+      required: true
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: Test / verification plan
+      description: Build checks, smoke tests, acceptance criteria.
+    validations:
+      required: true
+
+  - type: textarea
+    id: rollback
+    attributes:
+      label: Rollback plan
+      description: Exact steps to revert if the change fails.
+    validations:
+      required: true
+
+  - type: input
+    id: approver
+    attributes:
+      label: Approver
+      description: Person authorizing this change (must differ from implementer).
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence (filled after completion)
+      description: Commit SHA, PR link, CI run URL, deployment result.
+
+  - type: checkboxes
+    id: controls
+    attributes:
+      label: ISO controls addressed
+      options:
+        - label: "ISO/IEC 27001 A.8.32 — Change management"
+        - label: "ISO/IEC 27001 A.8.31 — Separation of dev/test/prod"
+        - label: "ISO/IEC 27001 A.8.28/A.8.29 — Secure coding and security testing"
+        - label: "ISO 9001 8.5.6 — Control of changes"
+        - label: "ISO 9001 7.5 — Documented information retained"
