@@ -29,27 +29,39 @@ jobs:
           # Ensure environments directory exists
           mkdir -p src/environments
 
-          # 1. Recupera segredos das Actions, com fallback para os valores do projeto
-          #    (evita builds com config vazia quando os secrets não estão configurados)
+          # 1. Read configuration from GitHub Actions secrets only.
+          #    No credentials are hardcoded in this public repository.
           RAW_K="${{ secrets.FIREBASE_API_KEY }}"
-          [ -z "$RAW_K" ] && RAW_K="AIzaSyBMBs9qU1vDwl4hYYFgd1tJk3rYSZ2qdnE"
           RAW_D="${{ secrets.FIREBASE_AUTH_DOMAIN }}"
-          [ -z "$RAW_D" ] && RAW_D="acsa-458213.firebaseapp.com"
           RAW_P="${{ secrets.FIREBASE_PROJECT_ID }}"
-          [ -z "$RAW_P" ] && RAW_P="acsa-458213"
           RAW_B="${{ secrets.FIREBASE_STORAGE_BUCKET }}"
-          [ -z "$RAW_B" ] && RAW_B="acsa-458213.firebasestorage.app"
           RAW_M="${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}"
-          [ -z "$RAW_M" ] && RAW_M="363516187651"
           RAW_A="${{ secrets.FIREBASE_APP_ID }}"
-          [ -z "$RAW_A" ] && RAW_A="1:363516187651:web:a5241923f5ecd265dbaa36"
 
           AUTH0_DOMAIN="${{ secrets.AUTH0_DOMAIN }}"
-          [ -z "$AUTH0_DOMAIN" ] && AUTH0_DOMAIN="dev-w75eqy38x7tfovk2.us.auth0.com"
           AUTH0_CLIENT_ID="${{ secrets.AUTH0_CLIENT_ID }}"
-          [ -z "$AUTH0_CLIENT_ID" ] && AUTH0_CLIENT_ID="QCtjjr4fUToPkTlXblQJvaAQb1rkLrTh"
 
-          # Encode secrets into clean Base64 (stripping newlines)
+          # 2. Fail fast if any required secret is missing. Building with an empty
+          #    config would blank the site, so refuse to continue instead.
+          missing=""
+          require_secret() {
+            [ -n "$2" ] || missing="$missing $1"
+          }
+          require_secret FIREBASE_API_KEY "$RAW_K"
+          require_secret FIREBASE_AUTH_DOMAIN "$RAW_D"
+          require_secret FIREBASE_PROJECT_ID "$RAW_P"
+          require_secret FIREBASE_STORAGE_BUCKET "$RAW_B"
+          require_secret FIREBASE_MESSAGING_SENDER_ID "$RAW_M"
+          require_secret FIREBASE_APP_ID "$RAW_A"
+          require_secret AUTH0_DOMAIN "$AUTH0_DOMAIN"
+          require_secret AUTH0_CLIENT_ID "$AUTH0_CLIENT_ID"
+          if [ -n "$missing" ]; then
+            echo "❌ Missing required repository secrets:$missing"
+            echo "   Configure them in Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+          # 3. Encode secrets into clean Base64 (stripping newlines)
           FB_K=$(echo -n "$RAW_K" | base64 | tr -d '\n')
           FB_D=$(echo -n "$RAW_D" | base64 | tr -d '\n')
           FB_P=$(echo -n "$RAW_P" | base64 | tr -d '\n')
@@ -57,7 +69,7 @@ jobs:
           FB_M=$(echo -n "$RAW_M" | base64 | tr -d '\n')
           FB_A=$(echo -n "$RAW_A" | base64 | tr -d '\n')
 
-          # 2. Gera o environment.prod.ts
+          # 4. Gera o environment.prod.ts
           cat << EOF > src/environments/environment.prod.ts
           export const environment = {
             production: true,
