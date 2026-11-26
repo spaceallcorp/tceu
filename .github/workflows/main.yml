@@ -1,4 +1,5 @@
 name: 🚀 Secure Angular Deploy with Firebase
+# Updated workflow for prod deployment
 
 on:
   push:
